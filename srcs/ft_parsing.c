@@ -6,10 +6,13 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/29 16:13:12 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/10/29 16:14:51 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		
+int		ft_parser()
+{
+
+}
