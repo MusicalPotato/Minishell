@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/29 15:39:37 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/10/29 15:58:27 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,17 @@ void	ft_loop(t_data data)
 	printf("ligne lue = '%s'\n", data.cmd.line);
 }
 
+int		ft_initialize(t_data *data)
+{
+	data = NULL;
+	return (1);
+}
+
 int		main()
 {
 	t_data data;
-	
+
+	ft_initialize(&data);
 	while (1)
 	{
 		ft_loop(data);
