@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 12:55:43 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/10/30 13:51:33 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 # include <stdio.h>
 
-
+# include <stdlib.h>
 # include "../libft/libft.h"
 # include "structs.h"
 
-int		ft_cmd_reader(t_data *data);
+int		ft_line_reader(t_data *data);
 
 t_line	*ft_lstnew_line(char *content);
 int		ft_lstadd_back_line(t_line **alst, t_line *new);

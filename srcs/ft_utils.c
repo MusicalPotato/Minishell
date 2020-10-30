@@ -6,9 +6,11 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:47:22 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 12:52:20 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/10/30 13:41:28 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h> 
 
 char	*ft_strndup(const char *s1, int size)
 {

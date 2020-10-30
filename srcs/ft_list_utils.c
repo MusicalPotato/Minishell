@@ -6,11 +6,11 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 12:55:30 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/10/30 13:49:55 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/structs.h"
+#include "../includes/minishell.h"
 
 t_line	*ft_lstnew_line(char *content)
 {
@@ -34,7 +34,10 @@ int		ft_lstadd_back_line(t_line **alst, t_line *new)
 	if (!(alst) || !(new))
 		return (0);
 	if (!(*alst))
-		return (0);
+	{
+		*alst = new;
+		return (1);
+	}
 	l = *alst;
 	while (l->next)
 		l = l->next;
