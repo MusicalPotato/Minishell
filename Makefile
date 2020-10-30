@@ -6,7 +6,7 @@
 #    By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2020/10/29 15:55:27 by ijacquet         ###   ########.fr        #
+#    Updated: 2020/10/30 13:01:14 by ijacquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 LIBFT		=	libft/libft.a
 
 SRCS_NAME	=	main.c	\
-				ft_reading.c
+				ft_reading.c \
+				ft_list_utils.c \
+				ft_utils.c \
 
 SRCS		=	$(addprefix srcs/, $(SRCS_NAME))
 

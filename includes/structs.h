@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:05:29 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/29 16:51:11 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/10/30 12:37:48 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_line
 	char	*line;
 	int		cmd_nbr;
 	t_cmd	*cmd;
+	t_line	*next;
 }				t_line;
 
 typedef struct	s_data

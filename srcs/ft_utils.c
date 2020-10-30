@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 12:55:43 by ijacquet         ###   ########.fr       */
+/*   Created: 2020/10/30 12:47:22 by ijacquet          #+#    #+#             */
+/*   Updated: 2020/10/30 12:52:20 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+char	*ft_strndup(const char *s1, int size)
+{
+	char	*copy;
+	int		n;
 
-# include <stdio.h>
-
-
-# include "../libft/libft.h"
-# include "structs.h"
-
-int		ft_cmd_reader(t_data *data);
-
-t_line	*ft_lstnew_line(char *content);
-int		ft_lstadd_back_line(t_line **alst, t_line *new);
-
-char	*ft_strndup(const char *s1, int size);
-
-#endif
+	if (!(copy = malloc(sizeof(char) * size + 1)))
+		return (0);
+	n = 0;
+	while (n < size)
+	{
+		copy[n] = s1[n];
+		n++;
+	}
+	copy[n] = 0;
+	return (copy);
+}
