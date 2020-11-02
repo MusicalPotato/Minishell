@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/02 12:57:07 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/02 13:00:10 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		main(int argc, char **argv)
 
 	if (argc != 1)
 		write(2, "Wrong number of arguments\n", 26);
+	(void)argv;
 	ft_initialize(&data);
 	while (1)
 	{
