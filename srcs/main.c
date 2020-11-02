@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 17:42:48 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/02 12:57:07 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ int		ft_initialize(t_data *data)
 	return (1);
 }
 
-int		main()
+int		main(int argc, char **argv)
 {
 	t_data data;
 
+	if (argc != 1)
+		write(2, "Wrong number of arguments\n", 26);
 	ft_initialize(&data);
 	while (1)
 	{
