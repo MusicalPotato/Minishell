@@ -28,12 +28,12 @@ char	*ft_memcat(char *string, char *buf, int string_size, int buf_size)
 		string2[i] = string[i];
 		i++;
 	}
-	free(string);
 	while (i < string_size + buf_size)
 	{
 		string2[i] = buf[i - string_size];
 		i++;
 	}
+	free(string);
 	string2[i] = '\0';
 	return (string2);
 }
