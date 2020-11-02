@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 18:00:30 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/02 12:53:40 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int		ft_check_text(int count, char **line)
 	size = 0;
 	while (quote || !size)
 		{
+			if ((*line)[count + size] == 0)
+				break ;
 			while (((*line)[count + size] != ';' || quote) && (*line)[count + size] != 0)
 			{
 				quote = ft_istext(quote, (*line)[count + size]);
