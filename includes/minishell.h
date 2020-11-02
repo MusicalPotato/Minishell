@@ -23,6 +23,7 @@ int		ft_line_reader(t_data *data);
 
 t_line	*ft_lstnew_line(char *content);
 int		ft_lstadd_back_line(t_line **alst, t_line *new);
+void	ft_lstclear_line(t_line **lst);
 
 char	*ft_strndup(const char *s1, int size);
 

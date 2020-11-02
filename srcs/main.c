@@ -36,6 +36,7 @@ int		main()
 	while (1)
 	{
 		ft_loop(data);
+		ft_lstclear_line(&(data.line));
 	}
 	return (0);
 }

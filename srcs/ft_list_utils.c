@@ -44,3 +44,25 @@ int		ft_lstadd_back_line(t_line **alst, t_line *new)
 	l->next = new;
 	return (1);
 }
+
+void	ft_lstclear_line(t_line **lst)
+{
+	t_line	*l;
+	t_line	*t;
+
+	if (lst)
+	{
+		l = *lst;
+		while (l)
+		{
+			t = l;
+			free(l->line);
+			l->line = NULL;
+			free(l->cmd);
+			l->cmd = NULL;
+			free(l);
+			l = t->next;
+		}
+		*lst = NULL;
+	}
+}
