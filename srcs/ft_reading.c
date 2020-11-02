@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/02 12:53:40 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/02 16:53:13 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,48 @@ int		ft_istext(int text, char c)
 	return (text);
 }
 
+int		ft_ask_next(char **line)
+{
+	char	*text;
+	
+	text = NULL;
+	get_next_line(1, &text);
+	text = ft_memcat(text, "\n", ft_strlen(text), 1);
+	*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text));
+	free(text);
+	return (1);
+}
+
 int		ft_check_text(int count, char **line)
 {
 	int		quote;
 	int		size;
-	char	*text;
 
 	quote = 0;
 	size = 0;
 	while (quote || !size)
+	{
+		if ((*line)[count + size] == 0)
+			break ;
+		while (((*line)[count + size] != ';' || quote) && (*line)[count + size] != 0)
 		{
-			if ((*line)[count + size] == 0)
-				break ;
-			while (((*line)[count + size] != ';' || quote) && (*line)[count + size] != 0)
+			while ((*line)[count + size] == '\\')
 			{
-				quote = ft_istext(quote, (*line)[count + size]);
-				size++;
+				size += 2;
+				if (!(*line)[count + size])
+				{
+					ft_printf("> ");
+					ft_ask_next(line);
+				}
 			}
-			if (quote == 1)
-				ft_printf("quote> ");
-			else if (quote == 2)
-				ft_printf("dquote> ");
-			if (quote)
-			{
-				get_next_line(1, &text);
-				*line = ft_memcat(*line, "\n", ft_strlen(*line), 1);
-				*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text));
-			}
+			quote = ft_istext(quote, (*line)[count + size]);
+			size++;
 		}
+		if (quote)
+			ft_printf("%cquote> ", (quote - 1) * 100);
+		if (quote)
+			ft_ask_next(line);
+	}
 	return (size);
 }
 
@@ -97,6 +111,7 @@ int		ft_line_reader(t_data *data)
 
 	ft_printf("prompt > ");
 	get_next_line(1, &line);
+	line = ft_memcat(line, "\n", ft_strlen(line), 1);
 	ft_line_saver(data, line);
 	return (1);
 }
