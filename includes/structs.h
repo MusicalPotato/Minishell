@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:05:29 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 13:36:49 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/03 17:45:08 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct	s_commande
 	char	*cmd;
 	int		cmd_id;
 	int		optn_id;
-	char	*msg;
+	char	**msg;
 }				t_cmd;
 
 typedef struct s_line

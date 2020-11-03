@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/02 16:21:28 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/03 13:05:34 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	ft_loop(t_data data)
 	ft_line_reader(&data);
 	while (data.line)
 	{
-		printf("ligne lue = -%s-\n", data.line->line);
+		ft_parser(data.line);
+//		printf("ligne lue = -%s-\n", data.line->line);
 		data.line = data.line->next;
 	}
 }
