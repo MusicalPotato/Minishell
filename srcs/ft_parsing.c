@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/04 16:19:29 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/04 16:25:34 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int		ft_msg_recup(char **line, int count, char **msg)
 		if ((*line)[count] != '\n')
 		{
 			msg_nbr++;
-			msg = malloc(sizeof(char *) * (msg_nbr + 1));
-			msg[msg_nbr] = malloc(1);
+			if (!(msg = malloc(sizeof(char *) * (msg_nbr + 1))))
+				return (0);
+			if (!(msg[msg_nbr] = malloc(1)));
 			*msg[msg_nbr] = 0;
 		}
 		while (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|'))
