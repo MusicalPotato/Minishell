@@ -3,24 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/04 16:14:32 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/05 17:49:00 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	ft_print_parse(t_line *line)
+{
+	int	a;
+	int b;
+	int	c;
+
+	a = 1;
+	while (line)
+	{
+		printf("\nLine n°%d : %s\n", a, line->line);
+		b = 1;
+		while (line->cmd)
+		{
+			printf("Commande n°%d : %s\n", b, line->cmd->cmd);
+			c = 0;
+			while (c <= line->cmd->msg_nbr)
+			{
+				printf("Message n°%d : %s\n", c + 1, line->cmd->msg[c]);
+				c++;
+			}
+			line->cmd = line->cmd->next;
+			b++;
+		}
+		line = line->next;
+		a++;
+	}
+}
+
 void	ft_loop(t_data data)
 {
+	t_line	*tempo;
+
 	ft_line_reader(&data);
-	while (data.line)
+	tempo = data.line;
+	while (tempo)
 	{
-		ft_parser(data.line);
-//		printf("ligne lue = -%s-\n", data.line->line);
-		data.line = data.line->next;
+		ft_parser(tempo);
+		tempo = tempo->next;
 	}
+	ft_print_parse(data.line);
 }
 
 int		ft_initialize(t_data *data)

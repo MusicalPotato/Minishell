@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 16:50:50 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/05 17:40:19 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 {
 	int quote;
 
+	while (cmd->next)
+		cmd = cmd->next;
 	cmd->msg_nbr = -1;
 	quote = 0;
 	cmd->msg = malloc(0);
@@ -71,7 +73,6 @@ int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 				count++;
 			}
 		}
-		printf("Message n°%d : %s\n", cmd->msg_nbr + 1, cmd->msg[cmd->msg_nbr]);
 	}
 	return (count);
 }
@@ -107,8 +108,20 @@ int		ft_cmd_recup(char **line, int count, char **cmd)
 
 int		ft_pipe_check(t_line *line, int count, int x)
 {
-	if (line->line[count] == '|' && x)
-		count++;
+	if (x)
+	{
+		if (line->line[count] == '|')
+		{
+			count++;
+			while (ft_is_space(line->line[count]))
+				count++;
+		}
+		if (line->line[count] == '|')
+		{
+			ft_printf("parse error near `|'\n");
+			return (-1);
+		}
+	}
 	else if (line->line[count] == '|')
 	{
 		ft_printf("parse error near `|'\n");
@@ -138,7 +151,6 @@ int		ft_parser(t_line *line)
 		if (line->line[count] == ' ' || line->line[count] == '\t')
 			count = ft_msg_recup(&line->line, count, line->cmd);
 		free(cmd);
-		line->cmd = line->cmd->next;
 		x++;
 	}
 	return (1);

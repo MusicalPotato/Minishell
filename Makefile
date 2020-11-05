@@ -6,7 +6,7 @@
 #    By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2020/11/03 13:04:15 by ijacquet         ###   ########.fr        #
+#    Updated: 2020/11/05 17:54:31 by ijacquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 LIBFT		=	libft/libft.a
 
 SRCS_NAME	=	main.c	\
-				ft_list_utils.c \
+				ft_lstcmd_utils.c \
+				ft_lstline_utils.c \
 				ft_parsing.c \
 				ft_reading.c \
 				ft_utils.c \
