@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/03 12:35:58 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/05 15:01:20 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int		ft_check_text(int count, char **line)
 				}
 			}
 			quote = ft_istext(quote, (*line)[count + size]);
-			size++;
+			if ((*line)[count + size] != ';' || quote != 0)
+				size++;
 		}
 		if (quote)
 			ft_printf("%cquote> ", (quote - 1) * 100);
@@ -93,7 +94,10 @@ int		ft_line_saver(t_data *data, char *line)
 			if (line[count] == ';')
 				count++;
 			if (line[count] == ';')
+			{
+				ft_printf("parse error near `;;'\n");
 				return (0);
+			}
 		}
 		size = ft_check_text(count, &line);
 		if (size)

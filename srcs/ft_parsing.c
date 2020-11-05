@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 12:46:39 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/05 16:18:02 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,31 @@ int		ft_cmd_cmp(t_cmd *cmd)
 		ft_error();
 }
 */
-int		ft_msg_recup(char **line, int count, char **msg)
+int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 {
 	int quote;
-	int	msg_nbr;
 
-	msg_nbr = -1;
+	cmd->msg_nbr = -1;
 	quote = 0;
-	while ((*line)[count] != '\n' && (*line)[count] != '\0')
+	cmd->msg = malloc(0);
+	while ((*line)[count] != '\n' && (*line)[count] != '\0' && (*line)[count] != '|')
 	{
 		while (ft_is_space((*line)[count]))
 			count++;
+		if ((*line)[count] == '\n' || (*line)[count] == '\0')
+			break ;
 		if ((*line)[count] != '\n')
 		{
-			msg_nbr++;
-			if (!(msg = malloc(sizeof(char *) * (msg_nbr + 1))))
-				return (0);
-			if (!(msg[msg_nbr] = malloc(1)))
-				return (0);
-			*msg[msg_nbr] = 0;
+			cmd->msg_nbr++;
+			cmd->msg = ft_stradd_back(cmd->msg, ft_strdup(0), cmd->msg_nbr);
 		}
-		while (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|' && (*line)[count] != '\0'))
+		while (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|' && (*line)[count] != '\0' && (*line)[count] != '\t'))
 		{
 			if ((*line)[count] == '\\' && (quote == 0 || (quote == 2 && ((*line)[count + 1] == '"' || (*line)[count + 1] == '\\'))))
 			{
 				count++;
 				if ((*line)[count] != '\n')
-					msg[msg_nbr] = ft_memcat(msg[msg_nbr], (*line) + count, ft_strlen(msg[msg_nbr]), 1);
+					cmd->msg[cmd->msg_nbr] = ft_memcat(cmd->msg[cmd->msg_nbr], (*line) + count, ft_strlen(cmd->msg[cmd->msg_nbr]), 1);
 				count++;
 			}
 			else if (((*line)[count] == '"' && quote != 1) || ((*line)[count] == '\'' && quote != 2))
@@ -69,13 +67,13 @@ int		ft_msg_recup(char **line, int count, char **msg)
 			}
 			else
 			{
-				msg[msg_nbr] = ft_memcat(msg[msg_nbr], (*line) + count, ft_strlen(msg[msg_nbr]), 1);
+				cmd->msg[cmd->msg_nbr] = ft_memcat(cmd->msg[cmd->msg_nbr], (*line) + count, ft_strlen(cmd->msg[cmd->msg_nbr]), 1);
 				count++;
 			}
 		}
-	printf("Message n°%d : %s\n", msg_nbr + 1, msg[msg_nbr]);
+		printf("Message n°%d : %s\n", cmd->msg_nbr + 1, cmd->msg[cmd->msg_nbr]);
 	}
-	return (1);
+	return (count);
 }
 
 int		ft_cmd_recup(char **line, int count, t_cmd *cmd)
@@ -83,7 +81,7 @@ int		ft_cmd_recup(char **line, int count, t_cmd *cmd)
 	int quote;
 
 	quote = 0;
-	while ((*line)[count] != '\0' && (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|')))
+	while ((*line)[count] != '\0' && (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|' && (*line)[count] != '\t')))
 	{
 		if ((*line)[count] == '\\' && (quote == 0 || (quote == 2 && ((*line)[count + 1] == '"' || (*line)[count + 1] == '\\'))))
 		{
@@ -104,11 +102,20 @@ int		ft_cmd_recup(char **line, int count, t_cmd *cmd)
 			count++;
 		}
 	}
-	if ((*line)[count] == ' ')
-		ft_msg_recup(line, count, cmd->msg);
-	return (1);
+	return (count);
 }
 
+int		ft_pipe_check(t_line *line, int count)
+{
+	if (line->line[count] == '|' && line->cmd_nbr)
+		count++;
+	else if (line->line[count] == '|')
+	{
+		ft_printf("va te faire enculer\n");
+		return (-1);
+	}
+	return (count);
+}
 
 int		ft_parser(t_line *line)
 {
@@ -121,10 +128,14 @@ int		ft_parser(t_line *line)
 	*(line->cmd->cmd) = 0;
 	while (line->line[count] == '|' || !line->cmd_nbr)
 	{
-		ft_cmd_recup(&(line->line), count, line->cmd);
+		if ((count = ft_pipe_check(line, count)) < 0)
+			return (0);
+		count = ft_cmd_recup(&(line->line), count, line->cmd);
+		ft_printf("s2: %s: command not found\n", line->cmd->cmd);
+		system(line->line);
+		if (line->line[count] == ' ' || line->line[count] == '\t')
+			count = ft_msg_recup(&line->line, count, line->cmd);
 		line->cmd_nbr++;
 	}
-	ft_printf("s2: %s: command not found\n", line->cmd->cmd);
-	system(line->line);
 	return (1);
 }

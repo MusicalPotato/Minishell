@@ -6,11 +6,11 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:47:22 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/10/30 13:41:28 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/05 14:15:45 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h> 
+#include "../includes/minishell.h"
 
 char	*ft_strndup(const char *s1, int size)
 {
@@ -27,4 +27,22 @@ char	*ft_strndup(const char *s1, int size)
 	}
 	copy[n] = 0;
 	return (copy);
+}
+
+char	**ft_realloc(char **str, char *new, int size)
+{
+	int	i;
+	char **msg;
+
+	if (!(msg = malloc(sizeof(char *) * (size + 2))))
+		return (0);
+	i = -1;
+	while (++i < size)
+		msg[i] = str[i];
+	if (!(msg[i] = ft_strdup(new)))
+		return (0);
+	msg[i + 1] = 0;
+	if (str)
+		free(str);
+	return (msg);
 }
