@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 16:07:18 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/05 16:45:46 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_line	*ft_lstnew_line(char *content)
 	if (!(list = malloc(sizeof(t_line))))
 		return (0);
 	list->line = content;
-	list->cmd_nbr = 0;
 	list->cmd = 0;
 	list->next = 0;
 	return (list);

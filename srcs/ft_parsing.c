@@ -6,7 +6,7 @@
 /*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 16:18:02 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/05 16:50:50 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 	{
 		while (ft_is_space((*line)[count]))
 			count++;
-		if ((*line)[count] == '\n' || (*line)[count] == '\0')
+		if ((*line)[count] == '\n' || (*line)[count] == '\0' || (*line)[count] == '|')
 			break ;
 		if ((*line)[count] != '\n')
 		{
@@ -76,7 +76,7 @@ int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 	return (count);
 }
 
-int		ft_cmd_recup(char **line, int count, t_cmd *cmd)
+int		ft_cmd_recup(char **line, int count, char **cmd)
 {
 	int quote;
 
@@ -87,7 +87,7 @@ int		ft_cmd_recup(char **line, int count, t_cmd *cmd)
 		{
 			count++;
 			if ((*line)[count] != '\n')
-				cmd->cmd = ft_memcat(cmd->cmd, (*line) + count, ft_strlen(cmd->cmd), 1);
+				*cmd = ft_memcat(*cmd, (*line) + count, ft_strlen(*cmd), 1);
 			count++;
 		}
 		else if (((*line)[count] == '"' && quote != 1) || ((*line)[count] == '\'' && quote != 2))
@@ -98,20 +98,20 @@ int		ft_cmd_recup(char **line, int count, t_cmd *cmd)
 		}
 		else
 		{
-			cmd->cmd = ft_memcat(cmd->cmd, (*line) + count, ft_strlen(cmd->cmd), 1);
+			*cmd = ft_memcat(*cmd, (*line) + count, ft_strlen(*cmd), 1);
 			count++;
 		}
 	}
 	return (count);
 }
 
-int		ft_pipe_check(t_line *line, int count)
+int		ft_pipe_check(t_line *line, int count, int x)
 {
-	if (line->line[count] == '|' && line->cmd_nbr)
+	if (line->line[count] == '|' && x)
 		count++;
 	else if (line->line[count] == '|')
 	{
-		ft_printf("va te faire enculer\n");
+		ft_printf("parse error near `|'\n");
 		return (-1);
 	}
 	return (count);
@@ -119,23 +119,27 @@ int		ft_pipe_check(t_line *line, int count)
 
 int		ft_parser(t_line *line)
 {
-	int count;
+	int		count;
+	char	*cmd;
+	int		x;
 
 	count = 0;
-	if (!(line->cmd = malloc(sizeof(t_cmd))))
-		return (0);
-	line->cmd->cmd = malloc(1);
-	*(line->cmd->cmd) = 0;
-	while (line->line[count] == '|' || !line->cmd_nbr)
+	x = 0;
+	while (line->line[count] == '|' || !x)
 	{
-		if ((count = ft_pipe_check(line, count)) < 0)
+		cmd = malloc(1);
+		*cmd = 0;
+		if ((count = ft_pipe_check(line, count, x)) < 0)
 			return (0);
-		count = ft_cmd_recup(&(line->line), count, line->cmd);
-		ft_printf("s2: %s: command not found\n", line->cmd->cmd);
-		system(line->line);
+		count = ft_cmd_recup(&(line->line), count, &cmd);
+		if (!(ft_lstadd_back_cmd(&(line->cmd),
+			ft_lstnew_cmd(ft_strdup(cmd)))))
+			return (0);
 		if (line->line[count] == ' ' || line->line[count] == '\t')
 			count = ft_msg_recup(&line->line, count, line->cmd);
-		line->cmd_nbr++;
+		free(cmd);
+		line->cmd = line->cmd->next;
+		x++;
 	}
 	return (1);
 }
