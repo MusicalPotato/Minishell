@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/04 16:25:34 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/05 12:46:39 by ijacquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_msg_recup(char **line, int count, char **msg)
 
 	msg_nbr = -1;
 	quote = 0;
-	while ((*line)[count] != '\n')
+	while ((*line)[count] != '\n' && (*line)[count] != '\0')
 	{
 		while (ft_is_space((*line)[count]))
 			count++;
@@ -48,10 +48,11 @@ int		ft_msg_recup(char **line, int count, char **msg)
 			msg_nbr++;
 			if (!(msg = malloc(sizeof(char *) * (msg_nbr + 1))))
 				return (0);
-			if (!(msg[msg_nbr] = malloc(1)));
+			if (!(msg[msg_nbr] = malloc(1)))
+				return (0);
 			*msg[msg_nbr] = 0;
 		}
-		while (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|'))
+		while (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|' && (*line)[count] != '\0'))
 		{
 			if ((*line)[count] == '\\' && (quote == 0 || (quote == 2 && ((*line)[count + 1] == '"' || (*line)[count + 1] == '\\'))))
 			{
