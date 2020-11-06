@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_utils.c                                    :+:      :+:    :+:   */
+/*   ft_lstline_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 16:45:46 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/06 17:07:43 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ void	ft_lstclear_line(t_data **lst)
 
 	while (*lst)
 	{
+		printf("clear data: %p\n", *lst);
 		l = (*lst)->next;
 		free((*lst)->line);
 		(*lst)->line = NULL;
+		printf("start clear cmd\n");
 		ft_lstclear_cmd(&((*lst)->cmd));
+		printf("end clear cmd\n");
 		(*lst)->next = NULL;
 		free(*lst);
 		*lst = l;

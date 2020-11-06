@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstcmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:13:44 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 17:13:49 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/06 17:53:03 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_cmd	*ft_lstnew_cmd(char *content)
 
 	if (!(list = malloc(sizeof(t_cmd))))
 		return (0);
-	list->arg = malloc(0);
-	list->arg_nbr = -1;
+	list->arg = NULL;
+	list->arg_nbr = 0;
 	list->next = 0;
 	if (!content)
 		return (0);
@@ -48,20 +48,28 @@ int		ft_lstadd_back_cmd(t_cmd **alst, t_cmd *new)
 void	ft_lstclear_cmd(t_cmd **lst)
 {
 	t_cmd	*l;
+	int		x;
 
+	x = 0;
 	while (*lst)
 	{
 		l = (*lst)->next;
+		printf("clear name: %p\n", (*lst)->name);
 		free((*lst)->name);
 		(*lst)->name = NULL;
-		while ((*lst)->arg)
+		while (x < (*lst)->arg_nbr)
 		{
-			free((*lst)->arg);
-			(*lst)->arg = NULL;
-			(*lst)->arg++;
+			printf("clear arg: %p\n", *((*lst)->arg));
+			free(*((*lst)->arg));
+			*((*lst)->arg) = NULL;
+			(*((*lst)->arg))++;
+			x++;
 		}
+		free((*lst)->arg);
+		(*lst)->arg = NULL;
 		(*lst)->arg_nbr = 0;
 		(*lst)->next = NULL;
+		printf("clear cmd: %p\n", *lst);
 		free(*lst);
 		*lst = l;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 15:01:20 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/06 16:57:55 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int		ft_line_reader(t_data **data)
 	get_next_line(1, &line);
 	line = ft_memcat(line, "\n", ft_strlen(line), 1);
 	ft_line_saver(data, line);
+	free(line);
 	return (1);
 }

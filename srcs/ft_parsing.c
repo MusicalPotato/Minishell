@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 14:55:31 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/06 17:36:34 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,41 @@ int		ft_cmd_cmp(t_cmd *cmd)
 		ft_error();
 }
 */
-int		ft_msg_recup(char **line, int count, t_cmd *cmd)
+int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 {
 	int quote;
 
 	while (cmd->next)
 		cmd = cmd->next;
-	cmd->arg_nbr = -1;
+	cmd->arg_nbr = 0;
 	quote = 0;
-	cmd->arg = malloc(0);
-	while ((*line)[count] != '\n' && (*line)[count] != '\0' && (*line)[count] != '|')
+	cmd->arg = NULL;
+	while (line[count] != '\n' && line[count] != '\0' && line[count] != '|')
 	{
-		while (ft_is_space((*line)[count]))
+		while (ft_is_space(line[count]))
 			count++;
-		if ((*line)[count] == '\n' || (*line)[count] == '\0' || (*line)[count] == '|')
+		if (line[count] == '\n' || line[count] == '\0' || line[count] == '|')
 			break ;
-		if ((*line)[count] != '\n')
+		if (line[count] != '\n')
+			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++);
+		while (quote || (line[count] != '\n' && line[count] != ' ' && line[count] != '|' && line[count] != '\0' && line[count] != '\t'))
 		{
-			cmd->arg_nbr++;
-			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr);
-		}
-		while (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|' && (*line)[count] != '\0' && (*line)[count] != '\t'))
-		{
-			if ((*line)[count] == '\\' && (quote == 0 || (quote == 2 && ((*line)[count + 1] == '"' || (*line)[count + 1] == '\\'))))
+			if (line[count] == '\\' && (quote == 0 || (quote == 2 && (line[count + 1] == '"' || line[count + 1] == '\\'))))
 			{
 				count++;
-				if ((*line)[count] != '\n')
-					cmd->arg[cmd->arg_nbr] = ft_memcat(cmd->arg[cmd->arg_nbr], (*line) + count, ft_strlen(cmd->arg[cmd->arg_nbr]), 1);
+				if (line[count] != '\n')
+					cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1);
 				count++;
 			}
-			else if (((*line)[count] == '"' && quote != 1) || ((*line)[count] == '\'' && quote != 2))
+			else if ((line[count] == '"' && quote != 1) || (line[count] == '\'' && quote != 2))
 			{
-				quote = ft_istext(quote, (*line)[count]);
-				if ((quote != 1 && (*line)[count] == '"') || (quote != 2 && (*line)[count] == '\''))
+				quote = ft_istext(quote, line[count]);
+				if ((quote != 1 && line[count] == '"') || (quote != 2 && line[count] == '\''))
 					count++;
 			}
 			else
 			{
-				cmd->arg[cmd->arg_nbr] = ft_memcat(cmd->arg[cmd->arg_nbr], (*line) + count, ft_strlen(cmd->arg[cmd->arg_nbr]), 1);
+				cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1);
 				count++;
 			}
 		}
@@ -77,29 +74,29 @@ int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 	return (count);
 }
 
-int		ft_cmd_recup(char **line, int count, char **cmd)
+int		ft_cmd_recup(char *line, int count, char **cmd)
 {
 	int quote;
 
 	quote = 0;
-	while ((*line)[count] != '\0' && (quote || ((*line)[count] != '\n' && (*line)[count] != ' ' && (*line)[count] != '|' && (*line)[count] != '\t')))
+	while (line[count] != '\0' && (quote || (line[count] != '\n' && line[count] != ' ' && line[count] != '|' && line[count] != '\t')))
 	{
-		if ((*line)[count] == '\\' && (quote == 0 || (quote == 2 && ((*line)[count + 1] == '"' || (*line)[count + 1] == '\\'))))
+		if (line[count] == '\\' && (quote == 0 || (quote == 2 && (line[count + 1] == '"' || line[count + 1] == '\\'))))
 		{
 			count++;
-			if ((*line)[count] != '\n')
-				*cmd = ft_memcat(*cmd, (*line) + count, ft_strlen(*cmd), 1);
+			if (line[count] != '\n')
+				*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1);
 			count++;
 		}
-		else if (((*line)[count] == '"' && quote != 1) || ((*line)[count] == '\'' && quote != 2))
+		else if ((line[count] == '"' && quote != 1) || (line[count] == '\'' && quote != 2))
 		{
-			quote = ft_istext(quote, (*line)[count]);
-			if ((quote != 1 && (*line)[count] == '"') || (quote != 2 && (*line)[count] == '\''))
+			quote = ft_istext(quote, line[count]);
+			if ((quote != 1 && line[count] == '"') || (quote != 2 && line[count] == '\''))
 				count++;
 		}
 		else
 		{
-			*cmd = ft_memcat(*cmd, (*line) + count, ft_strlen(*cmd), 1);
+			*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1);
 			count++;
 		}
 	}
@@ -144,12 +141,12 @@ int		ft_parser(t_data *d)
 		*cmd = 0;
 		if ((count = ft_pipe_check(d, count, x)) < 0)
 			return (0);
-		count = ft_cmd_recup(&(d->line), count, &cmd);
+		count = ft_cmd_recup(d->line, count, &cmd);
 		if (!(ft_lstadd_back_cmd(&(d->cmd),
 			ft_lstnew_cmd(ft_strdup(cmd)))))
 			return (0);
 		if (d->line[count] == ' ' || d->line[count] == '\t')
-			count = ft_msg_recup(&d->line, count, d->cmd);
+			count = ft_msg_recup(d->line, count, d->cmd);
 		free(cmd);
 		x++;
 	}
