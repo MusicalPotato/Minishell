@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 14:55:31 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/06 17:09:02 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
+
 int		ft_cmd_cmp(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->cmd, "echo", 5))
-		ft_echo(cmd);
-	else if (ft_strncmp(cmd->cmd, "cd", 3))
-		ft_cd(cmd);
-	else if (ft_strncmp(cmd->cmd, "pwd", 4))
-		ft_pwd(cmd);
-	else if (ft_strncmp(cmd->cmd, "export", 7))
-		ft_export(cmd);
-	else if (ft_strncmp(cmd->cmd, "unset", 6))
-		ft_unset(cmd);
-	else if (ft_strncmp(cmd->cmd, "env", 4))
-		ft_env(cmd);
-	else if (ft_strncmp(cmd->cmd, "exit", 5))
-		ft_exit(cmd);
+//	if (!ft_strncmp(cmd->name, "echo", 5))
+//		ft_echo(cmd);
+//	else if (!t_strncmp(cmd->name, "cd", 3))
+//		ft_cd(cmd);
+	if (!ft_strncmp(cmd->name, "pwd", 4))
+		return (ft_pwd());
+//	else if (!ft_strncmp(cmd->name, "export", 7))
+//		ft_export(cmd);
+//	else if (!ft_strncmp(cmd->name, "unset", 6))
+//		ft_unset(cmd);
+//	else if (!ft_strncmp(cmd->name, "env", 4))
+//		ft_env(cmd);
+//	else if (!ft_strncmp(cmd->name, "exit", 5))
+//		ft_exit(cmd);
 	else
-		ft_error();
+		return (0);
 }
-*/
+
 int		ft_msg_recup(char **line, int count, t_cmd *cmd)
 {
 	int quote;
