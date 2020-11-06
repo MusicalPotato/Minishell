@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 18:04:57 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/06 18:20:45 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_loop(t_data **data)
 	while (tempo)
 	{
 		ft_parser(tempo);
+		ft_cmd_cmp(tempo->cmd);
 		tempo = tempo->next;
 	}
 //	ft_print_parse(*data);
