@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:05:29 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 16:55:15 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/06 14:45:48 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,17 @@
 
 typedef struct	s_commande
 {
-	char				*cmd;
-	int					cmd_id;
-	int					optn_id;
-	char				**msg;
-	int					msg_nbr;
+	char				*name;
+	char				**arg;
+	int					arg_nbr;
 	struct s_commande	*next;
 }				t_cmd;
 
-typedef struct s_line
+typedef struct s_data
 {
 	char			*line;
 	t_cmd			*cmd;
 	struct s_line	*next;
-}				t_line;
-
-typedef struct	s_data
-{
-	t_line	*line;
 }				t_data;
 
 #endif

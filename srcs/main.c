@@ -3,55 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/05 17:49:00 by ijacquet         ###   ########.fr       */
+/*   Updated: 2020/11/06 14:56:20 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_print_parse(t_line *line)
+void	ft_print_parse(t_data *data)
 {
 	int	a;
 	int b;
 	int	c;
 
 	a = 1;
-	while (line)
+	while (data)
 	{
-		printf("\nLine n°%d : %s\n", a, line->line);
+		printf("\nLine n°%d : %s\n", a, data->line);
 		b = 1;
-		while (line->cmd)
+		while (data->cmd)
 		{
-			printf("Commande n°%d : %s\n", b, line->cmd->cmd);
+			printf("Commande n°%d : %s\n", b, data->cmd->name);
 			c = 0;
-			while (c <= line->cmd->msg_nbr)
+			while (c <= data->cmd->arg_nbr)
 			{
-				printf("Message n°%d : %s\n", c + 1, line->cmd->msg[c]);
+				printf("Message n°%d : %s\n", c + 1, data->cmd->arg[c]);
 				c++;
 			}
-			line->cmd = line->cmd->next;
+			data->cmd = data->cmd->next;
 			b++;
 		}
-		line = line->next;
+		data = data->next;
 		a++;
 	}
 }
 
-void	ft_loop(t_data data)
+void	ft_loop(t_data *data)
 {
-	t_line	*tempo;
+	t_data	*tempo;
 
-	ft_line_reader(&data);
-	tempo = data.line;
+	ft_line_reader(data);
+	tempo = data;
 	while (tempo)
 	{
 		ft_parser(tempo);
 		tempo = tempo->next;
 	}
-	ft_print_parse(data.line);
+
+	ft_print_parse(&data);
 }
 
 int		ft_initialize(t_data *data)
@@ -62,8 +63,7 @@ int		ft_initialize(t_data *data)
 
 int		main(int argc, char **argv)
 {
-	t_data data;
-
+	t_data	data;
 	if (argc != 1)
 	{
 		write(2, "Wrong number of arguments\n", 26);
@@ -73,8 +73,8 @@ int		main(int argc, char **argv)
 	ft_initialize(&data);
 	while (1)
 	{
-		ft_loop(data);
-		ft_lstclear_line(&(data.line));
+		ft_loop(&data);
+		ft_lstclear_line(&(data));
 	}
 	return (0);
 }
