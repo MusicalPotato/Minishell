@@ -44,36 +44,37 @@ void	ft_loop(t_data *data)
 {
 	t_data	*tempo;
 
-	ft_line_reader(data);
+	ft_line_reader(&data);
 	tempo = data;
 	while (tempo)
 	{
 		ft_parser(tempo);
 		tempo = tempo->next;
 	}
-
-	ft_print_parse(&data);
+	ft_print_parse(data);
 }
 
-int		ft_initialize(t_data *data)
+void	ft_initialize(t_data *data)
 {
-	data = NULL;
-	return (1);
+	data->line = NULL;
+	data->cmd = NULL;
+	data->next = NULL;
 }
 
 int		main(int argc, char **argv)
 {
-	t_data	data;
+	t_data	*data;
+
+	data = NULL;
 	if (argc != 1)
 	{
 		write(2, "Wrong number of arguments\n", 26);
 		return (0);
 	}
 	(void)argv;
-	ft_initialize(&data);
 	while (1)
 	{
-		ft_loop(&data);
+		ft_loop(data);
 		ft_lstclear_line(&(data));
 	}
 	return (0);

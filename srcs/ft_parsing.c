@@ -106,23 +106,23 @@ int		ft_cmd_recup(char **line, int count, char **cmd)
 	return (count);
 }
 
-int		ft_pipe_check(t_line *line, int count, int x)
+int		ft_pipe_check(t_data *d, int count, int x)
 {
 	if (x)
 	{
-		if (line->line[count] == '|')
+		if (d->line[count] == '|')
 		{
 			count++;
-			while (ft_is_space(line->line[count]))
+			while (ft_is_space(d->line[count]))
 				count++;
 		}
-		if (line->line[count] == '|')
+		if (d->line[count] == '|')
 		{
 			ft_printf("parse error near `|'\n");
 			return (-1);
 		}
 	}
-	else if (line->line[count] == '|')
+	else if (d->line[count] == '|')
 	{
 		ft_printf("parse error near `|'\n");
 		return (-1);
@@ -130,7 +130,7 @@ int		ft_pipe_check(t_line *line, int count, int x)
 	return (count);
 }
 
-int		ft_parser(t_data *data)
+int		ft_parser(t_data *d)
 {
 	int		count;
 	char	*cmd;
@@ -138,18 +138,18 @@ int		ft_parser(t_data *data)
 
 	count = 0;
 	x = 0;
-	while (line->line[count] == '|' || !x)
+	while (d->line[count] == '|' || !x)
 	{
 		cmd = malloc(1);
 		*cmd = 0;
-		if ((count = ft_pipe_check(line, count, x)) < 0)
+		if ((count = ft_pipe_check(d, count, x)) < 0)
 			return (0);
-		count = ft_cmd_recup(&(line->line), count, &cmd);
-		if (!(ft_lstadd_back_cmd(&(line->cmd),
+		count = ft_cmd_recup(&(d->line), count, &cmd);
+		if (!(ft_lstadd_back_cmd(&(d->cmd),
 			ft_lstnew_cmd(ft_strdup(cmd)))))
 			return (0);
-		if (line->line[count] == ' ' || line->line[count] == '\t')
-			count = ft_msg_recup(&line->line, count, line->cmd);
+		if (d->line[count] == ' ' || d->line[count] == '\t')
+			count = ft_msg_recup(&d->line, count, d->cmd);
 		free(cmd);
 		x++;
 	}

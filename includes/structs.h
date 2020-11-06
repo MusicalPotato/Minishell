@@ -25,7 +25,7 @@ typedef struct s_data
 {
 	char			*line;
 	t_cmd			*cmd;
-	struct s_line	*next;
+	struct s_data	*next;
 }				t_data;
 
 #endif

@@ -79,7 +79,7 @@ int		ft_check_text(int count, char **line)
 	return (size);
 }
 
-int		ft_line_saver(t_data *data, char *line)
+int		ft_line_saver(t_data **data, char *line)
 {
 	int		size;
 	int		count;
@@ -101,7 +101,7 @@ int		ft_line_saver(t_data *data, char *line)
 		}
 		size = ft_check_text(count, &line);
 		if (size)
-			if (!(ft_lstadd_back_line(&(data->line),
+			if (!(ft_lstadd_back_line(data,
 				ft_lstnew_line(ft_strndup(line + count, size)))))
 				return (0);
 		count += size;
@@ -109,7 +109,7 @@ int		ft_line_saver(t_data *data, char *line)
 	return (1);
 }
 
-int		ft_line_reader(t_data *data)
+int		ft_line_reader(t_data **data)
 {
 	char	*line;
 

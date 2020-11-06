@@ -12,13 +12,13 @@
 
 #include "../includes/minishell.h"
 
-t_line	*ft_lstnew_line(char *content)
+t_data	*ft_lstnew_line(char *content)
 {
-	t_line	*list;
+	t_data	*list;
 
 	if (!content)
 		return (0);
-	if (!(list = malloc(sizeof(t_line))))
+	if (!(list = malloc(sizeof(t_data))))
 		return (0);
 	list->line = content;
 	list->cmd = 0;
@@ -26,9 +26,9 @@ t_line	*ft_lstnew_line(char *content)
 	return (list);
 }
 
-int		ft_lstadd_back_line(t_line **alst, t_line *new)
+int		ft_lstadd_back_line(t_data **alst, t_data *new)
 {
-	t_line	*l;
+	t_data	*l;
 
 	if (!(alst) || !(new))
 		return (0);
@@ -44,24 +44,19 @@ int		ft_lstadd_back_line(t_line **alst, t_line *new)
 	return (1);
 }
 
-void	ft_lstclear_line(t_line **lst)
+void	ft_lstclear_line(t_data **lst)
 {
-	t_line	*l;
-	t_line	*t;
+	t_data	*l;
 
-	if (lst)
+	while (*lst)
 	{
-		l = *lst;
-		while (l)
-		{
-			t = l;
-			free(l->line);
-			l->line = NULL;
-			free(l->cmd);
-			l->cmd = NULL;
-			free(l);
-			l = t->next;
-		}
-		*lst = NULL;
+		l = (*lst)->next;
+		free((*lst)->line);
+		(*lst)->line = NULL;
+		ft_lstclear_cmd(&((*lst)->cmd));
+		(*lst)->next = NULL;
+		free(*lst);
+		*lst = l;
 	}
+	*lst = NULL;
 }
