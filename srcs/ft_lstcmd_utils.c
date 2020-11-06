@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:13:44 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 17:53:03 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/06 18:10:12 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,18 @@ void	ft_lstclear_cmd(t_cmd **lst)
 	while (*lst)
 	{
 		l = (*lst)->next;
-		printf("clear name: %p\n", (*lst)->name);
 		free((*lst)->name);
 		(*lst)->name = NULL;
 		while (x < (*lst)->arg_nbr)
 		{
-			printf("clear arg: %p\n", *((*lst)->arg));
-			free(*((*lst)->arg));
-			*((*lst)->arg) = NULL;
-			(*((*lst)->arg))++;
+			free((*lst)->arg[x]);
+			(*lst)->arg[x] = NULL;
 			x++;
 		}
 		free((*lst)->arg);
 		(*lst)->arg = NULL;
 		(*lst)->arg_nbr = 0;
 		(*lst)->next = NULL;
-		printf("clear cmd: %p\n", *lst);
 		free(*lst);
 		*lst = l;
 	}

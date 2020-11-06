@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 17:07:43 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/06 18:09:54 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ void	ft_lstclear_line(t_data **lst)
 
 	while (*lst)
 	{
-		printf("clear data: %p\n", *lst);
 		l = (*lst)->next;
 		free((*lst)->line);
 		(*lst)->line = NULL;
-		printf("start clear cmd\n");
 		ft_lstclear_cmd(&((*lst)->cmd));
-		printf("end clear cmd\n");
 		(*lst)->next = NULL;
 		free(*lst);
 		*lst = l;
