@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/09 17:06:37 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/09 17:45:32 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int		ft_check_args(t_cmd *cmd, int i)
 	{
 		if (cmd->arg_nbr == 0)
 			cmd->arg = ft_stradd_back(cmd->arg, 0, cmd->arg_nbr++);
-		if (cmd->arg_nbr < 2)
-			cmd->arg = ft_stradd_back(cmd->arg, 0, cmd->arg_nbr++);
-		if (cmd->arg_nbr > 2)
+		if (cmd->arg_nbr > 1)
 			return (ft_printf("cd: too many arguments\n"));
 	}
 	else if (i == 2)
