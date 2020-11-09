@@ -14,6 +14,16 @@
 
 int	ft_cd(char *path)
 {
-	chdir(path);
+//	char	*home;
+//
+//	home = variable d'env HOME
+//	if ~ dans path alors remplacer ~ par home
+	if (!path)
+	{
+//		chdir(home);
+	}
+	else
+		chdir(path);
+//	faire les erreur + msg en fct du nbr ret chdir (errno tout ca)
 	return (1);
 }
