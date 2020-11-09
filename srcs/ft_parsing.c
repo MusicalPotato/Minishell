@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/09 16:03:57 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/09 17:06:37 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,9 @@ int		ft_check_args(t_cmd *cmd, int i)
 	if (i == 1)
 	{
 		if (cmd->arg_nbr == 0)
-		{
-			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++);
-			cmd->arg[0] = NULL;
-		}
+			cmd->arg = ft_stradd_back(cmd->arg, 0, cmd->arg_nbr++);
 		if (cmd->arg_nbr < 2)
-		{
-			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++);
-			cmd->arg[1] = NULL;
-		}
+			cmd->arg = ft_stradd_back(cmd->arg, 0, cmd->arg_nbr++);
 		if (cmd->arg_nbr > 2)
 			return (ft_printf("cd: too many arguments\n"));
 	}
@@ -36,6 +30,9 @@ int		ft_check_args(t_cmd *cmd, int i)
 		if (cmd->arg_nbr < 1)
 			return (ft_printf("unset: not enough arguments\n"));
 	if (i == 4)
+		if (cmd->arg_nbr > 0)
+			return (ft_printf("env: too many arguments\n"));
+	if (i == 5)
 		if (cmd->arg_nbr > 1)
 			return (ft_printf("exit: too many arguments\n"));
 	return (1);
@@ -53,9 +50,9 @@ int		ft_cmd_cmp(t_cmd *cmd)
 //		ft_export(cmd);
 //	else if (!ft_strncmp(cmd->name, "unset", 6) && ft_check_args(cmd, 3))
 //		ft_unset(cmd);
-//	else if (!ft_strncmp(cmd->name, "env", 4))
+//	else if (!ft_strncmp(cmd->name, "env", 4) && ft_check_args(cmd, 4))
 //		ft_env(cmd);
-//	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 4))
+//	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
 //		ft_exit(cmd);
 	else
 		return (0);
