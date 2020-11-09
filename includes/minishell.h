@@ -37,5 +37,6 @@ int		ft_istext(int text, char c);
 char	*ft_strndup(const char *s1, int size);
 
 int     ft_pwd();
+int		ft_cd(char *path);
 
 #endif

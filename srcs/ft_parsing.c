@@ -16,9 +16,9 @@ int		ft_cmd_cmp(t_cmd *cmd)
 {
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
-//	else if (!t_strncmp(cmd->name, "cd", 3))
-//		ft_cd(cmd);
-	if (!ft_strncmp(cmd->name, "pwd", 4))
+	if (!ft_strncmp(cmd->name, "cd", 3))
+		return(ft_cd(cmd->arg[0]));
+	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		return (ft_pwd());
 //	else if (!ft_strncmp(cmd->name, "export", 7))
 //		ft_export(cmd);

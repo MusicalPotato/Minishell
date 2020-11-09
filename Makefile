@@ -16,6 +16,7 @@ CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 LIBFT		=	libft/libft.a
 
 SRCS_NAME	=	main.c	\
+				ft_cd.c \
 				ft_lstcmd_utils.c \
 				ft_lstline_utils.c \
 				ft_parsing.c \
