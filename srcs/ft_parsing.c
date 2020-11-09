@@ -3,30 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 18:21:43 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/09 16:03:57 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int		ft_check_args(t_cmd *cmd, int i)
+{
+	if (i == 1)
+	{
+		if (cmd->arg_nbr == 0)
+		{
+			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++);
+			cmd->arg[0] = NULL;
+		}
+		if (cmd->arg_nbr < 2)
+		{
+			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++);
+			cmd->arg[1] = NULL;
+		}
+		if (cmd->arg_nbr > 2)
+			return (ft_printf("cd: too many arguments\n"));
+	}
+	else if (i == 2)
+		if (cmd->arg_nbr > 0)
+			return (ft_printf("pwd: too many arguments\n"));
+	if (i == 3)
+		if (cmd->arg_nbr < 1)
+			return (ft_printf("unset: not enough arguments\n"));
+	if (i == 4)
+		if (cmd->arg_nbr > 1)
+			return (ft_printf("exit: too many arguments\n"));
+	return (1);
+}
+
 int		ft_cmd_cmp(t_cmd *cmd)
 {
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
-	if (!ft_strncmp(cmd->name, "cd", 3))
+	if (!ft_strncmp(cmd->name, "cd", 3) && ft_check_args(cmd, 1) == 1)
 		return(ft_cd(cmd->arg[0]));
-	else if (!ft_strncmp(cmd->name, "pwd", 4))
+	else if (!ft_strncmp(cmd->name, "pwd", 4) && ft_check_args(cmd, 2) == 1)
 		return (ft_pwd());
 //	else if (!ft_strncmp(cmd->name, "export", 7))
 //		ft_export(cmd);
-//	else if (!ft_strncmp(cmd->name, "unset", 6))
+//	else if (!ft_strncmp(cmd->name, "unset", 6) && ft_check_args(cmd, 3))
 //		ft_unset(cmd);
 //	else if (!ft_strncmp(cmd->name, "env", 4))
 //		ft_env(cmd);
-//	else if (!ft_strncmp(cmd->name, "exit", 5))
+//	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 4))
 //		ft_exit(cmd);
 	else
 		return (0);
