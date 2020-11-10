@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 16:57:55 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/10 17:22:37 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@ int		ft_ask_next(char **line)
 	char	*text;
 	
 	text = NULL;
-	get_next_line(1, &text);
-	text = ft_memcat(text, "\n", ft_strlen(text), 1);
-	*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text));
+	if (!(get_next_line(1, &text)))
+		return (exit_write("GNL Error", 0, 0));
+	if (!(text = ft_memcat(text, "\n", ft_strlen(text), 1)))
+		return (exit_write("malloc Error", 0, 0));
+	if (!(*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text))))
+		return (exit_write("malloc Error", 0, 0));
 	free(text);
 	return (1);
 }
@@ -64,7 +67,8 @@ int		ft_check_text(int count, char **line)
 				if (!(*line)[count + size])
 				{
 					ft_printf("> ");
-					ft_ask_next(line);
+					if (!(ft_ask_next(line)))
+						return (-1);
 				}
 			}
 			quote = ft_istext(quote, (*line)[count + size]);
@@ -74,7 +78,8 @@ int		ft_check_text(int count, char **line)
 		if (quote)
 			ft_printf("%cquote> ", (quote - 1) * 100);
 		if (quote)
-			ft_ask_next(line);
+			if (!(ft_ask_next(line)))
+				return (-1);
 	}
 	return (size);
 }
@@ -99,7 +104,8 @@ int		ft_line_saver(t_data **data, char *line)
 				return (0);
 			}
 		}
-		size = ft_check_text(count, &line);
+		if ((size = ft_check_text(count, &line)) == -1)
+			return (0);
 		if (size)
 			if (!(ft_lstadd_back_line(data,
 				ft_lstnew_line(ft_strndup(line + count, size)))))
@@ -114,9 +120,12 @@ int		ft_line_reader(t_data **data)
 	char	*line;
 
 	ft_printf("prompt > ");
-	get_next_line(1, &line);
-	line = ft_memcat(line, "\n", ft_strlen(line), 1);
-	ft_line_saver(data, line);
+	if (!(get_next_line(1, &line)))
+		return (exit_write("GNL failed", 0, 0));
+	if (!(line = ft_memcat(line, "\n", ft_strlen(line), 1)))
+		return (exit_write("GNL failed", 0, 0));
+	if (!(ft_line_saver(data, line)))
+		return (0);
 	free(line);
 	return (1);
 }

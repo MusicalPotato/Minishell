@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/10 13:14:30 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/10 17:29:24 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int		ft_loop(t_data **data)
 {
 	t_data	*tempo;
 
-	ft_line_reader(data);
+	if (!(ft_line_reader(data)))
+		return (-1);
 	tempo = *data;
 	while (tempo)
 	{
