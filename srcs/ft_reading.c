@@ -39,11 +39,11 @@ int		ft_ask_next(char **line)
 	
 	text = NULL;
 	if (!(get_next_line(1, &text)))
-		return (exit_write("GNL Error", 0, 0));
+		return (exit_write("GNL Error\n", 0, 0));
 	if (!(text = ft_memcat(text, "\n", ft_strlen(text), 1)))
-		return (exit_write("malloc Error", 0, 0));
+		return (exit_write("malloc Error\n", 0, 0));
 	if (!(*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text))))
-		return (exit_write("malloc Error", 0, 0));
+		return (exit_write("malloc Error\n", 0, ft_freeturn(&text, 0)));
 	free(text);
 	return (1);
 }
@@ -121,11 +121,11 @@ int		ft_line_reader(t_data **data)
 
 	ft_printf("prompt > ");
 	if (!(get_next_line(1, &line)))
-		return (exit_write("GNL failed", 0, 0));
+		return (exit_write("GNL Error\n", 0, 0));
 	if (!(line = ft_memcat(line, "\n", ft_strlen(line), 1)))
-		return (exit_write("GNL failed", 0, 0));
+		return (exit_write("malloc Error\n", 0, 0));
 	if (!(ft_line_saver(data, line)))
-		return (0);
+		return (ft_freeturn(&line, 0));
 	free(line);
 	return (1);
 }

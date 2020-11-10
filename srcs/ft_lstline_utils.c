@@ -19,7 +19,7 @@ t_data	*ft_lstnew_line(char *content)
 	if (!content)
 		return (0);
 	if (!(list = malloc(sizeof(t_data))))
-		return (0);
+		return (ft_freeturn(&content, 0));
 	list->line = content;
 	list->cmd = 0;
 	list->next = 0;

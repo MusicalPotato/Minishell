@@ -16,13 +16,13 @@ t_cmd	*ft_lstnew_cmd(char *content)
 {
 	t_cmd	*list;
 
-	if (!(list = malloc(sizeof(t_cmd))))
+	if (!content)
 		return (0);
+	if (!(list = malloc(sizeof(t_cmd))))
+		return (ft_freeturn(&content, 0));
 	list->arg = NULL;
 	list->arg_nbr = 0;
 	list->next = 0;
-	if (!content)
-		return (0);
 	list->name = content;
 	return (list);
 }
