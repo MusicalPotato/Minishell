@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/09 17:45:32 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/10 13:52:02 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		ft_cmd_cmp(t_cmd *cmd)
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
 	if (!ft_strncmp(cmd->name, "cd", 3) && ft_check_args(cmd, 1) == 1)
-		return(ft_cd(cmd->arg[0]));
+		return (ft_cd(cmd->arg[0]));
 	else if (!ft_strncmp(cmd->name, "pwd", 4) && ft_check_args(cmd, 2) == 1)
 		return (ft_pwd());
 //	else if (!ft_strncmp(cmd->name, "export", 7))
@@ -50,10 +50,12 @@ int		ft_cmd_cmp(t_cmd *cmd)
 //		ft_unset(cmd);
 //	else if (!ft_strncmp(cmd->name, "env", 4) && ft_check_args(cmd, 4))
 //		ft_env(cmd);
-//	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
-//		ft_exit(cmd);
-	else
+	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
 		return (0);
+	else if (!strncmp(cmd->name, "./Minis", 12))
+		return (ft_exec(cmd));
+	else
+		return (1);
 }
 
 int		ft_msg_recup(char *line, int count, t_cmd *cmd)

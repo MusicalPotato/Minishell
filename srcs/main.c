@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 18:20:45 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/10 13:14:30 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_print_parse(t_data *data)
 	}
 }
 
-void	ft_loop(t_data **data)
+int		ft_loop(t_data **data)
 {
 	t_data	*tempo;
 
@@ -49,10 +49,12 @@ void	ft_loop(t_data **data)
 	while (tempo)
 	{
 		ft_parser(tempo);
-		ft_cmd_cmp(tempo->cmd);
+		if (!ft_cmd_cmp(tempo->cmd))
+			return (0);
 		tempo = tempo->next;
 	}
 //	ft_print_parse(*data);
+	return (1);
 }
 
 void	ft_initialize(t_data *data)
@@ -75,7 +77,8 @@ int		main(int argc, char **argv)
 	(void)argv;
 	while (1)
 	{
-		ft_loop(&data);
+		if (!ft_loop(&data))
+			return (0);
 		ft_lstclear_line(&(data));
 	}
 	return (0);

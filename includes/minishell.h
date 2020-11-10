@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/06 17:08:58 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/10 13:42:24 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 # include "structs.h"
+# include <sys/wait.h>
 
 int		ft_line_reader(t_data **data);
 int		ft_parser(t_data *line);
@@ -38,5 +39,6 @@ char	*ft_strndup(const char *s1, int size);
 
 int     ft_pwd();
 int		ft_cd(char *path);
+int		ft_exec(t_cmd *cmd);
 
 #endif
