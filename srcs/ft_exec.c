@@ -23,7 +23,7 @@ int		ft_exec(t_cmd *cmd)
 	argv_ms[0] = ft_strdup(cmd->name);
 	while (i <= cmd->arg_nbr)
 	{
-		argv_ms[i] = ft_strdup(cmd->arg[i]);
+		argv_ms[i] = ft_strdup(cmd->arg[i - 1]);
 		i++;
 	}
 	argv_ms[i] = NULL;

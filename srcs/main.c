@@ -57,13 +57,6 @@ int		ft_loop(t_data **data)
 	return (1);
 }
 
-void	ft_initialize(t_data *data)
-{
-	data->line = NULL;
-	data->cmd = NULL;
-	data->next = NULL;
-}
-
 int		main(int argc, char **argv)
 {
 	t_data	*data;
@@ -78,8 +71,11 @@ int		main(int argc, char **argv)
 	while (1)
 	{
 		if (!ft_loop(&data))
+		{
+			ft_lstclear_line(&data);
 			return (0);
-		ft_lstclear_line(&(data));
+		}
+		ft_lstclear_line(&data);
 	}
-	return (0);
+	return (1);
 }

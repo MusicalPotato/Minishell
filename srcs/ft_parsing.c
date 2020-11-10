@@ -52,7 +52,7 @@ int		ft_cmd_cmp(t_cmd *cmd)
 //		ft_env(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
 		return (0);
-	else if (!strncmp(cmd->name, "./Minis", 12))
+	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
 		return (ft_exec(cmd));
 	else
 		return (1);
