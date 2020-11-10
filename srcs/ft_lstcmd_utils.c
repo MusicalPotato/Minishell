@@ -19,7 +19,10 @@ t_cmd	*ft_lstnew_cmd(char *content)
 	if (!content)
 		return (0);
 	if (!(list = malloc(sizeof(t_cmd))))
-		return (ft_freeturn(&content, 0));
+	{
+		ft_freeturn(&content, 1);
+		return (0);
+	}
 	list->arg = NULL;
 	list->arg_nbr = 0;
 	list->next = 0;

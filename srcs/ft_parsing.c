@@ -12,52 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int		ft_check_args(t_cmd *cmd, int i)
-{
-	if (i == 1)
-	{
-		if (cmd->arg_nbr == 0)
-			cmd->arg = ft_stradd_back(cmd->arg, 0, cmd->arg_nbr++);
-		if (cmd->arg_nbr > 1)
-			return (ft_printf("cd: too many arguments\n"));
-	}
-	else if (i == 2)
-		if (cmd->arg_nbr > 0)
-			return (ft_printf("pwd: too many arguments\n"));
-	if (i == 3)
-		if (cmd->arg_nbr < 1)
-			return (ft_printf("unset: not enough arguments\n"));
-	if (i == 4)
-		if (cmd->arg_nbr > 0)
-			return (ft_printf("env: too many arguments\n"));
-	if (i == 5)
-		if (cmd->arg_nbr > 1)
-			return (ft_printf("exit: too many arguments\n"));
-	return (1);
-}
-
-int		ft_cmd_cmp(t_cmd *cmd)
-{
-//	if (!ft_strncmp(cmd->name, "echo", 5))
-//		ft_echo(cmd);
-	if (!ft_strncmp(cmd->name, "cd", 3) && ft_check_args(cmd, 1) == 1)
-		return (ft_cd(cmd->arg[0]));
-	else if (!ft_strncmp(cmd->name, "pwd", 4) && ft_check_args(cmd, 2) == 1)
-		return (ft_pwd());
-//	else if (!ft_strncmp(cmd->name, "export", 7))
-//		ft_export(cmd);
-//	else if (!ft_strncmp(cmd->name, "unset", 6) && ft_check_args(cmd, 3))
-//		ft_unset(cmd);
-//	else if (!ft_strncmp(cmd->name, "env", 4) && ft_check_args(cmd, 4))
-//		ft_env(cmd);
-	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
-		return (0);
-	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
-		return (ft_exec(cmd));
-	else
-		return (1);
-}
-
 int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 {
 	int quote;
@@ -74,14 +28,16 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 		if (line[count] == '\n' || line[count] == '\0' || line[count] == '|')
 			break ;
 		if (line[count] != '\n')
-			cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++);
+			if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++)))
+				return (exit_write("malloc Error\n", 0, -1));
 		while (quote || (line[count] != '\n' && line[count] != ' ' && line[count] != '|' && line[count] != '\0' && line[count] != '\t'))
 		{
 			if (line[count] == '\\' && (quote == 0 || (quote == 2 && (line[count + 1] == '"' || line[count + 1] == '\\'))))
 			{
 				count++;
 				if (line[count] != '\n')
-					cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1);
+					if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)))
+						return (exit_write("malloc Error\n", 0, -1));
 				count++;
 			}
 			else if ((line[count] == '"' && quote != 1) || (line[count] == '\'' && quote != 2))
@@ -92,7 +48,8 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 			}
 			else
 			{
-				cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1);
+				if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)))
+					return (exit_write("malloc Error\n", 0, -1));
 				count++;
 			}
 		}
@@ -111,7 +68,8 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 		{
 			count++;
 			if (line[count] != '\n')
-				*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1);
+				if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
+					return (exit_write("malloc Error\n", 0, -1));
 			count++;
 		}
 		else if ((line[count] == '"' && quote != 1) || (line[count] == '\'' && quote != 2))
@@ -122,7 +80,8 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 		}
 		else
 		{
-			*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1);
+			if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
+				return (exit_write("malloc Error\n", 0, -1));
 			count++;
 		}
 	}
@@ -140,16 +99,10 @@ int		ft_pipe_check(t_data *d, int count, int x)
 				count++;
 		}
 		if (d->line[count] == '|')
-		{
-			ft_printf("parse error near `|'\n");
-			return (-1);
-		}
+			return (exit_write("parse error near `|'\n", 0, -1));
 	}
 	else if (d->line[count] == '|')
-	{
-		ft_printf("parse error near `|'\n");
-		return (-1);
-	}
+		return (exit_write("parse error near `|'\n", 0, -1));
 	return (count);
 }
 
@@ -166,14 +119,16 @@ int		ft_parser(t_data *d)
 		cmd = malloc(1);
 		*cmd = 0;
 		if ((count = ft_pipe_check(d, count, x)) < 0)
+			return (ft_freeturn(&cmd, -1));
+		if ((count = ft_cmd_recup(d->line, count, &cmd)) < 0)
 			return (0);
-		count = ft_cmd_recup(d->line, count, &cmd);
 		if (!(ft_lstadd_back_cmd(&(d->cmd),
 			ft_lstnew_cmd(ft_strdup(cmd)))))
-			return (0);
-		if (d->line[count] == ' ' || d->line[count] == '\t')
-			count = ft_msg_recup(d->line, count, d->cmd);
+			return (ft_freeturn(&cmd, 0));
 		free(cmd);
+		if (d->line[count] == ' ' || d->line[count] == '\t')
+			if ((count = ft_msg_recup(d->line, count, d->cmd)) < 0)
+				return (0);
 		x++;
 	}
 	return (1);

@@ -33,6 +33,9 @@ int		exit_write(char *msg, char *bonus, int value)
 {
 	write(2, msg, ft_strlen(msg));
 	if (bonus)
+	{
 		write(2, bonus, ft_strlen(bonus));
+		write(2, "\n", 1);
+	}
 	return (value);
 }

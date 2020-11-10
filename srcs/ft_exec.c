@@ -33,7 +33,7 @@ int		ft_exec(t_cmd *cmd)
 		if (execve(cmd->name, argv_ms, NULL) < 0)
 		{
 			ft_printf("no such file or directory: %s\n", cmd->name);
-			return (0);
+			return (-1);
 		}
 	return (1);
 }

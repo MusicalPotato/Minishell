@@ -99,17 +99,14 @@ int		ft_line_saver(t_data **data, char *line)
 			if (line[count] == ';')
 				count++;
 			if (line[count] == ';')
-			{
-				ft_printf("parse error near `;;'\n");
-				return (0);
-			}
+				return (exit_write("parse error near `;;'\n", 0, -1));
 		}
-		if ((size = ft_check_text(count, &line)) == -1)
+		if ((size = ft_check_text(count, &line)) < 0)
 			return (0);
 		if (size)
 			if (!(ft_lstadd_back_line(data,
 				ft_lstnew_line(ft_strndup(line + count, size)))))
-				return (0);
+				return (exit_write("malloc Error\n", 0, 0));
 		count += size;
 	}
 	return (1);
@@ -118,14 +115,15 @@ int		ft_line_saver(t_data **data, char *line)
 int		ft_line_reader(t_data **data)
 {
 	char	*line;
+	int 	r;
 
 	ft_printf("prompt > ");
 	if (!(get_next_line(1, &line)))
 		return (exit_write("GNL Error\n", 0, 0));
 	if (!(line = ft_memcat(line, "\n", ft_strlen(line), 1)))
 		return (exit_write("malloc Error\n", 0, 0));
-	if (!(ft_line_saver(data, line)))
-		return (ft_freeturn(&line, 0));
+	if ((r = ft_line_saver(data, line)) <= 0)
+		return (ft_freeturn(&line, r));
 	free(line);
 	return (1);
 }

@@ -43,15 +43,17 @@ void	ft_print_parse(t_data *data)
 int		ft_loop(t_data **data)
 {
 	t_data	*tempo;
+	int		r;
 
-	if (!(ft_line_reader(data)))
-		return (-1);
+	if ((r = ft_line_reader(data)) <= 0)
+		return (r);
 	tempo = *data;
 	while (tempo)
 	{
-		ft_parser(tempo);
-		if (!ft_cmd_cmp(tempo->cmd))
-			return (0);
+		if ((r = ft_parser(tempo)) <= 0)
+			return (r);
+		if ((r = ft_cmd_cmp(tempo->cmd)) <= 0)
+			return (r);
 		tempo = tempo->next;
 	}
 //	ft_print_parse(*data);
