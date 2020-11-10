@@ -36,6 +36,7 @@ void	ft_lstclear_cmd(t_cmd **lst);
 int		ft_is_space(char line);
 int		ft_istext(int text, char c);
 char	*ft_strndup(const char *s1, int size);
+int		exit_write(char *msg, char *bonus, int value);
 
 int     ft_pwd();
 int		ft_cd(char *path);

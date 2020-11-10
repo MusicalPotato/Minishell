@@ -28,3 +28,11 @@ char	*ft_strndup(const char *s1, int size)
 	copy[n] = 0;
 	return (copy);
 }
+
+int		exit_write(char *msg, char *bonus, int value)
+{
+	write(2, msg, ft_strlen(msg));
+	if (bonus)
+		write(2, bonus, ft_strlen(bonus));
+	return (value);
+}
