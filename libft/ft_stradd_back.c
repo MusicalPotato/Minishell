@@ -18,7 +18,11 @@ char	**ft_stradd_back(char **strs, char *new, int size)
 	char	**newstrs;
 
 	if (!(newstrs = malloc(sizeof(char *) * (size + 1))))
+	{
+		if (new)
+			free(new);
 		return (0);
+	}
 	i = 0;
 	while (i < size)
 	{

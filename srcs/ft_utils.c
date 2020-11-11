@@ -39,3 +39,21 @@ int		exit_write(char *msg, char *bonus, int value)
 	}
 	return (value);
 }
+
+int		free_all(char ***data, int ret)
+{
+	int	i;
+
+	i = 0;
+	if (*data)
+	{
+		while ((*data)[i])
+		{
+			ft_freeturn(&((*data)[i]), 1);
+			i++;
+		}
+		free(*data);
+	}
+	*data = NULL;
+	return (ret);
+}

@@ -28,12 +28,12 @@ int		ft_exec(t_cmd *cmd)
 	}
 	argv_ms[i] = NULL;
 	if (fork() == -1)
-		return (0);
+		return (free_all(&argv_ms, 0));
 	if (wait(&status) < 0)
 		if (execve(cmd->name, argv_ms, NULL) < 0)
 		{
 			ft_printf("no such file or directory: %s\n", cmd->name);
-			return (-1);
+			return (free_all(&argv_ms, -1));
 		}
-	return (1);
+	return (free_all(&argv_ms, 1));
 }
