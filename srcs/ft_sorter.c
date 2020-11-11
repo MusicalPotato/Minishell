@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sorter.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
+/*   Updated: 2020/11/11 14:48:46 by igor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -39,6 +50,8 @@ int		ft_cmd_cmp(t_cmd *cmd)
 		return (0);
 	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
 		return (ft_exec(cmd));
+	else if (cmd->name[0] == '>')
+		return (ft_file_create(cmd));
 	else
 		return (exit_write("command not found: ", cmd->name, -1));
 }

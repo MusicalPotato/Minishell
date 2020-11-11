@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+         #
+#    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2020/11/10 13:06:01 by nlaurids         ###   ########.fr        #
+#    Updated: 2020/11/11 15:21:41 by igor             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBFT		=	libft/libft.a
 SRCS_NAME	=	main.c	\
 				ft_cd.c \
 				ft_exec.c \
+				ft_file_creator.c \
 				ft_lstcmd_utils.c \
 				ft_lstline_utils.c \
 				ft_parsing.c \
