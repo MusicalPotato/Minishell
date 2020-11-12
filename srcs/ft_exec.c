@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		ft_exec(t_cmd *cmd)
+int		ft_exec(t_cmd *cmd, char **envp)
 {
 	char	**argv_ms;
 	int		status;
@@ -30,10 +30,10 @@ int		ft_exec(t_cmd *cmd)
 	if (fork() == -1)
 		return (free_all(&argv_ms, 0));
 	if (wait(&status) < 0)
-		if (execve(cmd->name, argv_ms, NULL) < 0)
+		if (execve(cmd->name, argv_ms, envp) < 0)
 		{
 			ft_printf("no such file or directory: %s\n", cmd->name);
-			return (free_all(&argv_ms, -1));
+			return (free_all(&argv_ms, 0));
 		}
 	return (free_all(&argv_ms, 1));
 }

@@ -21,11 +21,13 @@ SRCS_NAME	=	main.c	\
 				ft_file_creator.c \
 				ft_lstcmd_utils.c \
 				ft_lstline_utils.c \
-				ft_parsing.c \
+				ft_parse_info.c \
+				ft_parse_env.c \
 				ft_pwd.c \
 				ft_reading.c \
 				ft_sorter.c \
 				ft_utils.c \
+				ft_env.c \
 
 SRCS		=	$(addprefix srcs/, $(SRCS_NAME))
 
