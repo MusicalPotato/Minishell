@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/10 13:42:24 by nlaurids         ###   ########.fr       */
+/*   Updated: 2020/11/11 15:20:16 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/wait.h>
+#include <fcntl.h>
 # include "../libft/libft.h"
 # include "structs.h"
-# include <sys/wait.h>
 
 int		ft_line_reader(t_data **data);
 int		ft_parser(t_data *line);
@@ -42,6 +43,7 @@ int		free_all(char ***data, int ret);
 int     ft_pwd();
 int		ft_cd(char *path);
 int		ft_exec(t_cmd *cmd, char **envp);
+int     ft_file_create(t_cmd *cmd);
 
 char	*ft_getenv(char *name, char **envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
