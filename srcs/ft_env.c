@@ -34,7 +34,7 @@ int		ft_setenv(char *name, char *value, int replace, char ***envp)
 {
 
 }
-/*
+
 int		ft_putenv(char *string, char ***envp)
 {
 

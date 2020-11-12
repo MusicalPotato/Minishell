@@ -23,7 +23,8 @@
 # include "structs.h"
 
 int		ft_line_reader(t_data **data);
-int		ft_parser(t_data *line);
+int		ft_parse_info(t_data *line);
+int		ft_parse_env(t_data *data);
 int		ft_cmd_cmp(t_cmd *cmd, char **envp);
 
 t_data	*ft_lstnew_line(char *content);

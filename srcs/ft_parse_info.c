@@ -106,7 +106,7 @@ int		ft_pipe_check(t_data *d, int count, int x)
 	return (count);
 }
 
-int		ft_parser(t_data *d)
+int		ft_parse_info(t_data *d)
 {
 	int		count;
 	char	*cmd;

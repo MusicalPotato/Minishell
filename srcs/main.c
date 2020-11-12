@@ -50,9 +50,9 @@ int		ft_loop(t_data **data, char **envp)
 	tempo = *data;
 	while (tempo)
 	{
-		if ((r = ft_parser(tempo)) <= 0)
+		//ft_parse_env(tempo);
+		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
-		printf("content of var is: %s\n", ft_getenv(tempo->cmd->name, envp));
 		if ((r = ft_cmd_cmp(tempo->cmd, envp)) <= 0)
 			return (r);
 		tempo = tempo->next;
