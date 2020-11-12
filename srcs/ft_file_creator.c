@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2020/11/11 15:36:45 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/12 16:21:34 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int     ft_file_create(t_cmd *cmd)
 {
 	int fd;
+	char *line;
 
+	line = malloc(1);
 	if (cmd->name[1])
 	{
 		if ((fd = open(cmd->name + 1, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)) == -1)
@@ -32,6 +34,11 @@ int     ft_file_create(t_cmd *cmd)
 		if (cmd->arg_nbr > 1)
 			return (exit_write("command not found: ", cmd->arg[1], -1));
 	}
+//	while (not ctrl+c)
+//	{
+	get_next_line(1, &line);
+	write(fd, line, ft_strlen(line));
+//	}
 	close(fd);
 	return (1);
 }

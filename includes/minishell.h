@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/11 15:20:16 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/12 13:16:08 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/wait.h>
-#include <fcntl.h>
+# include <fcntl.h>
 # include "../libft/libft.h"
 # include "structs.h"
+# include "signal.h"
 
 int		ft_line_reader(t_data **data);
 int		ft_parser(t_data *line);
