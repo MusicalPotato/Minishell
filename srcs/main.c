@@ -57,7 +57,7 @@ int		ft_loop(t_data **data, char **envp)
 			return (r);
 		tempo = tempo->next;
 	}
-	ft_print_parse(*data);
+	//ft_print_parse(*data);
 	return (1);
 }
 

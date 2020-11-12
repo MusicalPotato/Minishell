@@ -19,5 +19,6 @@ int		ft_pwd()
 	str = 0;
 	str = getcwd(str, ft_strlen(str));
 	ft_printf("%s\n", str);
+	free (str);
 	return (1);
 }
