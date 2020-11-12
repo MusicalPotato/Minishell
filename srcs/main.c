@@ -40,7 +40,7 @@ void	ft_print_parse(t_data *data)
 	}
 }
 
-int		ft_loop(t_data **data)
+int		ft_loop(t_data **data, char **envp)
 {
 	t_data	*tempo;
 	int		r;
@@ -52,7 +52,8 @@ int		ft_loop(t_data **data)
 	{
 		if ((r = ft_parser(tempo)) <= 0)
 			return (r);
-		if ((r = ft_cmd_cmp(tempo->cmd)) <= 0)
+		printf("content of var is: %s\n", ft_getenv(tempo->cmd->name, envp));
+		if ((r = ft_cmd_cmp(tempo->cmd, envp)) <= 0)
 			return (r);
 		tempo = tempo->next;
 	}
@@ -60,7 +61,7 @@ int		ft_loop(t_data **data)
 	return (1);
 }
 
-int		main(int argc, char **argv)
+int		main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 
@@ -73,7 +74,7 @@ int		main(int argc, char **argv)
 	(void)argv;
 	while (1)
 	{
-		if (!ft_loop(&data))
+		if (!ft_loop(&data, envp))
 		{
 			ft_lstclear_line(&data);
 			return (0);

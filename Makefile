@@ -25,6 +25,7 @@ SRCS_NAME	=	main.c	\
 				ft_reading.c \
 				ft_sorter.c \
 				ft_utils.c \
+				ft_env.c \
 
 SRCS		=	$(addprefix srcs/, $(SRCS_NAME))
 

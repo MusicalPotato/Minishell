@@ -21,7 +21,7 @@ int		ft_check_args(t_cmd *cmd, int i)
 	return (1);
 }
 
-int		ft_cmd_cmp(t_cmd *cmd)
+int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 {
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
@@ -38,7 +38,7 @@ int		ft_cmd_cmp(t_cmd *cmd)
 	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
 		return (0);
 	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
-		return (ft_exec(cmd));
+		return (ft_exec(cmd, envp));
 	else
 		return (exit_write("command not found: ", cmd->name, -1));
 }
