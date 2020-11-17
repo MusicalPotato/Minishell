@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/12 16:52:50 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/17 18:59:51 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	ft_print_parse(t_data *data)
 		b = 1;
 		while (data->cmd)
 		{
-			printf("Commande n°%d : %s\n", b, data->cmd->name);
+			printf("Commande n°%d : -%s-\n", b, data->cmd->name);
 			c = 0;
 			while (c < data->cmd->arg_nbr)
 			{
-				printf("Message n°%d : %s\n", c + 1, data->cmd->arg[c]);
+				printf("Message n°%d : -%s-\n", c + 1, data->cmd->arg[c]);
 				c++;
 			}
 			data->cmd = data->cmd->next;
@@ -45,6 +45,7 @@ int		ft_loop(t_data **data, char **envp)
 	t_data	*tempo;
 	int		r;
 
+	(void)envp;
 	if ((r = ft_line_reader(data)) <= 0)
 		return (r);
 	tempo = *data;
@@ -57,7 +58,7 @@ int		ft_loop(t_data **data, char **envp)
 			return (r);
 		tempo = tempo->next;
 	}
-	//ft_print_parse(*data);
+//	ft_print_parse(*data);
 	return (1);
 }
 
