@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
-/*   Updated: 2020/11/12 16:23:20 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/17 19:01:15 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 {
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
-	if (!ft_strncmp(cmd->name, "cd", 3) && ft_check_args(cmd, 1) == 1)
+	if (!ft_strncmp(cmd->name, "cd", 3))
 		return (ft_cd(cmd->arg[0]));
-	else if (!ft_strncmp(cmd->name, "pwd", 4) && ft_check_args(cmd, 2) == 1)
+	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		return (ft_pwd());
 //	else if (!ft_strncmp(cmd->name, "export", 7))
 //		ft_export(cmd);
@@ -46,7 +46,7 @@ int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 //		ft_unset(cmd);
 //	else if (!ft_strncmp(cmd->name, "env", 4) && ft_check_args(cmd, 4))
 //		ft_env(cmd);
-	else if (!ft_strncmp(cmd->name, "exit", 5) && ft_check_args(cmd, 5))
+	else if (!ft_strncmp(cmd->name, "exit", 5))
 		return (0);
 	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
 		return (ft_exec(cmd, envp));
