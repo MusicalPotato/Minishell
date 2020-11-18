@@ -5,6 +5,8 @@ int		ft_lentoequal(char *str)
 	int size;
 
 	size = 0;
+	if (!str)
+		return (0);
 	while (str[size] && str[size] != '=')
 		size++;
 	return (size);
@@ -20,7 +22,6 @@ char	*ft_getenv(char *name, char **envp)
 	{
 		if ((len = ft_lentoequal(name)) < ft_lentoequal(envp[index]))
 			len = ft_lentoequal(envp[index]);
-		ft_printf("len: %d\n", len);
 		if (!ft_strncmp(envp[index], name, len))
 		{
 			return ((envp[index]) + len + 1);

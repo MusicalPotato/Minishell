@@ -50,7 +50,7 @@ int		ft_loop(t_data **data, char **envp)
 	tempo = *data;
 	while (tempo)
 	{
-		//ft_parse_env(tempo);
+		ft_parse_env(tempo, envp);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
 		if ((r = ft_cmd_cmp(tempo->cmd, envp)) <= 0)
