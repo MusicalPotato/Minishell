@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/16 15:01:55 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/19 05:45:43 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_strndup(const char *s1, int size);
 int		exit_write(char *msg, char *bonus, int value);
 int		free_all(char ***data, int ret);
 
-int     ft_pwd();
+int     ft_pwd(t_cmd *cmd);
 int		ft_cd(char *path);
 int		ft_exec(t_cmd *cmd, char **envp);
 int     ft_file_create(t_cmd *cmd);

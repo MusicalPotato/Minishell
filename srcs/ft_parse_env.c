@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_env.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/20 03:41:32 by igor              #+#    #+#             */
+/*   Updated: 2020/11/20 03:41:44 by igor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	var_to_value(char **str, int count, int s_var, char *val)
@@ -65,6 +77,5 @@ int	ft_parse_env(t_data *d, char **envp)
 		else
 			count++;
 	}
-	ft_printf("newstr is : %s\n", d->line);
 	return (1);
 }

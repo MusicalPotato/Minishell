@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
-/*   Updated: 2020/11/17 19:01:15 by igor             ###   ########.fr       */
+/*   Updated: 2020/11/20 03:20:41 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 	if (!ft_strncmp(cmd->name, "cd", 3))
 		return (ft_cd(cmd->arg[0]));
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
-		return (ft_pwd());
+		return (ft_pwd(cmd));
 //	else if (!ft_strncmp(cmd->name, "export", 7))
 //		ft_export(cmd);
 //	else if (!ft_strncmp(cmd->name, "unset", 6) && ft_check_args(cmd, 3))
