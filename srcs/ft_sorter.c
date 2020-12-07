@@ -6,12 +6,12 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
-/*   Updated: 2020/11/20 03:20:41 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/04 16:07:16 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
 int		ft_check_args(t_cmd *cmd, int i)
 {
 	if (i == 1)
@@ -31,13 +31,13 @@ int		ft_check_args(t_cmd *cmd, int i)
 		return (ft_printf("exit: too many arguments\n"));
 	return (1);
 }
-
+*/
 int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 {
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
 	if (!ft_strncmp(cmd->name, "cd", 3))
-		return (ft_cd(cmd->arg[0]));
+		return (ft_cd(cmd));
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		return (ft_pwd(cmd));
 //	else if (!ft_strncmp(cmd->name, "export", 7))
@@ -47,7 +47,7 @@ int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 //	else if (!ft_strncmp(cmd->name, "env", 4) && ft_check_args(cmd, 4))
 //		ft_env(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
-		return (0);
+		return (ft_exit(cmd));
 	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
 		return (ft_exec(cmd, envp));
 	else if (cmd->name[0] == '>')
