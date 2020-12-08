@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 14:50:48 by igor              #+#    #+#             */
-/*   Updated: 2020/12/07 16:48:45 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/08 09:01:46 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,23 @@ int		ft_pwd(t_cmd *cmd)
 	int std;
 
 	i = 0;
-	str = 0;
-	str = getcwd(str, ft_strlen(str));
+	std = 0;
+	str = getcwd(0, 0);
 	while (i < cmd->arg_nbr)
 	{
 		if (cmd->arg[i][0] == '>')
 		{
-			std = dup(1);
 			if ((i = ft_file_redirect(cmd)) < 1)
 				return (i);
-			ft_printf("%s\n", str);
-			free (str);
-			close(i);
-			dup2(std, 1);
-			close(std);
-			return (1);
+			if (!(std = ft_open_close(1, i, std)))
+				return (0);
+			break;
 		}
 		i++;
 	}
 	ft_printf("%s\n", str);
-	free (str);
+	free(str);
+	if (std)
+		return (ft_open_close(2, i, std));
 	return (1);
 }

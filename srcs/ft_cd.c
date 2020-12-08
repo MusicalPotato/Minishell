@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:25:46 by igor              #+#    #+#             */
-/*   Updated: 2020/11/24 11:26:50 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/08 10:06:34 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ int	ft_cd(t_cmd *cmd)
 	{
 		if (cmd->arg[i][0] == '>')
 		{
-			if (!(ft_file_redirect(cmd, NULL)))
+			if (!(i = ft_file_redirect(cmd)))
 				return (0);
+			close (i);
 			break ;
 		}
 		i++;
 	}
-	if (!cmd->arg_nbr)
+	if (cmd->arg_nbr > 1 && cmd->arg[0][0] != '>' && cmd->arg[1][0] != '>')
+		return (exit_write("cd: too many arguments\n", 0, -1));
+	if (!cmd->arg_nbr || cmd->arg[0][0] == '>')
 	{
 //		chdir(home);
 	}

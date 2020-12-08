@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/12/07 16:48:54 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/08 08:53:06 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int		ft_cd(t_cmd *cmd);
 int		ft_exec(t_cmd *cmd, char **envp);
 int     ft_file_create(t_cmd *cmd);
 int     ft_file_redirect(t_cmd *cmd);
+int	    ft_open_close(int i, int fd, int std);
+
 
 char	*ft_getenv(char *name, char **envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);

@@ -6,11 +6,31 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2020/12/07 16:51:32 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/08 09:01:21 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_open_close(int i, int fd, int std)
+{
+	if (i == 1)
+	{
+		std = dup(1);
+		if (dup2(fd, 1) < 0)
+			return (exit_write("fd redirection failed\n", 0, 0));
+		else
+			return (std);
+	}
+	if (i == 2)
+	{
+		close(fd);
+		if (dup2(std, 1) < 0)
+			return (exit_write("fd redirection failed\n", 0, 0));
+		close(std);
+	}
+	return (1);
+}
 
 int	ft_redir_check(t_cmd *cmd)
 {
@@ -96,7 +116,5 @@ int     ft_file_redirect(t_cmd *cmd)
 		return (exit_write("syntax error near unexpected token `newline'\n", 0, -1));
 	if (!(fd = ft_redir_check(cmd)))
 		return (0);
-	if (dup2(fd, 1) < 0)
-		return (exit_write("fd redirection failed\n", 0, -1));
 	return (fd);
 }

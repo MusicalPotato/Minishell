@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 11:19:37 by igor              #+#    #+#             */
-/*   Updated: 2020/11/28 06:27:29 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/07 17:27:42 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int     ft_exit(t_cmd *cmd)
 	{
 		if (cmd->arg[i][0] == '>')
         {
-			if ((j = ft_file_redirect(cmd, NULL)) < 1)
+			if ((j = ft_file_redirect(cmd)) < 1)
                 return (j);
             break ;
         }
