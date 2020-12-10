@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/20 03:08:07 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/09 18:30:32 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		ft_loop(t_data **data, char **envp)
 			return (r);
 		tempo = tempo->next;
 	}
-//	ft_print_parse(*data);
+	// ft_print_parse(*data);
 	return (1);
 }
 

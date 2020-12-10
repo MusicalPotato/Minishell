@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2020/12/08 12:54:51 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/11 00:16:20 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,43 +66,37 @@ int     ft_file_create(t_cmd *cmd)
 	int i;
 
 	i = 1;
-
-	if (cmd->name[1] == '<' || (cmd->name[1] == '>' && cmd->name[2] == '<'))
-		return (exit_write("syntax error near unexpected token `<'\n", 0, -1));
-	else if (cmd->name[1] && cmd->name[1] == '>')
-	{
-		if (cmd->name[2] && cmd->name[2] != '>')
-		{
-			if ((fd = open(cmd->name + 2, O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
-				return (exit_write("File creation failed\n", 0, 0));
-			if (cmd->arg_nbr)
-				return (exit_write("command not found: ", cmd->arg[0], -1));
-		}
-		else if (cmd->name[2] == '>')
-			return (exit_write("syntax error near unexpected token `>'\n", 0, -1));
-		else
-		{
-			if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
-				return (exit_write("File creation failed\n", 0, 0));
-			if (cmd->arg_nbr > 1)
-				return (exit_write("command not found: ", cmd->arg[1], -1));
-		}	
-	}
-	else if (cmd->name[1])
-	{
-		if ((fd = open(cmd->name + 1, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)) == -1)
-			return (exit_write("File creation failed\n", 0, 0));
-		if (cmd->arg_nbr)
-			return (exit_write("command not found: ", cmd->arg[0], -1));
-	}
-	else if (cmd->arg_nbr == 0)
+	if (cmd->arg_nbr == 0)
 		return (exit_write("syntax error near unexpected token `newline'\n", 0, -1));
-	else
+	if (cmd->name[1] == '>')
 	{
+		if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
+			return (exit_write("File creation failed\n", 0, 0));
+	}
+	else
 		if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)) == -1)
 			return (exit_write("File creation failed\n", 0, 0));
-		if (cmd->arg_nbr > 1)
-			return (exit_write("command not found: ", cmd->arg[1], -1));
+	if (cmd->arg[cmd->arg_nbr - 1][0] == '>')
+		return (exit_write("syntax error near unexpected token `newline'\n", 0, -1));
+	while (i < cmd->arg_nbr)
+	{
+		close(fd);
+		if (cmd->arg[i][0] == '>' && cmd->arg[i][1] == '>')
+		{
+			if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0666)) == -1)
+				return (exit_write("File creation failed\n", 0, 0));
+		}
+		else if (cmd->arg[i][0] == '>')
+			if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
+				return (exit_write("File creation failed\n", 0, 0));
+		i++;
+	}
+	i = 1;
+	while (i < cmd->arg_nbr)
+	{
+		if (cmd->arg[i - 1][0] != '>' && cmd->arg[i - 1][0] != '<' && cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
+			return (exit_write("command not found : ", cmd->arg[i], -1));
+		i++;
 	}
 	close(fd);
 	return (1);
