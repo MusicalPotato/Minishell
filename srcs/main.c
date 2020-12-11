@@ -40,7 +40,7 @@ void	ft_print_parse(t_data *data)
 	}
 }
 
-int		ft_loop(t_data **data, char **envp)
+int		ft_loop(t_data **data, char ***envp)
 {
 	t_data	*tempo;
 	int		r;
@@ -75,7 +75,7 @@ int		main(int argc, char **argv, char **envp)
 	(void)argv;
 	while (1)
 	{
-		if (!ft_loop(&data, envp))
+		if (!ft_loop(&data, &envp))
 		{
 			ft_lstclear_line(&data);
 			return (0);
