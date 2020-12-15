@@ -77,10 +77,10 @@ int		reading(char (*line)[BUFFER_SIZE + 1], int fd)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	rest[OPEN_MAX + 1][BUFFER_SIZE + 1];
+	static char	rest[FOPEN_MAX + 1][BUFFER_SIZE + 1];
 	int			r;
 
-	if (!line || fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
+	if (!line || fd > FOPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(*line = malloc(sizeof(char))))
 		return (-1);

@@ -32,6 +32,35 @@ int		ft_check_args(t_cmd *cmd, int i)
 	return (1);
 }
 */
+int		ft_cmd_path_cmp(t_cmd *cmd, char **envp)
+{
+	char	*paths;
+	int	i;
+	int	envp_size;
+	int	cmd_size;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!(paths = malloc(1)))
+			return (0);
+		paths[0] = '\0';
+		envp_size = ft_strlen(envp[i]);
+		cmd_size = ft_strlen(cmd->name);
+		paths = ft_memcat(paths, envp[i], 0, envp_size);
+		paths = ft_memcat(paths, "/", envp_size, 1);
+		paths = ft_memcat(paths, cmd->name, envp_size + 1, cmd_size);
+		if (execve(paths, cmd->arg, envp))
+		{
+			free(paths);
+			return (1);
+		}
+		i++;
+		free(paths);
+	}
+	return (-1);
+}
+
 int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 {
 //	if (!ft_strncmp(cmd->name, "echo", 5))
@@ -52,6 +81,9 @@ int		ft_cmd_cmp(t_cmd *cmd, char **envp)
 		return (ft_exec(cmd, envp));
 	else if (cmd->name[0] == '>')
 		return (ft_file_create(cmd));
+	else if (ft_cmd_path_cmp(cmd, envp))
+		return (1);
 	else
 		return (exit_write("command not found: ", cmd->name, -1));
 }
+

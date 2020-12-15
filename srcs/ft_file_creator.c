@@ -63,9 +63,6 @@ int	ft_redir_check(t_cmd *cmd)
 int     ft_file_create(t_cmd *cmd)
 {
 	int fd;
-	int i;
-
-	i = 1;
 
 	if (cmd->name[1] == '<' || (cmd->name[1] == '>' && cmd->name[2] == '<'))
 		return (exit_write("syntax error near unexpected token `<'\n", 0, -1));
