@@ -37,7 +37,7 @@ int	var_to_value(char **str, int count, int s_var, char *val)
 		newstr[a] = (*str)[a - s_val + s_var + 1];
 		a++;
 	}
-	newstr[a] = '\0';
+	newstr[a] = 0;
 	free(*str);
 	*str = newstr;
 	return (1);

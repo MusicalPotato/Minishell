@@ -48,6 +48,9 @@ int		ft_exec(t_cmd *cmd, char **envp);
 int     ft_file_create(t_cmd *cmd);
 int     ft_file_redirect(t_cmd *cmd);
 int	    ft_open_close(int i, int fd, int std);
+int 	ft_env(t_cmd *cmd, char **envp);
+int     ft_unset(t_cmd *cmd, char ***envp);
+int     ft_export(t_cmd *cmd, char ***envp);
 
 char	*ft_envformat(char *name, char *value);
 int		ft_lentoequal(char *str);
@@ -55,7 +58,8 @@ int		ft_lentoequal(char *str);
 char	*ft_getenv(char *name, char **envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 int		ft_putenv(char *string, char ***envp);
-int     ft_unset(char *name, char ***envp);
+int     ft_delenv(char *name, char ***envp);
+
 
 int     ft_exit(t_cmd *cmd);
 
