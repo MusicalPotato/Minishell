@@ -20,8 +20,8 @@ int		ft_unsetenv(char *name, char ***envp)
         		(*envp)[i] = (*envp)[i + 1];
                 i++;
             }
-            printf("free : %s\n", temp);
-            free(temp);
+            if (!is_in_stack(temp))
+                free(temp);
         }
         else
 		    index++;

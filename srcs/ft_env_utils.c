@@ -1,15 +1,12 @@
 #include "../libft/libft.h"
 
-int		ft_lentoequal(char *str)
+int		is_in_stack(void *addr)
 {
-	int size;
+	int		a;
+    void	*stack;
 
-	size = 0;
-	if (!str)
-		return (0);
-	while (str[size] && str[size] != '=')
-		size++;
-	return (size);
+	stack = &a;
+    return (stack < addr);
 }
 
 char	*ft_envformat(char *name, char *value)
@@ -35,4 +32,26 @@ char	*ft_envformat(char *name, char *value)
 	}
     string[i] = 0;
 	return (string);
+}
+
+void	ft_envpclear(char ***envp)
+{
+	int	i;
+
+	i = 0;
+	while ((*envp)[i])
+	{
+		if (!is_in_stack((*envp)[i]))
+		{
+			free((*envp)[i]);
+			(*envp)[i] = NULL;
+		}
+		i++;
+	}
+	if (!is_in_stack((*envp)))
+	{
+		free((*envp));
+		(*envp) = NULL;
+	}
+	return ;
 }

@@ -53,7 +53,8 @@ int     ft_unset(t_cmd *cmd, char ***envp);
 int     ft_export(t_cmd *cmd, char ***envp);
 
 char	*ft_envformat(char *name, char *value);
-int		ft_lentoequal(char *str);
+int		is_in_stack(void *addr);
+void	ft_envpclear(char ***envp);
 
 char	*ft_getenv(char *name, char **envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);

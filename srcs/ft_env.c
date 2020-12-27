@@ -10,18 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../includes/minishell.h"
-
-int is_in_stack(void *addr)
-{
-	int		a;
-    void	*stack;
-
-	stack = &a;
-	printf("%p < %p ?\n", stack, addr);
-    return (stack < addr);
-}
 
 int		ft_env(t_cmd *cmd, char **envp)
 {
@@ -35,7 +24,6 @@ int		ft_env(t_cmd *cmd, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		printf ("adress %p is in stack ? %d\n", envp[i], is_in_stack(envp[i]));
 		ft_printf("%s\n", envp[i]);
 		i++;
 	}
@@ -48,12 +36,10 @@ char	*ft_getenv(char *name, char **envp)
 	int len;
 
 	index = 0;
+	len = ft_strlen(name);
 	while (envp[index])
 	{
-		len = ft_lentoequal(name);
-		if (len < ft_lentoequal(envp[index]))
-			len = ft_lentoequal(envp[index]);
-		if (!ft_strncmp(envp[index], name, len))
+        if (!ft_strncmp(envp[index], name, len) && envp[index][len] == '=')
 			return ((envp[index]) + len + 1);
 		index++;
 	}
@@ -67,13 +53,16 @@ int		ft_putenv(char *string, char ***envp)
 	char	**new_envp;
 	
 	index = 0;
+	
+	len = 0;
+	while (string[len] != '=')
+		len++;
 	while ((*envp)[index])
 	{
-		len = ft_lentoequal(string);
-		if (len < ft_lentoequal((*envp)[index]))
-			len = ft_lentoequal((*envp)[index]);
-		if (!ft_strncmp((*envp)[index], string, len))
+        if (!ft_strncmp((*envp)[index], string, len + 1))
 		{
+			if (!is_in_stack((*envp)[index]))
+				free((*envp)[index]);
 			if (!((*envp)[index] = ft_strdup(string)))
 				return (0);
 			return (1);
@@ -83,25 +72,15 @@ int		ft_putenv(char *string, char ***envp)
 	if (!(new_envp = malloc(sizeof(char *) * (index + 2))))
 		return (0);
 	if (!(new_envp[index] = ft_strdup(string)))
+	{
+		free(new_envp);
 		return (0);
+	}
 	new_envp[index + 1] = 0;
 	while (index--)
 		new_envp[index] = (*envp)[index];
+	if (!is_in_stack(*envp))
+		free(*envp);
 	*envp = new_envp;
-	return (1);
-}
-
-int		ft_setenv(char *name, char *value, int replace, char ***envp)
-{
-	char	*old_val;
-	char	*string;
-	
-	old_val = ft_getenv(name, *envp);
-	if (!replace && old_val)
-		return (1);
-	if (!(string = ft_envformat(name, value)))
-		return (0);
-	if (!(ft_putenv(string, envp)))
-		return (ft_freeturn(&string, 0));
 	return (1);
 }
