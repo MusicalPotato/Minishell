@@ -15,6 +15,8 @@ char	*ft_envformat(char *name, char *value)
 	int		len;
 	int		i;
 
+	if (!value)
+		return (0);
 	len = ft_strlen(name);
 	if (!(string = malloc(sizeof(char) * (len + ft_strlen(value) + 2))))
 		return (NULL);

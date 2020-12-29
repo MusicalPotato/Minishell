@@ -43,7 +43,7 @@ int		exit_write(char *msg, char *bonus, int value);
 int		free_all(char ***data, int ret);
 
 int     ft_pwd(t_cmd *cmd);
-int		ft_cd(t_cmd *cmd);
+int		ft_cd(t_cmd *cmd, char **envp);
 int		ft_exec(t_cmd *cmd, char **envp);
 int     ft_file_create(t_cmd *cmd);
 int     ft_file_redirect(t_cmd *cmd);

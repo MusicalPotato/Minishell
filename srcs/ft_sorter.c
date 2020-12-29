@@ -37,7 +37,7 @@ int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 //	if (!ft_strncmp(cmd->name, "echo", 5))
 //		ft_echo(cmd);
 	if (!ft_strncmp(cmd->name, "cd", 3))
-		return (ft_cd(cmd));
+		return (ft_cd(cmd, *envp));
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		return (ft_pwd(cmd));
 	else if (!ft_strncmp(cmd->name, "exit", 5))

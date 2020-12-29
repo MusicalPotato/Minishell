@@ -18,6 +18,8 @@ int	var_to_value(char **str, int count, int s_var, char *val)
 	int s_val;
 	int a;
 
+	if (!val)
+		return (0);
 	s_val = ft_strlen(val);
 	if (!(newstr = malloc(sizeof(char) * (ft_strlen(*str) - s_var + s_val))))
 		return (exit_write("malloc Error\n", 0, 0));
@@ -61,13 +63,19 @@ int	ft_parse_env(t_data *d, char ***envp)
 		if (!quote && d->line[count] == '$')
 		{
 			count++;
-			while (ft_isalnum(d->line[count + s_v]) || d->line[count + s_v] == '_')
+			if (d->line[count + s_v] != '?')
+				while (ft_isalnum(d->line[count + s_v]) || d->line[count + s_v] == '_')
+					s_v++;
+			else
 				s_v++;
 			if (!(var = ft_memcat(var, d->line + count, 0, s_v)))
 				return (exit_write("malloc Error\n", 0, 0));
-			if (var && var[0])
+			if (var[0])
 			{
-				value = ft_getenv(var, *envp);
+				if (var[0] == '?')
+					value = ft_itoa(errno);
+				else
+					value = ft_getenv(var, *envp);
 				if (!(var_to_value(&d->line, count, s_v, value)))
 					return (ft_freeturn(&var, 0));
 			}
