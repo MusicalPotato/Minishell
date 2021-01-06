@@ -42,15 +42,16 @@ char	*ft_strndup(const char *s1, int size);
 int		exit_write(char *msg, char *bonus, int value);
 int		free_all(char ***data, int ret);
 
-int     ft_pwd(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd, char **envp);
+int     ft_echo(t_cmd *cmd);
+int 	ft_env(t_cmd *cmd, char **envp);
 int		ft_exec(t_cmd *cmd, char **envp);
+int     ft_export(t_cmd *cmd, char ***envp);
 int     ft_file_create(t_cmd *cmd);
 int     ft_file_redirect(t_cmd *cmd);
 int	    ft_open_close(int i, int fd, int std);
-int 	ft_env(t_cmd *cmd, char **envp);
+int     ft_pwd(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd, char ***envp);
-int     ft_export(t_cmd *cmd, char ***envp);
 
 char	*ft_envformat(char *name, char *value);
 int		is_in_stack(void *addr);

@@ -60,7 +60,7 @@ int	ft_parse_env(t_data *d, char ***envp)
 		s_v = 0;
 		var = NULL;
 		quote = ft_istext(quote, d->line[count]);
-		if (!quote && d->line[count] == '$')
+		if (quote != 1 && d->line[count] == '$')
 		{
 			count++;
 			if (d->line[count + s_v] != '?')

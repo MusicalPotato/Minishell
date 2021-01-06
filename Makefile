@@ -17,6 +17,7 @@ LIBFT		=	libft/libft.a
 
 SRCS_NAME	=	main.c	\
 				ft_cd.c \
+				ft_echo.c \
 				ft_env.c \
 				ft_env_utils.c \
 				ft_exec.c \

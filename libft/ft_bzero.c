@@ -14,9 +14,6 @@
 
 void	ft_bzero(void *s, size_t n)
 {
-	while (n > 0)
-	{
+	while (n-- > 0)
 		((char *)s)[n] = 0;
-		n--;
-	}
 }
