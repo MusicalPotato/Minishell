@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/12/09 18:30:32 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/11 14:58:40 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		ft_loop(t_data **data, char ***envp)
 	tempo = *data;
 	while (tempo)
 	{
+		errno = 0;
 		ft_parse_env(tempo, envp);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);

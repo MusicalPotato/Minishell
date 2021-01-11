@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2020/12/08 12:56:20 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/11 16:50:56 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ int		ft_exec(t_cmd *cmd, char **envp)
 	argv_ms[0] = ft_strdup(cmd->name);
 	if ((j = ft_file_redirect(cmd)) == 0 || j == -1)
 		return (j);
-	if (j > 0)
-		if (!(std = ft_open_close(1, j, std)))
-			return (0);
 	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>')
 	{
 		argv_ms[i] = ft_strdup(cmd->arg[i - 1]);
@@ -36,20 +33,17 @@ int		ft_exec(t_cmd *cmd, char **envp)
 	}
 	argv_ms[i] = NULL;
 	if (fork() == -1)
-	{
-		if (std)
-			ft_open_close(2, i, std);
 		return (free_all(&argv_ms, 0));
-	}
 	if (wait(&status) < 0)
+	{
+		if (j > 0)
+			if (!(std = ft_open_close(1, j, std)))
+				return (0);
 		if (execve(cmd->name, argv_ms, envp) < 0)
 		{
 			ft_printf("no such file or directory: %s\n", cmd->name);
-			if (std)
-				ft_open_close(2, i, std);
 			return (free_all(&argv_ms, 0));
 		}
-	if (std)
-		ft_open_close(2, i, std);
+	}
 	return (free_all(&argv_ms, 1));
 }
