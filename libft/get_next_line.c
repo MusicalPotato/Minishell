@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:13:16 by gorban            #+#    #+#             */
-/*   Updated: 2020/10/29 15:37:18 by ijacquet         ###   ########.fr       */
+/*   Updated: 2021/01/11 18:17:19 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int		reading(char (*line)[BUFFER_SIZE + 1], int fd)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	rest[FOPEN_MAX + 1][BUFFER_SIZE + 1];
+	static char	rest[OPEN_MAX + 1][BUFFER_SIZE + 1];
 	int			r;
 
-	if (!line || fd > FOPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
+	if (!line || fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(*line = malloc(sizeof(char))))
 		return (-1);
