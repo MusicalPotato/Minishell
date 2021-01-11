@@ -100,7 +100,7 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 			count++;
 			if (line[count] != '\n')
 				if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
-					return (exit_write("malloc Error\n", 0, 0));
+					return (exit_write("malloc Error\n", 0, -1));
 			count++;
 		}
 		else if ((line[count] == '"' && quote != 1) || (line[count] == '\'' && quote != 2))
@@ -114,28 +114,28 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 			if (count)
 				return (count);
 			if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
-				return (exit_write("malloc Error\n", 0, 0));
+				return (exit_write("malloc Error\n", 0, -1));
 			count++;
 			if (line[count - 1] == '<' && line[count] == '<')
-				return (exit_write("syntax error near unexpected token ", "'<'", -1));
+				return (exit_write("syntax error near unexpected token ", "'<'", -2));
 			if (line[count - 1] == '>' && line[count] == '<')
-				return (exit_write("syntax error near unexpected token ", "'<'", -1));
+				return (exit_write("syntax error near unexpected token ", "'<'", -2));
 			if (line[count - 1] == '>' && line[count] == '>')
 			{
 				if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
-					return (exit_write("malloc Error\n", 0, 0));
+					return (exit_write("malloc Error\n", 0, -1));
 				count++;
 				if (line[count] == '<')
-					return (exit_write("syntax error near unexpected token ", "'<'", -1));
+					return (exit_write("syntax error near unexpected token ", "'<'", -2));
 				if (line[count] == '>')
-					return (exit_write("syntax error near unexpected token ", "'>'", -1));
+					return (exit_write("syntax error near unexpected token ", "'>'", -2));
 			}
 			return (count);
 		}
 		else
 		{
 			if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
-				return (exit_write("malloc Error\n", 0, 0));
+				return (exit_write("malloc Error\n", 0, -1));
 			count++;
 		}
 	}
@@ -174,10 +174,10 @@ int		ft_parse_info(t_data *d)
 		*cmd = 0;
 		if ((count = ft_pipe_check(d, count, x)) < 0)
 			return (ft_freeturn(&cmd, -1));
-		if ((count = ft_cmd_recup(d->line, count, &cmd)) <= 0)
-			return (count);
+		if ((count = ft_cmd_recup(d->line, count, &cmd)) < 0)
+			return (count+1);
 		if (count == 0)
-			return (1);
+			return (-1);
 		if (!(ft_lstadd_back_cmd(&(d->cmd),
 			ft_lstnew_cmd(ft_strdup(cmd)))))
 			return (ft_freeturn(&cmd, 0));

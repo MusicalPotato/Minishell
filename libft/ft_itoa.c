@@ -39,12 +39,12 @@ char		*ft_itoa(int n)
 		tab[0] = '-';
 		nb = nb * -1;
 	}
-	tab[--size] = '\0';
+	tab[size--] = '\0';
 	while (nb > 9)
 	{
-		tab[--size] = (nb % 10) + '0';
+		tab[size--] = (nb % 10) + '0';
 		nb = nb / 10;
 	}
-	tab[size - 1] = nb + '0';
+	tab[size] = nb + '0';
 	return (tab);
 }

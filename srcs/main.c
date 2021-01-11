@@ -78,6 +78,7 @@ int		main(int argc, char **argv, char **envp)
 		if (!ft_loop(&data, &envp))
 		{
 			ft_lstclear_line(&data);
+			ft_envpclear(&envp);
 			return (0);
 		}
 		ft_lstclear_line(&data);

@@ -10,8 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../includes/minishell.h"
+
+int		ft_env(t_cmd *cmd, char **envp)
+{
+	int i;
+
+	if (cmd->arg_nbr > 0)
+	{
+		ft_printf("too many arguments\n");
+		return (-1);
+	}
+	i = 0;
+	while (envp[i])
+	{
+		ft_printf("%s\n", envp[i]);
+		i++;
+	}
+	return (1);
+}
 
 char	*ft_getenv(char *name, char **envp)
 {
@@ -19,12 +36,10 @@ char	*ft_getenv(char *name, char **envp)
 	int len;
 
 	index = 0;
+	len = ft_strlen(name);
 	while (envp[index])
 	{
-		len = ft_lentoequal(name);
-		if (len < ft_lentoequal(envp[index]))
-			len = ft_lentoequal(envp[index]);
-		if (!ft_strncmp(envp[index], name, len))
+        if (!ft_strncmp(envp[index], name, len) && envp[index][len] == '=')
 			return ((envp[index]) + len + 1);
 		index++;
 	}
@@ -38,78 +53,34 @@ int		ft_putenv(char *string, char ***envp)
 	char	**new_envp;
 	
 	index = 0;
+	
+	len = 0;
+	while (string[len] != '=')
+		len++;
 	while ((*envp)[index])
 	{
-		len = ft_lentoequal(string);
-		if (len < ft_lentoequal((*envp)[index]))
-			len = ft_lentoequal((*envp)[index]);
-		if (!ft_strncmp((*envp)[index], string, len))
+        if (!ft_strncmp((*envp)[index], string, len + 1))
 		{
-			free((*envp)[index]);
-			(*envp)[index] = string;
+			if (!is_in_stack((*envp)[index]))
+				free((*envp)[index]);
+			if (!((*envp)[index] = ft_strdup(string)))
+				return (0);
 			return (1);
 		}
 		index++;
 	}
 	if (!(new_envp = malloc(sizeof(char *) * (index + 2))))
 		return (0);
-	new_envp[index] = string;
+	if (!(new_envp[index] = ft_strdup(string)))
+	{
+		free(new_envp);
+		return (0);
+	}
 	new_envp[index + 1] = 0;
 	while (index--)
 		new_envp[index] = (*envp)[index];
-	*envp = new_envp;
-	return (1);
-}
-
-int		ft_setenv(char *name, char *value, int replace, char ***envp)
-{
-	char	*old_val;
-	char	*string;
-	
-	old_val = ft_getenv(name, *envp);
-	if (!replace && old_val)
-		return (1);
-	if (!(string = ft_envformat(name, value)))
-		return (0);
-	if (!(ft_putenv(string, envp)))
-		return (ft_freeturn(&string, 0));
-	return (1);
-}
-
-int		ft_unset(char *name, char ***envp)
-{
-    int		index;
-	int		s_envp;
-	int		i;
-	int 	len;
-	char	**new_envp;
-
-	index = 0;
-	while ((*envp)[index])
-	{
-		len = ft_lentoequal(name);
-		if (len < ft_lentoequal((*envp)[index]))
-			len = ft_lentoequal((*envp)[index]);
-		if (!ft_strncmp((*envp)[index], name, len))
-			break ;
-		index++;
-	}
-	s_envp = index;
-	while ((*envp)[s_envp])
-		s_envp++;
-	if (s_envp == index)
-		return (1);
-	if (!(new_envp = malloc(sizeof(char *) * (s_envp))))
-		return (0);
-	s_envp = 0;
-	i = 0;
-	while ((*envp)[s_envp])
-	{
-		if (s_envp == index)
-			s_envp++;
-		new_envp[i++] = (*envp)[s_envp++];
-	}
-	new_envp[i] = 0;
+	if (!is_in_stack(*envp))
+		free(*envp);
 	*envp = new_envp;
 	return (1);
 }

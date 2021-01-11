@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
-/*   Updated: 2021/01/11 15:05:05 by nlaurids         ###   ########.fr       */
+/*   Updated: 2021/01/11 15:49:13 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,12 @@ int		ft_cmd_path_cmp(t_cmd *cmd, char **envp)
 
 int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 {
-//	if (!ft_strncmp(cmd->name, "echo", 5))
-//		ft_echo(cmd);
+	if (!ft_strncmp(cmd->name, "echo", 5))
+		return (ft_echo(cmd));
 	if (!ft_strncmp(cmd->name, "cd", 3))
-		return (ft_cd(cmd));
+		return (ft_cd(cmd, *envp));
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		return (ft_pwd(cmd));
-//	else if (!ft_strncmp(cmd->name, "export", 7))
-//		ft_export(cmd);
-//	else if (!ft_strncmp(cmd->name, "unset", 6) && ft_check_args(cmd, 3))
-//		ft_unset(cmd);
-//	else if (!ft_strncmp(cmd->name, "env", 4) && ft_check_args(cmd, 4))
-//		ft_env(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
 		return (ft_exit(cmd));
 	else if (cmd->name[0] == '.' && cmd->name[1] == '/')
@@ -101,6 +95,12 @@ int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 		return (ft_file_create(cmd));
 	else if (ft_cmd_path_cmp(cmd, *envp))
 		return (1);
+	else if (!ft_strncmp(cmd->name, "env", 4))
+		return (ft_env(cmd, *envp));
+	else if (!ft_strncmp(cmd->name, "unset", 6))
+		return (ft_unset(cmd, envp));
+	else if (!ft_strncmp(cmd->name, "export", 7))
+		return (ft_export(cmd, envp));
 	else
 		return (exit_write("command not found: ", cmd->name, -1));
 }

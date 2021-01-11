@@ -12,13 +12,10 @@
 
 #include "../includes/minishell.h"
 
-int	ft_cd(t_cmd *cmd)
+int	ft_cd(t_cmd *cmd, char **envp)
 {
 	int i;
-//	char	*home;
-//
-//	home = variable d'env HOME
-//	if ~ dans path alors remplacer ~ par home
+
 	i = 0;
 	while (i < cmd->arg_nbr)
 	{
@@ -34,11 +31,14 @@ int	ft_cd(t_cmd *cmd)
 	if (cmd->arg_nbr > 1 && cmd->arg[0][0] != '>' && cmd->arg[1][0] != '>')
 		return (exit_write("cd: too many arguments\n", 0, -1));
 	if (!cmd->arg_nbr || cmd->arg[0][0] == '>')
-	{
-//		chdir(home);
-	}
+		i = chdir(ft_getenv("HOME", envp));
 	else
-		chdir(cmd->arg[0]);
-//	faire les erreur + msg en fct du nbr ret chdir (errno tout ca)
+		i = chdir(cmd->arg[0]);
+	if (errno == EACCES)
+		return (exit_write("cd: Permission denied: ", cmd->arg[0], -1));
+	else if (errno == ENOENT)
+		return (exit_write("cd: No such file or directory: ", cmd->arg[0], -1));
+	else if (errno)
+		return (exit_write("cd: Error", 0, -1));
 	return (1);
 }
