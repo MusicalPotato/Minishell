@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/12/04 16:07:17 by igor             ###   ########.fr       */
+/*   Updated: 2020/12/09 18:23:02 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 	cmd->arg_nbr = 0;
 	quote = 0;
 	cmd->arg = NULL;
+	while (ft_is_space(line[count]))
+		count++;
+	if ((line[0] == '>' || line[0] == '<') && line[count] == '<')
+		return (exit_write("syntax error near unexpected token ", "'<'", -1));
+	if ((line[0] == '>' || line[0] == '<') && line[count] == '>')
+		return (exit_write("syntax error near unexpected token ", "'>'", -1));
 	while (line[count] != '\n' && line[count] != '\0' && line[count] != '|')
 	{
 		while (ft_is_space(line[count]))
@@ -58,13 +64,15 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 					if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)))
 						return (exit_write("malloc Error\n", 0, 0));
 					count++;
-					if (line[count] == '<')
-						return (exit_write("syntax error near unexpected token ", "'<'", -1));
-					else if (line[count] == '>')
-						return (exit_write("syntax error near unexpected token ", "'>'", -1));
 				}
 				if (line[count] == '<')
 					return (exit_write("'<<' not supported by minishell\n", 0, -1));
+				while (ft_is_space(line[count]))
+					count++;
+				if (line[count] == '<')
+					return (exit_write("syntax error near unexpected token ", "'<'", -1));
+				else if (line[count] == '>')
+					return (exit_write("syntax error near unexpected token ", "'>'", -1));
 				if (line[count] && line[count] != ' ' && line[count] != '\n')
 					if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++)))
 						return (exit_write("malloc Error\n", 0, 0));
@@ -110,8 +118,6 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 			count++;
 			if (line[count - 1] == '<' && line[count] == '<')
 				return (exit_write("syntax error near unexpected token ", "'<'", -1));
-			if (line[count - 1] == '<' && line[count] == '>')
-				return (exit_write("syntax error near unexpected token ", "'>'", -1));
 			if (line[count - 1] == '>' && line[count] == '<')
 				return (exit_write("syntax error near unexpected token ", "'<'", -1));
 			if (line[count - 1] == '>' && line[count] == '>')
@@ -119,9 +125,9 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 				if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
 					return (exit_write("malloc Error\n", 0, 0));
 				count++;
-				if (line[count + 1] == '<')
+				if (line[count] == '<')
 					return (exit_write("syntax error near unexpected token ", "'<'", -1));
-				if (line[count + 1] == '>')
+				if (line[count] == '>')
 					return (exit_write("syntax error near unexpected token ", "'>'", -1));
 			}
 			return (count);

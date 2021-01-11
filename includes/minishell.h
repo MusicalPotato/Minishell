@@ -25,8 +25,8 @@
 
 int		ft_line_reader(t_data **data);
 int		ft_parse_info(t_data *line);
-int		ft_parse_env(t_data *data, char **envp);
-int		ft_cmd_cmp(t_cmd *cmd, char **envp);
+int		ft_parse_env(t_data *data, char ***envp);
+int		ft_cmd_cmp(t_cmd *cmd, char ***envp);
 
 t_data	*ft_lstnew_line(char *content);
 int		ft_lstadd_back_line(t_data **alst, t_data *new);
@@ -49,10 +49,13 @@ int     ft_file_create(t_cmd *cmd);
 int     ft_file_redirect(t_cmd *cmd);
 int	    ft_open_close(int i, int fd, int std);
 
+char	*ft_envformat(char *name, char *value);
+int		ft_lentoequal(char *str);
 
 char	*ft_getenv(char *name, char **envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 int		ft_putenv(char *string, char ***envp);
+int     ft_unset(char *name, char ***envp);
 
 int     ft_exit(t_cmd *cmd);
 
