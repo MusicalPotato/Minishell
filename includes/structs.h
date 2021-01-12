@@ -6,12 +6,20 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:05:29 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/12/07 18:37:20 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/12 14:33:08 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct	s_rdir
+{
+	int	fd;
+	int	sdin;
+	int	sdout;
+}				t_rdir;
+
 
 typedef struct	s_commande
 {

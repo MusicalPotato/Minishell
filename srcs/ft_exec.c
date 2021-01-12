@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/01/11 16:50:56 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/11 18:23:09 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		if (j > 0)
 			if (!(std = ft_open_close(1, j, std)))
 				return (0);
-		if (execve(cmd->name, argv_ms, envp) < 0)
+		if (execve(cmd->name, argv_ms, envp) == -1)
 		{
 			ft_printf("no such file or directory: %s\n", cmd->name);
 			return (free_all(&argv_ms, 0));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sorter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
-/*   Updated: 2020/12/08 09:57:54 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/11 18:15:18 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,49 @@ int		ft_check_args(t_cmd *cmd, int i)
 	return (1);
 }
 */
+int		ft_cmd_path_cmp(t_cmd *cmd, char **envp)
+{
+	int		i;
+	char	**pathlist;
+	char	**argvlist;
+	int		status;
+
+	i = 1;
+	argvlist = malloc(sizeof(char*) * (cmd->arg_nbr + 2));
+	argvlist[0] = ft_strdup(cmd->name);
+	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>')
+	{
+		argvlist[i] = ft_strdup(cmd->arg[i - 1]);
+		i++;
+	}
+	argvlist[i] = NULL;
+	i = 0;
+	pathlist = ft_split(ft_getenv("PATH", envp), ':');
+	while (pathlist[i])
+	{
+		if (!(pathlist[i] = ft_memcat(pathlist[i], "/", ft_strlen(pathlist[i]), 1))
+				|| !(pathlist[i] = ft_memcat(pathlist[i], cmd->name, ft_strlen(pathlist[i]), ft_strlen(cmd->name))))
+			return (free_all(&argvlist, free_all(&pathlist, 0)));
+		i++;
+	}
+	i = 0;
+	if (fork() == -1)
+		return (free_all(&argvlist, free_all(&pathlist, 0)));
+	if (wait(&status) < 0)
+	{
+		while (pathlist[i])
+		{
+			execve(pathlist[i], argvlist, envp);
+			if (errno != ENOENT)
+				return (0);
+			i++;
+		}
+		ft_printf("%s: command not found\n", cmd->name);
+		return (0);
+	}
+	return (free_all(&argvlist, free_all(&pathlist, 1)));
+}
+
 int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 {
 	if (!ft_strncmp(cmd->name, "echo", 5))
@@ -53,5 +96,6 @@ int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 	else if (!ft_strncmp(cmd->name, "export", 7))
 		return (ft_export(cmd, envp));
 	else
-		return (exit_write("command not found: ", cmd->name, -1));
+		return (ft_cmd_path_cmp(cmd, *envp));
 }
+
