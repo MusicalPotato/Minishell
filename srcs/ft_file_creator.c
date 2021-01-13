@@ -6,30 +6,41 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/01/07 15:33:09 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/13 15:29:08 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_open_close(int i, int fd, int std)
+t_rdir	ft_open_all(t_rdir rdir)
 {
-	if (i == 1)
+	if (rdir.fdin > 0)
 	{
-		std = dup(1);
-		if (dup2(fd, 1) < 0)
-			return (exit_write("fd redirection failed\n", 0, 0));
-		else
-			return (std);
+		rdir.sdin = dup(1);
+		dup2(rdir.fdin, 1);
 	}
-	if (i == 2)
+	if (rdir.fdout > 0)
 	{
-		close(fd);
-		if (dup2(std, 1) < 0)
-			return (exit_write("fd redirection failed\n", 0, 0));
-		close(std);
+		rdir.sdout = dup(0);
+		dup2(rdir.fdout, 0);
 	}
-	return (1);
+	return (rdir);
+}
+
+void	ft_close_all(t_rdir rdir)
+{
+	if (rdir.fdin > 0)
+	{
+		close(rdir.fdin);
+		dup2(rdir.sdin, 1);
+		close(rdir.sdin);
+	}
+	if (rdir.fdout > 0)
+	{
+		close(rdir.fdout);
+		dup2(rdir.sdout, 0);
+		close(rdir.sdout);
+	}
 }
 
 int	ft_redir_check(t_cmd *cmd)
@@ -57,6 +68,27 @@ int	ft_redir_check(t_cmd *cmd)
 		}
 		i++;
 	}
+	return (fd);
+}
+
+int		ft_file_recup(t_cmd *cmd)
+{
+	int fd;
+	int i;
+
+	i = -1;
+	fd = -2;
+	while (++i < cmd->arg_nbr)
+		if (cmd->arg[i][0] == '<')
+		{
+			if (fd > 0)
+				close(fd);
+			if ((fd = open(cmd->arg[i + 1], O_RDONLY)) == -1)
+			{
+				write(2, cmd->arg[i + 1], ft_strlen(cmd->arg[i + 1]));
+				return (exit_write(" : No such file or directory\n", 0, -1));
+			}
+		}
 	return (fd);
 }
 
@@ -98,14 +130,17 @@ int     ft_file_create(t_cmd *cmd)
 	return (1);
 }
 
-int     ft_file_redirect(t_cmd *cmd)
+t_rdir     ft_file_redirect(t_cmd *cmd, t_rdir rdir)
 {
-	int fd;
-
 	if (cmd->arg_nbr == 0)
-		return (-2);
-	if (cmd->arg[cmd->arg_nbr - 1][0] == '>')
-		return (exit_write("syntax error near unexpected token `newline'\n", 0, -1));
-	fd = ft_redir_check(cmd);
-	return (fd);
+		return (rdir);
+	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' || cmd->arg[cmd->arg_nbr - 1][0] == '<')
+	{
+		rdir.fdin = -1;
+		write(2, "syntax error near unexpected token `newline'\n", 45);
+		return (rdir);
+	}
+	rdir.fdin = ft_redir_check(cmd);
+	rdir.fdout = ft_file_recup(cmd);
+	return (ft_open_all(rdir));
 }

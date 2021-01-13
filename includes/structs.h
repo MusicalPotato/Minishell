@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:05:29 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/12 14:33:08 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/12 21:57:41 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 typedef struct	s_rdir
 {
-	int	fd;
+	int	fdin;
+	int	fdout;
 	int	sdin;
 	int	sdout;
 }				t_rdir;

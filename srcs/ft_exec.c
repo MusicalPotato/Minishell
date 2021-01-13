@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/01/11 18:23:09 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/12 16:29:36 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,10 @@ int		ft_exec(t_cmd *cmd, char **envp)
 	char	**argv_ms;
 	int		status;
 	int		i;
-	int		j;
-	int		std;
 
-	std = 0;
 	i = 1;
 	argv_ms = malloc(sizeof(char*) * (cmd->arg_nbr + 2));
 	argv_ms[0] = ft_strdup(cmd->name);
-	if ((j = ft_file_redirect(cmd)) == 0 || j == -1)
-		return (j);
 	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>')
 	{
 		argv_ms[i] = ft_strdup(cmd->arg[i - 1]);
@@ -36,9 +31,6 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		return (free_all(&argv_ms, 0));
 	if (wait(&status) < 0)
 	{
-		if (j > 0)
-			if (!(std = ft_open_close(1, j, std)))
-				return (0);
 		if (execve(cmd->name, argv_ms, envp) == -1)
 		{
 			ft_printf("no such file or directory: %s\n", cmd->name);

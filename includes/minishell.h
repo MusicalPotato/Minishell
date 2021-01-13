@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/11 18:18:38 by nlaurids         ###   ########.fr       */
+/*   Updated: 2021/01/12 22:27:00 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,20 @@ int 	ft_env(t_cmd *cmd, char **envp);
 int		ft_exec(t_cmd *cmd, char **envp);
 int     ft_export(t_cmd *cmd, char ***envp);
 int     ft_file_create(t_cmd *cmd);
-int     ft_file_redirect(t_cmd *cmd);
-int	    ft_open_close(int i, int fd, int std);
+t_rdir	ft_file_redirect(t_cmd *cmd, t_rdir rdir);
+t_rdir	ft_open_all(t_rdir rdir);
+void	ft_close_all(t_rdir rdir);
 int     ft_pwd(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd, char ***envp);
 
 char	*ft_envformat(char *name, char *value);
-int		is_in_stack(void *addr);
 void	ft_envpclear(char ***envp);
+int		is_in_stack(void *addr);
 
-char	*ft_getenv(char *name, char **envp);
-int		ft_setenv(char *name, char *value, int replace, char ***envp);
-int		ft_putenv(char *string, char ***envp);
 int     ft_delenv(char *name, char ***envp);
+char	*ft_getenv(char *name, char **envp);
+int		ft_putenv(char *string, char ***envp);
+int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 
 int     ft_exit(t_cmd *cmd);
