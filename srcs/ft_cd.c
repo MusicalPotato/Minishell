@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:25:46 by igor              #+#    #+#             */
-/*   Updated: 2021/01/12 16:12:03 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/27 08:16:20 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int	ft_cd(t_cmd *cmd, char **envp)
 	else if (errno == ENOENT)
 		return (exit_write("cd: No such file or directory: ", cmd->arg[0], -1));
 	else if (errno)
-		return (exit_write("cd: Error", 0, -1));
+		return (exit_write("cd: Error\n", 0, -1));
 	return (1);
 }

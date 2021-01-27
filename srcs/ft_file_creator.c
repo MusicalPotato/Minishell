@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/01/13 15:29:08 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/26 17:10:06 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,20 @@ int	ft_redir_check(t_cmd *cmd)
 	fd = -2;
 	while (i < cmd->arg_nbr)
 	{
-		if (cmd->arg[i][0] == '>' && cmd->arg[i][1] == '>')
+		if (cmd->arg[i][0] == '>')
 		{
 			if (fd > 0)
 				close(fd);
-			if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0666)) == -1)
-				return (exit_write("File creation failed\n", 0, -1));
-		}
-		else if (cmd->arg[i][0] == '>')
-		{
-			if (fd > 0)
-				close(fd);
-			if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
-				return (exit_write("File creation failed\n", 0, -1));
+			if (cmd->arg[i][1] == '>')
+			{
+				if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT
+													 | O_APPEND, 0666)) == -1)
+					return (exit_write("File creation failed\n", 0, -1));
+			}
+			else
+				if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT
+													 | O_TRUNC, 0666)) == -1)
+					return (exit_write("File creation failed\n", 0, -1));
 		}
 		i++;
 	}

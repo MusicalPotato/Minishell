@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:18:23 by igor              #+#    #+#             */
-/*   Updated: 2021/01/11 04:18:25 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/25 10:07:59 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int ft_check_format(char *arg)
     i++;
     while (arg[i])
     {
-        if (!ft_isprint(arg[i]) || ft_is_space(arg[i]) || arg[i] == '&' || arg[i] == '=')
-            return (0);
+		if (!ft_isprint(arg[i]) || ft_is_space(arg[i]) || 
+							arg[i] == '&' || arg[i] == '=')
+			return (0);
         i++;
     }
     return (1);
