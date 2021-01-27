@@ -29,6 +29,7 @@ SRCS_NAME	=	main.c	\
 				ft_parse_info.c \
 				ft_parse_env.c \
 				ft_pwd.c \
+				ft_rdir_pipe.c \
 				ft_reading.c \
 				ft_sorter.c \
 				ft_unset.c \

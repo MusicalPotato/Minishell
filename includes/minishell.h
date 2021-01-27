@@ -54,6 +54,8 @@ void	ft_close_all(t_rdir rdir);
 int     ft_pwd(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd, char ***envp);
 
+int		ft_rdir_pipe(t_cmd *cmd, t_rdir *rdir, char ***envp);
+
 char	*ft_envformat(char *name, char *value);
 void	ft_envpclear(char ***envp);
 int		is_in_stack(void *addr);
