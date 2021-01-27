@@ -89,15 +89,17 @@ t_rdir	ft_rdir_init()
 int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 {
 	t_rdir	rdir;
+
 	int		ret;
 
 	rdir = ft_rdir_init();
 	rdir = ft_file_redirect(cmd, rdir);
+	// appelez ft_rdir_pipe
 	if (rdir.fdin == 0 || rdir.fdin == -1 || rdir.fdout == 0 || rdir.fdout == -1)
 		return (rdir.fdin);
 	if (!ft_strncmp(cmd->name, "echo", 5))
 		ret = ft_echo(cmd);
-	if (!ft_strncmp(cmd->name, "cd", 3))
+	else if (!ft_strncmp(cmd->name, "cd", 3))
 		ret = ft_cd(cmd, *envp);
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		ret = ft_pwd(cmd);
@@ -116,5 +118,6 @@ int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 	else
 		ret = ft_cmd_path_cmp(cmd, *envp);
 	ft_close_all(rdir);
+	//retablire fd pipe
 	return (ret);
 }
