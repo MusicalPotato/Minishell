@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
+#    By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2020/11/24 11:19:27 by igor             ###   ########.fr        #
+#    Updated: 2021/01/28 13:12:52 by tkleynts         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS_NAME	=	main.c	\
 				ft_sorter.c \
 				ft_unset.c \
 				ft_utils.c \
+				ft_sig_handle.c \
 
 SRCS		=	$(addprefix srcs/, $(SRCS_NAME))
 

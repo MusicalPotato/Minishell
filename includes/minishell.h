@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/12 22:27:00 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/28 14:35:47 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*ft_getenv(char *name, char **envp);
 int		ft_putenv(char *string, char ***envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
+void	handler(int signum);
 
 int     ft_exit(t_cmd *cmd);
 
