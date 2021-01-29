@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:42 by igor              #+#    #+#             */
-/*   Updated: 2021/01/25 16:20:01 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/28 14:49:16 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 	t_rdir	rdir;
 	t_rdir	pipe_rdir;
 	int		ret;
-	//int		status;
+	int		status;
 
 	rdir = ft_rdir_init();
 	pipe_rdir = ft_rdir_init();
@@ -101,6 +101,6 @@ int		ft_cmd_cmp(t_cmd *cmd, char ***envp)
 		ret = ft_cmd_path_cmp(cmd, *envp);
 	ft_close_all(rdir);
 	ft_close_all(pipe_rdir);
-	//wait(&status);
+	wait(&status);
 	return (ret);
 }

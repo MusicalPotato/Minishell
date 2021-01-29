@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/01/26 17:10:06 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/29 12:50:37 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		ft_file_recup(t_cmd *cmd)
 	i = -1;
 	fd = -2;
 	while (++i < cmd->arg_nbr)
-		if (cmd->arg[i][0] == '<')
+		if (cmd->arg[i][0] == '<' && cmd->arg[i][0] != '|')
 		{
 			if (fd > 0)
 				close(fd);
@@ -111,7 +111,7 @@ int     ft_file_create(t_cmd *cmd)
 			return (exit_write("File creation failed\n", 0, -1));
 	if (cmd->arg[cmd->arg_nbr - 1][0] == '>')
 		return (exit_write("syntax error near unexpected token `newline'\n", 0, -1));
-	while (++i < cmd->arg_nbr)
+	while (++i < cmd->arg_nbr && cmd->arg[i][0] != '|')
 	{
 		close(fd);
 		if (cmd->arg[i][0] == '>' && cmd->arg[i][1] == '>')

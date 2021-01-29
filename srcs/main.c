@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/27 08:47:04 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/29 12:45:46 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ int		ft_loop(t_data **data, char ***envp)
 		ft_parse_env(tempo, envp);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
+		// appel de la fonction de redir 
+		// appel de la fonction de pipe
 		if ((r = ft_cmd_cmp(tempo->cmd, envp)) <= 0)
 			return (r);
+		// fermeture des fd		
 		tempo = tempo->next;
 	}
 	//ft_print_parse(*data);
