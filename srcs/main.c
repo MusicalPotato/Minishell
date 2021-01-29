@@ -12,34 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void	ft_print_parse(t_data *data)
-{
-	int	a;
-	int b;
-	int	c;
-
-	a = 1;
-	while (data)
-	{
-		printf("\nLine n°%d : %s\n", a, data->line);
-		b = 1;
-		while (data->cmd)
-		{
-			printf("Commande n°%d : -%s-\n", b, data->cmd->name);
-			c = 0;
-			while (c < data->cmd->arg_nbr)
-			{
-				printf("Message n°%d : -%s-\n", c + 1, data->cmd->arg[c]);
-				c++;
-			}
-			data->cmd = data->cmd->next;
-			b++;
-		}
-		data = data->next;
-		a++;
-	}
-}
-
 int		ft_loop(t_data **data, char ***envp)
 {
 	t_data	*tempo;
@@ -55,14 +27,10 @@ int		ft_loop(t_data **data, char ***envp)
 		ft_parse_env(tempo, envp);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
-		// appel de la fonction de redir 
-		// appel de la fonction de pipe
-		if ((r = ft_cmd_cmp(tempo->cmd, envp)) <= 0)
+		if ((r = ft_setup_exec(tempo->cmd, envp)) <= 0)
 			return (r);
-		// fermeture des fd		
 		tempo = tempo->next;
 	}
-	//ft_print_parse(*data);
 	return (1);
 }
 

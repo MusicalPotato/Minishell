@@ -131,7 +131,7 @@ int     ft_file_create(t_cmd *cmd)
 	return (1);
 }
 
-t_rdir     ft_file_redirect(t_cmd *cmd, t_rdir rdir)
+t_rdir     ft_file_rd(t_cmd *cmd, t_rdir rdir)
 {
 	if (cmd->arg_nbr == 0)
 		return (rdir);

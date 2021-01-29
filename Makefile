@@ -21,7 +21,6 @@ SRCS_NAME	=	main.c	\
 				ft_env.c \
 				ft_env_utils.c \
 				ft_exec.c \
-				ft_exit.c \
 				ft_export.c \
 				ft_file_creator.c \
 				ft_lstcmd_utils.c \
@@ -29,12 +28,11 @@ SRCS_NAME	=	main.c	\
 				ft_parse_info.c \
 				ft_parse_env.c \
 				ft_pwd.c \
-				ft_rdir_pipe.c \
 				ft_reading.c \
-				ft_sorter.c \
+				ft_setup_exec.c \
+				ft_sig_handle.c \
 				ft_unset.c \
 				ft_utils.c \
-				ft_sig_handle.c \
 
 SRCS		=	$(addprefix srcs/, $(SRCS_NAME))
 

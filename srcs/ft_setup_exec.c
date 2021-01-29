@@ -26,34 +26,44 @@ int	remove_after_pipe(t_cmd *cmd, int index_pipe)
 		lst[i] = cmd->arg[i];
 		i++;
 	}
-	cmd->arg = lst;
+	while (i < cmd->arg_nbr)
+	{
+		free(cmd->arg[i]);
+		i++;
+	}
 	cmd->arg_nbr = index_pipe;
+	free(cmd->arg);
+	cmd->arg = lst;
 	return (1);
 }
 
 int	remove_befor_pipe(t_cmd *cmd, int index_pipe)
 {
 	char	**lst;
-	int		size;
 	int		i;
 
 	i = 0;
-	size = 0;
-	while (index_pipe + size < cmd->arg_nbr)
-		size++;
-	lst = malloc(sizeof(char *) * (size - 1));
+	lst = malloc(sizeof(char *) * (cmd->arg_nbr - index_pipe - 1));
+	free(cmd->name);
 	cmd->name = cmd->arg[index_pipe + i + 1];
-	while (i < size - 2)
+	while (i < cmd->arg_nbr - index_pipe - 2)
 	{
 		lst[i] = cmd->arg[index_pipe + i + 2];
 		i++;
 	}
+	i = 0;
+	while (i < index_pipe + 1)
+	{
+		free(cmd->arg[i]);
+		i++;
+	}
+	free(cmd->arg);
 	cmd->arg = lst;
-	cmd->arg_nbr = size - 2;
+	cmd->arg_nbr = cmd->arg_nbr - index_pipe - 2;
 	return (1);
 }
 
-t_rdir	ft_redir_fd(t_rdir rdir, int filedes[2], int fd_def)
+t_rdir	ft_pipe_rd(t_rdir rdir, int filedes[2], int fd_def)
 {
 	if (fd_def == 1)
 	{
@@ -70,34 +80,58 @@ t_rdir	ft_redir_fd(t_rdir rdir, int filedes[2], int fd_def)
 	return (rdir);
 }
 
-int	ft_rdir_pipe(t_cmd *cmd, t_rdir *rdir, char ***envp)
+t_rdir	ft_rdir_init()
 {
+	t_rdir	rdir;
+	
+	rdir.fdin = -2;
+	rdir.fdout = -2;
+	rdir.sdin = -1;
+	rdir.sdout = -1;
+	return (rdir);
+}
+
+int	ft_setup_exec(t_cmd *cmd, char ***envp)
+{
+	int		childpid;
+	int		ret;
 	int		index_pipe;
 	int		filedes[2];
-	pid_t	childpid;
+	t_rdir	file_rd;
+	t_rdir	pipe_rd;
 
+	pipe_rd = ft_rdir_init();
 	while ((index_pipe = check_if_pipe(cmd)) > -1)
 	{
 		pipe(filedes);
-		if((childpid = fork()) == -1)
+        if((childpid = fork()) == -1)
         {
                 perror("fork");
                 exit(1);
         }
         if(childpid == 0)
-        {
+		{
             close(filedes[0]);
+			file_rd = ft_rdir_init();
+			file_rd = ft_file_rd(cmd, file_rd);
+			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 1);
 			remove_after_pipe(cmd, index_pipe);
-            *rdir = ft_redir_fd(*rdir, filedes, 1);
-			ft_cmd_cmp(cmd, envp);
+			ret = ft_sorter(cmd, envp);
+			ft_close_all(file_rd);
             exit(0);
         }
         else
         {
-            close(filedes[1]);
+			close(filedes[1]);
 			remove_befor_pipe(cmd, index_pipe);
-			*rdir = ft_redir_fd(*rdir, filedes, 0);
+			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 0);
         }
 	}
-	return (1);
+	file_rd = ft_rdir_init();
+	file_rd = ft_file_rd(cmd, file_rd);
+	ret = ft_sorter(cmd, envp);
+	waitpid(ret, &index_pipe, 0);
+	ft_close_all(file_rd);
+	ft_close_all(pipe_rd);
+	return (ret);
 }

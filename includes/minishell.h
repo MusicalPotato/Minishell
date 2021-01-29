@@ -26,7 +26,6 @@
 int		ft_line_reader(t_data **data);
 int		ft_parse_info(t_data *line);
 int		ft_parse_env(t_data *data, char ***envp);
-int		ft_cmd_cmp(t_cmd *cmd, char ***envp);
 
 t_data	*ft_lstnew_line(char *content);
 int		ft_lstadd_back_line(t_data **alst, t_data *new);
@@ -42,19 +41,22 @@ char	*ft_strndup(const char *s1, int size);
 int		exit_write(char *msg, char *bonus, int value);
 int		free_all(char ***data, int ret);
 
+int		ft_setup_exec(t_cmd *cmd, char ***envp);
+int		ft_sorter(t_cmd *cmd, char ***envp);
+int		ft_exec(t_cmd *cmd, char **envp);
+
 int		ft_cd(t_cmd *cmd, char **envp);
 int     ft_echo(t_cmd *cmd);
 int 	ft_env(t_cmd *cmd, char **envp);
-int		ft_exec(t_cmd *cmd, char **envp);
 int     ft_export(t_cmd *cmd, char ***envp);
-int     ft_file_create(t_cmd *cmd);
-t_rdir	ft_file_redirect(t_cmd *cmd, t_rdir rdir);
-t_rdir	ft_open_all(t_rdir rdir);
-void	ft_close_all(t_rdir rdir);
 int     ft_pwd(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd, char ***envp);
 
-int		ft_rdir_pipe(t_cmd *cmd, t_rdir *rdir, char ***envp);
+int     ft_file_create(t_cmd *cmd);
+t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir);
+t_rdir	ft_pipe_rd(t_rdir rdir, int filedes[2], int fd_def);
+t_rdir	ft_open_all(t_rdir rdir);
+void	ft_close_all(t_rdir rdir);
 
 char	*ft_envformat(char *name, char *value);
 void	ft_envpclear(char ***envp);
@@ -66,7 +68,5 @@ int		ft_putenv(char *string, char ***envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);
-
-int     ft_exit(t_cmd *cmd);
 
 #endif
