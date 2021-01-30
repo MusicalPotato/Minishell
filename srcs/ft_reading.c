@@ -35,11 +35,14 @@ int		ft_istext(int text, char c)
 
 int		ft_ask_next(char **line)
 {
+	int		r;
 	char	*text;
 	
 	text = NULL;
-	if (!(get_next_line(1, &text)))
+	if ((r = get_next_line(1, &text)) < 0)
 		return (exit_write("GNL Error\n", 0, 0));
+	else if (r == 0)
+		return (ft_freeturn(line, -1));
 	if (!(text = ft_memcat(text, "\n", ft_strlen(text), 1)))
 		return (exit_write("malloc Error\n", 0, 0));
 	if (!(*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text))))
@@ -118,8 +121,10 @@ int		ft_line_reader(t_data **data)
 	int 	r;
 
 	ft_printf("prompt > ");
-	if (!(get_next_line(1, &line)))
+	if ((r = get_next_line(1, &line)) < 0)
 		return (exit_write("GNL Error\n", 0, 0));
+	else if (r == 0)
+		return (exit_write("\nExit\n", 0, ft_freeturn(&line, 0)));
 	if (!(line = ft_memcat(line, "\n", ft_strlen(line), 1)))
 		return (exit_write("malloc Error\n", 0, 0));
 	if ((r = ft_line_saver(data, &line)) <= 0)

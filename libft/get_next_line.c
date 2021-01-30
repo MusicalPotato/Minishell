@@ -88,13 +88,13 @@ int		get_next_line(int fd, char **line)
 	while (!check_line(rest[fd]))
 	{
 		if (!(complet_line(line, &(rest[fd]))))
-			return (-1);
+			return (ft_freeturn(line, -1));
 		if ((r = reading(&(rest[fd]), fd)) < 0)
-			return (-1);
+			return (ft_freeturn(line, -1));
 		else if (r == 0)
 			return (0);
 	}
 	if (!(complet_line(line, &rest[fd])))
-		return (-1);
+		return (ft_freeturn(line, -1));
 	return (1);
 }

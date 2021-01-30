@@ -106,8 +106,8 @@ int	ft_setup_exec(t_cmd *cmd, char ***envp)
 		pipe(filedes);
         if((childpid = fork()) == -1)
         {
-                perror("fork");
-                exit(1);
+			perror("fork");
+			exit(1);
         }
         if(childpid == 0)
 		{
