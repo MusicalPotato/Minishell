@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2020/11/10 17:22:37 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/03 14:45:02 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int		ft_line_reader(t_data **data)
 	char	*line;
 	int 	r;
 
+	inexec = 0;
 	ft_printf("prompt > ");
 	if ((r = get_next_line(1, &line)) < 0)
 		return (exit_write("GNL Error\n", 0, 0));
@@ -130,5 +131,6 @@ int		ft_line_reader(t_data **data)
 	if ((r = ft_line_saver(data, &line)) <= 0)
 		return (ft_freeturn(&line, r));
 	free(line);
+	inexec = 1;
 	return (1);
 }
