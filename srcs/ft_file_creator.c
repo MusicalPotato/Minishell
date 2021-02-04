@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_file_creator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/01/29 12:50:37 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 14:09:51 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_close_all(t_rdir rdir)
 	}
 }
 
-int	ft_redir_check(t_cmd *cmd)
+int		ft_redir_check(t_cmd *cmd)
 {
 	int fd;
 	int i;
@@ -59,13 +59,12 @@ int	ft_redir_check(t_cmd *cmd)
 			if (cmd->arg[i][1] == '>')
 			{
 				if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT
-													 | O_APPEND, 0666)) == -1)
+													| O_APPEND, 0666)) == -1)
 					return (exit_write("File creation failed\n", 0, -1));
 			}
-			else
-				if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT
-													 | O_TRUNC, 0666)) == -1)
-					return (exit_write("File creation failed\n", 0, -1));
+			else if ((fd = open(cmd->arg[i + 1], O_WRONLY | O_CREAT
+													| O_TRUNC, 0666)) == -1)
+				return (exit_write("File creation failed\n", 0, -1));
 		}
 		i++;
 	}
@@ -93,7 +92,7 @@ int		ft_file_recup(t_cmd *cmd)
 	return (fd);
 }
 
-int     ft_file_create(t_cmd *cmd)
+int		ft_file_create(t_cmd *cmd)
 {
 	int fd;
 	int i;
@@ -106,9 +105,8 @@ int     ft_file_create(t_cmd *cmd)
 		if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
 			return (exit_write("File creation failed\n", 0, -1));
 	}
-	else
-		if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)) == -1)
-			return (exit_write("File creation failed\n", 0, -1));
+	else if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)) == -1)
+		return (exit_write("File creation failed\n", 0, -1));
 	if (cmd->arg[cmd->arg_nbr - 1][0] == '>')
 		return (exit_write("syntax error near unexpected token `newline'\n", 0, -1));
 	while (++i < cmd->arg_nbr && cmd->arg[i][0] != '|')
@@ -131,7 +129,7 @@ int     ft_file_create(t_cmd *cmd)
 	return (1);
 }
 
-t_rdir     ft_file_rd(t_cmd *cmd, t_rdir rdir)
+t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir)
 {
 	if (cmd->arg_nbr == 0)
 		return (rdir);

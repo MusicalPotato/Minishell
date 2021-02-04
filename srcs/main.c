@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/29 12:53:04 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 14:17:39 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int		main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	(void)argv;
-	signal(SIGINT,handler);
-	signal(SIGQUIT,handler);
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 	while (1)
 	{
 		if (!ft_loop(&data, &envp))

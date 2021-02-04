@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 03:41:32 by igor              #+#    #+#             */
-/*   Updated: 2021/01/25 14:41:25 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 14:03:56 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	var_to_value(char **str, int count, int s_var, char *val)
 {
-	char *newstr;
-	int s_val;
-	int a;
+	char	*newstr;
+	int		s_val;
+	int		a;
 
 	if (!val)
 		return (0);
@@ -50,7 +50,7 @@ int	ft_parse_env(t_data *d, char ***envp)
 	char	*var;
 	char	*value;
 	int		count;
-	int 	s_v;
+	int		s_v;
 	int		quote;
 
 	count = 0;
