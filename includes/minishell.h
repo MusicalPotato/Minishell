@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/28 14:35:47 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/01 12:48:05 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 int		ft_line_reader(t_data **data);
 int		ft_parse_info(t_data *line);
 int		ft_parse_env(t_data *data, char ***envp);
+
+int		ft_line_saver(t_data **data, char **line);
+int		ft_check_text(int count, char **line);
+int		ft_ask_next(char **line);
 
 t_data	*ft_lstnew_line(char *content);
 int		ft_lstadd_back_line(t_data **alst, t_data *new);

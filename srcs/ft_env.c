@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 10:24:34 by igor              #+#    #+#             */
-/*   Updated: 2020/12/08 10:24:37 by igor             ###   ########.fr       */
+/*   Updated: 2021/01/30 16:55:16 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int		ft_putenv(char *string, char ***envp)
 	char	**new_envp;
 	
 	index = 0;
-	
 	len = 0;
 	while (string[len] != '=')
 		len++;
