@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/01 12:48:05 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 13:21:48 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include "../libft/libft.h"
 # include "structs.h"
 # include "signal.h"
+
+unsigned short	inexec;
+char			***envp_gbl;
 
 int		ft_line_reader(t_data **data);
 int		ft_parse_info(t_data *line);

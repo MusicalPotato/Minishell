@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:14:08 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/01/28 15:05:41 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:12:30 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	handler(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && inexec == 0)
 		ft_printf("\nprompt > ");
 }

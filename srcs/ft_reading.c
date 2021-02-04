@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/01 12:40:29 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 13:21:00 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int		ft_line_reader(t_data **data)
 	char	*line;
 	int 	r;
 
+	inexec = 0;
 	ft_printf("prompt > ");
 	if ((r = get_next_line(1, &line)) < 0)
 		return (exit_write("GNL Error\n", 0, 0));
@@ -130,5 +131,6 @@ int		ft_line_reader(t_data **data)
 	if ((r = ft_line_saver(data, &line)) <= 0)
 		return (ft_freeturn(&line, r));
 	free(line);
+	inexec = 1;
 	return (1);
 }
