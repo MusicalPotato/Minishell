@@ -23,16 +23,18 @@ int	errno_sorter(t_cmd *cmd)
 		return (exit_write("Error\n", 0, -1));
 }
 
-int	ft_cd(t_cmd *cmd, char **envp)
+int	ft_cd(t_cmd *cmd, char ***envp)
 {
 	errno = 0;
 	if (cmd->arg_nbr > 1 && cmd->arg[0][0] != '>' && cmd->arg[1][0] != '>')
 		return (exit_write("cd: too many arguments\n", 0, -1));
 	if (!cmd->arg_nbr || cmd->arg[0][0] == '>')
-		chdir(ft_getenv("HOME", envp));
+		chdir(ft_getenv("HOME", *envp));
 	else
 		chdir(cmd->arg[0]);
 	if (errno)
-		errno_sorter(cmd);
+		return (errno_sorter(cmd));
+	ft_putenv(ft_envformat("OLDPWD", ft_getenv("PWD", *envp)), envp);
+	ft_putenv(ft_envformat("PWD", getcwd(0, 0)), envp);
 	return (1);
 }

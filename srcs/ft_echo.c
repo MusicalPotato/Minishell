@@ -19,7 +19,7 @@ int	ft_echo(t_cmd *cmd)
 
 	i = 0;
 	nl = 1;
-	if (cmd->arg_nbr && !(ft_strncmp(cmd->arg[i], "-n", 3)) && i++)
+	if (cmd->arg_nbr && !(ft_strncmp(cmd->arg[i], "-n", 3)) && ++i)
 		nl = 0;
 	while (i < cmd->arg_nbr && cmd->arg[i][0] != '<')
 	{

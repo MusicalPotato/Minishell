@@ -38,7 +38,8 @@ int	var_to_value(char **str, int count, int s_var, char *val)
 		a++;
 	}
 	newstr[a] = 0;
-	free(*str);
+	if (*str)
+		free(*str);
 	*str = newstr;
 	return (1);
 }
@@ -81,6 +82,8 @@ int	ft_parse_env(t_data *d, char ***envp)
 					return (ft_freeturn(&var, 0));
 			}
 			free(var);
+			if (!(d->line[count - 1]))
+				return (1);
 		}
 		else
 			count++;

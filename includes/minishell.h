@@ -52,7 +52,7 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp);
 int		ft_sorter(t_cmd *cmd, char ***envp);
 int		ft_exec(t_cmd *cmd, char **envp);
 
-int		ft_cd(t_cmd *cmd, char **envp);
+int		ft_cd(t_cmd *cmd, char ***envp);
 int     ft_echo(t_cmd *cmd);
 int 	ft_env(t_cmd *cmd, char **envp);
 int     ft_export(t_cmd *cmd, char ***envp);
