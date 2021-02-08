@@ -20,7 +20,8 @@ int	remove_after_pipe(t_cmd *cmd, int index_pipe)
 	int		i;
 
 	i = 0;
-	lst = malloc(sizeof(char *) * (index_pipe));
+	if (!(lst = malloc(sizeof(char *) * (index_pipe))))
+		return (0);
 	while (i < index_pipe)
 	{
 		lst[i] = cmd->arg[i];
@@ -43,7 +44,8 @@ int	remove_befor_pipe(t_cmd *cmd, int index_pipe)
 	int		i;
 
 	i = 0;
-	lst = malloc(sizeof(char *) * (cmd->arg_nbr - index_pipe - 1));
+	if (!(lst = malloc(sizeof(char *) * (cmd->arg_nbr - index_pipe - 1))))
+		return (0);
 	free(cmd->name);
 	cmd->name = cmd->arg[index_pipe + i + 1];
 	while (i < cmd->arg_nbr - index_pipe - 2)
@@ -118,12 +120,14 @@ int	ft_setup_exec(t_cmd *cmd, char ***envp)
 			remove_after_pipe(cmd, index_pipe);
 			ret = ft_sorter(cmd, envp);
 			ft_close_all(file_rd);
+			ft_close_all(pipe_rd);
             exit(0);
         }
         else
         {
 			close(filedes[1]);
 			remove_befor_pipe(cmd, index_pipe);
+			ft_close_all(pipe_rd);
 			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 0);
         }
 	}

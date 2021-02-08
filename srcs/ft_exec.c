@@ -37,6 +37,54 @@ int		ft_sorter(t_cmd *cmd, char ***envp)
     return (ret);
 }
 
+int		set_argvlist(t_cmd *cmd, char ***argvlist)
+{
+	int		i;
+
+	i = 1;
+	if (!(*argvlist = ft_calloc(sizeof(char*), (cmd->arg_nbr + 2))))
+		return (0);
+	if (!((*argvlist)[0] = ft_strdup(cmd->name)))
+		return (free_all(argvlist, 0));
+	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>' && cmd->arg[i - 1][0] != '<')
+	{
+		if (!((*argvlist)[i] = ft_strdup(cmd->arg[i - 1])))
+			return (free_all(argvlist, 0));
+		i++;
+	}
+	(*argvlist)[i] = NULL;
+	return (1);
+}
+
+int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
+{
+	int		i;
+
+	i = 0;
+	if (cmd->name[0] == '.' && cmd->name[1] == '/')
+	{
+		if (!(*pathlist = ft_calloc(sizeof(char*), 2)))
+			return (0);
+		if (!((*pathlist)[0] = ft_strdup(cmd->name)))
+			return (free_all(pathlist, 0));
+		(*pathlist)[1] = NULL;
+	}
+	else
+	{
+		if (!(*pathlist = ft_split(ft_getenv("PATH", envp), ':')))
+			return (0);
+		while ((*pathlist)[i])
+		{
+			if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], "/", ft_strlen((*pathlist)[i]), 1))
+					|| !((*pathlist)[i] = ft_memcat((*pathlist)[i], cmd->name,
+					ft_strlen((*pathlist)[i]), ft_strlen(cmd->name))))
+				return (free_all(pathlist, 0));
+			i++;
+		}
+	}
+	return (1);
+}
+
 int		ft_exec(t_cmd *cmd, char **envp)
 {
 	int		i;
@@ -44,34 +92,11 @@ int		ft_exec(t_cmd *cmd, char **envp)
 	char	**argvlist;
 	pid_t	child_pid;
 
-	i = 1;
-	argvlist = malloc(sizeof(char*) * (cmd->arg_nbr + 2));
-	argvlist[0] = ft_strdup(cmd->name);
-	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>' && cmd->arg[i - 1][0] != '<')
-	{
-		argvlist[i] = ft_strdup(cmd->arg[i - 1]);
-		i++;
-	}
-	argvlist[i] = NULL;
+	if (!(set_argvlist(cmd, &argvlist)))
+		return (0);
+	if (!(set_pathlist(cmd, &pathlist, envp)))
+		return (free_all(&argvlist, 0));
 	i = 0;
-	if (cmd->name[0] == '.' && cmd->name[1] == '/')
-	{
-		pathlist = malloc(sizeof(char*) * 2);
-		pathlist[0] = ft_strdup(cmd->name);
-		pathlist[1] = NULL;
-	}
-	else
-	{
-		pathlist = ft_split(ft_getenv("PATH", envp), ':');
-		while (pathlist[i])
-		{
-			if (!(pathlist[i] = ft_memcat(pathlist[i], "/", ft_strlen(pathlist[i]), 1))
-					|| !(pathlist[i] = ft_memcat(pathlist[i], cmd->name, ft_strlen(pathlist[i]), ft_strlen(cmd->name))))
-				return (free_all(&argvlist, free_all(&pathlist, 0)));
-			i++;
-		}
-		i = 0;
-	}
 	if ((child_pid = fork()) == -1)
 		return (free_all(&argvlist, free_all(&pathlist, 0)));
 	if (child_pid == 0)
