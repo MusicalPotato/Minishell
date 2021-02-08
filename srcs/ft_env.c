@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 10:24:34 by igor              #+#    #+#             */
-/*   Updated: 2020/12/08 10:24:37 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 14:26:20 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_env(t_cmd *cmd, char **envp)
+int			ft_env(t_cmd *cmd, char **envp)
 {
 	int i;
 
@@ -30,7 +30,7 @@ int		ft_env(t_cmd *cmd, char **envp)
 	return (1);
 }
 
-char	*ft_getenv(char *name, char **envp)
+char		*ft_getenv(char *name, char **envp)
 {
 	int	index;
 	int len;
@@ -39,27 +39,26 @@ char	*ft_getenv(char *name, char **envp)
 	len = ft_strlen(name);
 	while (envp[index])
 	{
-        if (!ft_strncmp(envp[index], name, len) && envp[index][len] == '=')
+		if (!ft_strncmp(envp[index], name, len) && envp[index][len] == '=')
 			return ((envp[index]) + len + 1);
 		index++;
 	}
 	return (0);
 }
 
-int		ft_putenv(char *string, char ***envp)
+int			ft_putenv(char *string, char ***envp)
 {
 	int		index;
-	int 	len;
+	int		len;
 	char	**new_envp;
-	
+
 	index = 0;
-	
 	len = 0;
 	while (string[len] != '=')
 		len++;
 	while ((*envp)[index])
 	{
-        if (!ft_strncmp((*envp)[index], string, len + 1))
+		if (!ft_strncmp((*envp)[index], string, len + 1))
 		{
 			if (!is_in_stack((*envp)[index]))
 				free((*envp)[index]);

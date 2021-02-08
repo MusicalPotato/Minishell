@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_info.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/01/27 08:49:40 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 14:20:15 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,14 +174,14 @@ int		ft_parse_info(t_data *d)
 		cmd = malloc(1);
 		*cmd = 0;
 		if ((count = ft_cmd_recup(d->line, count, &cmd)) < 0)
-			return (count+1);
+			return (count + 1);
 		if (count == 0)
 			return (-1);
 		if (!(ft_lstadd_back_cmd(&(d->cmd),
 			ft_lstnew_cmd(ft_strdup(cmd)))))
 			return (ft_freeturn(&cmd, 0));
 		free(cmd);
-		if (d->line[count] == ' ' || d->line[count] == '\t' || d->line[count] == '|' || d->line[count - 1] == '>' || d->line[count - 1] == '<'|| d->line[count] == '>' || d->line[count] == '<')
+		if (d->line[count] == ' ' || d->line[count] == '\t' || d->line[count] == '|' || d->line[count - 1] == '>' || d->line[count - 1] == '<' || d->line[count] == '>' || d->line[count] == '<')
 			if ((count = ft_msg_recup(d->line, count, d->cmd)) <= 0)
 				return (count);
 	}

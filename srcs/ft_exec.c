@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/01/12 16:29:36 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 14:13:26 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 int		ft_sorter(t_cmd *cmd, char ***envp)
 {
-	int        ret;
+	int	ret;
 
-    if (!ft_strncmp(cmd->name, "echo", 5))
-        ret = ft_echo(cmd);
-    else if (!ft_strncmp(cmd->name, "cd", 3))
-        ret = ft_cd(cmd, *envp);
-    else if (!ft_strncmp(cmd->name, "pwd", 4))
-        ret = ft_pwd(cmd);
-    else if (!ft_strncmp(cmd->name, "exit", 5))
-        return (0);
-    else if (cmd->name[0] == '>')
-        ret = ft_file_create(cmd);
-    else if (!ft_strncmp(cmd->name, "env", 4))
-        ret = ft_env(cmd, *envp);
-    else if (!ft_strncmp(cmd->name, "unset", 6))
-        ret = ft_unset(cmd, envp);
-    else if (!ft_strncmp(cmd->name, "export", 7))
-        ret = ft_export(cmd, envp);
+	if (!ft_strncmp(cmd->name, "echo", 5))
+		ret = ft_echo(cmd);
+	else if (!ft_strncmp(cmd->name, "cd", 3))
+		ret = ft_cd(cmd, *envp);
+	else if (!ft_strncmp(cmd->name, "pwd", 4))
+		ret = ft_pwd(cmd);
+	else if (!ft_strncmp(cmd->name, "exit", 5))
+		return (0);
+	else if (cmd->name[0] == '>')
+		ret = ft_file_create(cmd);
+	else if (!ft_strncmp(cmd->name, "env", 4))
+		ret = ft_env(cmd, *envp);
+	else if (!ft_strncmp(cmd->name, "unset", 6))
+		ret = ft_unset(cmd, envp);
+	else if (!ft_strncmp(cmd->name, "export", 7))
+		ret = ft_export(cmd, envp);
 	else
 		ret = ft_exec(cmd, *envp);
-    return (ret);
+	return (ret);
 }
 
 int		set_argvlist(t_cmd *cmd, char ***argvlist)
@@ -101,7 +101,8 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		return (free_all(&argvlist, free_all(&pathlist, 0)));
 	if (child_pid == 0)
 	{
-		while (pathlist[i]) //pathlist a 1 (i=0) element pour nos cmd sinon i=x element(s)
+		//pathlist a 1 (i=0) element pour nos cmd sinon i=x element(s)
+		while (pathlist[i])
 		{
 			execve(pathlist[i], argvlist, envp);
 			if (errno != ENOENT)

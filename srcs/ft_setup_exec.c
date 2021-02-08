@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_setup_exec.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/04 14:10:34 by tkleynts          #+#    #+#             */
+/*   Updated: 2021/02/04 14:12:22 by tkleynts         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-int	check_if_pipe(t_cmd *cmd)
+int		check_if_pipe(t_cmd *cmd)
 {
 	int	i;
 
@@ -14,7 +26,7 @@ int	check_if_pipe(t_cmd *cmd)
 	return (-1);
 }
 
-int	remove_after_pipe(t_cmd *cmd, int index_pipe)
+int		remove_after_pipe(t_cmd *cmd, int index_pipe)
 {
 	char	**lst;
 	int		i;
@@ -38,7 +50,7 @@ int	remove_after_pipe(t_cmd *cmd, int index_pipe)
 	return (1);
 }
 
-int	remove_befor_pipe(t_cmd *cmd, int index_pipe)
+int		remove_befor_pipe(t_cmd *cmd, int index_pipe)
 {
 	char	**lst;
 	int		i;
@@ -82,10 +94,10 @@ t_rdir	ft_pipe_rd(t_rdir rdir, int filedes[2], int fd_def)
 	return (rdir);
 }
 
-t_rdir	ft_rdir_init()
+t_rdir	ft_rdir_init(void)
 {
 	t_rdir	rdir;
-	
+
 	rdir.fdin = -2;
 	rdir.fdout = -2;
 	rdir.sdin = -1;
@@ -93,7 +105,7 @@ t_rdir	ft_rdir_init()
 	return (rdir);
 }
 
-int	ft_setup_exec(t_cmd *cmd, char ***envp)
+int		ft_setup_exec(t_cmd *cmd, char ***envp)
 {
 	int		childpid;
 	int		ret;
@@ -106,14 +118,14 @@ int	ft_setup_exec(t_cmd *cmd, char ***envp)
 	while ((index_pipe = check_if_pipe(cmd)) > -1)
 	{
 		pipe(filedes);
-        if((childpid = fork()) == -1)
-        {
+		if ((childpid = fork()) == -1)
+		{
 			perror("fork");
 			exit(1);
-        }
-        if(childpid == 0)
+		}
+		if (childpid == 0)
 		{
-            close(filedes[0]);
+			close(filedes[0]);
 			file_rd = ft_rdir_init();
 			file_rd = ft_file_rd(cmd, file_rd);
 			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 1);
@@ -129,7 +141,7 @@ int	ft_setup_exec(t_cmd *cmd, char ***envp)
 			remove_befor_pipe(cmd, index_pipe);
 			ft_close_all(pipe_rd);
 			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 0);
-        }
+		}
 	}
 	file_rd = ft_rdir_init();
 	file_rd = ft_file_rd(cmd, file_rd);

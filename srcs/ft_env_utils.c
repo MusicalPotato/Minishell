@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 10:03:55 by igor              #+#    #+#             */
-/*   Updated: 2021/01/25 10:03:59 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/04 13:52:58 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int		is_in_stack(void *addr)
 {
 	int		a;
-    void	*stack;
+	void	*stack;
 
 	stack = &a;
-    return (stack < addr);
+	return (stack < addr);
 }
 
 char	*ft_envformat(char *name, char *value)
@@ -44,7 +44,7 @@ char	*ft_envformat(char *name, char *value)
 		string[i] = value[i - len - 1];
 		i++;
 	}
-    string[i] = 0;
+	string[i] = 0;
 	return (string);
 }
 

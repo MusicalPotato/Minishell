@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/03 14:45:02 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/04 14:27:03 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		ft_is_space(char line)
 int		ft_istext(int text, char c)
 {
 	if (!text && c == '\'')
-		text = 1;	
+		text = 1;
 	else if (text == 1 && c == '\'')
 		text = 0;
 	else if (!text && c == '"')
@@ -37,7 +37,7 @@ int		ft_ask_next(char **line)
 {
 	int		r;
 	char	*text;
-	
+
 	text = NULL;
 	if ((r = get_next_line(1, &text)) < 0)
 		return (exit_write("GNL Error\n", 0, 0));
@@ -118,7 +118,7 @@ int		ft_line_saver(t_data **data, char **line)
 int		ft_line_reader(t_data **data)
 {
 	char	*line;
-	int 	r;
+	int		r;
 
 	inexec = 0;
 	ft_printf("prompt > ");
