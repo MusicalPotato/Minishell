@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/02/04 14:13:26 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/08 18:12:31 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int		ft_sorter(t_cmd *cmd, char ***envp)
 		ret = ft_pwd(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
 		return (0);
-	else if (cmd->name[0] == '>')
-		ret = ft_file_create(cmd);
 	else if (!ft_strncmp(cmd->name, "env", 4))
 		ret = ft_env(cmd, *envp);
 	else if (!ft_strncmp(cmd->name, "unset", 6))
