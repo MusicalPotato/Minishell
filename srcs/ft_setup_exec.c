@@ -105,7 +105,7 @@ t_rdir	ft_rdir_init(void)
 	return (rdir);
 }
 
-int		ft_setup_exec(t_cmd *cmd, char ***envp)
+int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 {
 	int		childpid;
 	int		ret;
@@ -152,7 +152,9 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp)
 	if (file_rd.fdin == 0 || file_rd.fdout == 0)
 		return (0);
 	ret = ft_sorter(cmd, envp);
-	waitpid(ret, &index_pipe, 0);
+	waitpid(ret, status, 0);
+	if (WIFEXITED(*status))
+		*status = WEXITSTATUS(*status);
 	ft_close_all(file_rd);
 	ft_close_all(pipe_rd);
 	return (ret);

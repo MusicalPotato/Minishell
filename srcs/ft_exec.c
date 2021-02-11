@@ -23,6 +23,8 @@ int		ft_sorter(t_cmd *cmd, char ***envp)
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		ret = ft_pwd(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
+		ret = ft_exit(cmd);
+	else if (cmd->name[0] == '>')
 		return (0);
 	else if (!ft_strncmp(cmd->name, "env", 4))
 		ret = ft_env(cmd, *envp);
@@ -59,7 +61,7 @@ int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 	int		i;
 
 	i = 0;
-	if (cmd->name[0] == '.' && cmd->name[1] == '/')
+	if (cmd->name[0] == '/')
 	{
 		if (!(*pathlist = ft_calloc(sizeof(char*), 2)))
 			return (0);
@@ -104,14 +106,14 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		{
 			execve(pathlist[i], argvlist, envp);
 			if (errno != ENOENT)
-				return (0);
+				return (42);
 			i++;
 		}
-		if (cmd->name[0] == '.' && cmd->name[1] == '/')
+		if (cmd->name[0] == '/')
 			ft_printf("no such file or directory: %s\n", cmd->name);
 		else
 			ft_printf("%s: command not found\n", cmd->name);
-		exit(0);
+		exit(127);
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
 }

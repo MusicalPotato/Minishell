@@ -44,7 +44,7 @@ int	var_to_value(char **str, int count, int s_var, char *val)
 	return (1);
 }
 
-int	ft_parse_env(t_data *d, char ***envp)
+int	ft_parse_env(t_data *d, char ***envp, int *status)
 {
 	char	*var;
 	char	*value;
@@ -73,7 +73,7 @@ int	ft_parse_env(t_data *d, char ***envp)
 			{
 				if (var[0] == '?')
 				{
-					if (!(value = ft_itoa(errno)))
+					if (!(value = ft_itoa(*status)))
 						return (0);
 				}
 				else

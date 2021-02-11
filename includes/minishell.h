@@ -28,7 +28,7 @@ char			***envp_gbl;
 
 int		ft_line_reader(t_data **data);
 int		ft_parse_info(t_data *line);
-int		ft_parse_env(t_data *data, char ***envp);
+int		ft_parse_env(t_data *data, char ***envp, int *status);
 
 int		ft_line_saver(t_data **data, char **line);
 int		ft_check_text(int count, char **line);
@@ -48,7 +48,7 @@ char	*ft_strndup(const char *s1, int size);
 int		exit_write(char *msg, char *bonus, int value);
 int		free_all(char ***data, int ret);
 
-int		ft_setup_exec(t_cmd *cmd, char ***envp);
+int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status);
 int		ft_sorter(t_cmd *cmd, char ***envp);
 int		ft_exec(t_cmd *cmd, char **envp);
 
@@ -58,6 +58,7 @@ int 	ft_env(t_cmd *cmd, char **envp);
 int     ft_export(t_cmd *cmd, char ***envp);
 int     ft_pwd(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd, char ***envp);
+int		ft_exit(t_cmd *cmd);
 
 int     ft_file_create(t_cmd *cmd);
 t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir);
@@ -75,5 +76,6 @@ int		ft_putenv(char *string, char ***envp);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);
+int		ft_errno(t_cmd *cmd);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		ft_loop(t_data **data, char ***envp)
+int		ft_loop(t_data **data, char ***envp, int *status)
 {
 	t_data	*tempo;
 	int		r;
@@ -23,17 +23,17 @@ int		ft_loop(t_data **data, char ***envp)
 	tempo = *data;
 	while (tempo)
 	{
-		ft_parse_env(tempo, envp);
+		ft_parse_env(tempo, envp, status);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
-		if ((r = ft_setup_exec(tempo->cmd, envp)) <= 0)
+		if ((r = ft_setup_exec(tempo->cmd, envp, status)) <= 0)
 			return (r);
 		tempo = tempo->next;
 	}
 	return (1);
 }
 
-int		ft_loop2(t_data **data, char ***envp, char *argv)
+int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 {
 	t_data	*tempo;
 	int		r;
@@ -51,10 +51,10 @@ int		ft_loop2(t_data **data, char ***envp, char *argv)
 	while (tempo)
 	{
 		errno = 0;
-		ft_parse_env(tempo, envp);
+		ft_parse_env(tempo, envp, status);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
-		if ((r = ft_setup_exec(tempo->cmd, envp)) <= 0)
+		if ((r = ft_setup_exec(tempo->cmd, envp, status)) <= 0)
 			return (r);
 		tempo = tempo->next;
 	}
@@ -64,8 +64,10 @@ int		ft_loop2(t_data **data, char ***envp, char *argv)
 int		main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
+	int		status;
 
 	data = NULL;
+	status = 0;
 	if (argc != 1)
 	{
 		if (argv[1][0] == '-' && argv[1][1] == 'c' && argc == 3)
@@ -73,7 +75,7 @@ int		main(int argc, char **argv, char **envp)
 			(void)argv;
 			signal(SIGINT,handler);
 			signal(SIGQUIT,handler);
-			if (!ft_loop2(&data, &envp, argv[2]))
+			if (!ft_loop2(&data, &envp, &status, argv[2]))
 			{
 				ft_lstclear_line(&data);
 				ft_envpclear(&envp);
@@ -92,7 +94,7 @@ int		main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, handler);
 		while (1)
 		{
-			if (!ft_loop(&data, &envp))
+			if (!ft_loop(&data, &envp, &status))
 			{
 				ft_lstclear_line(&data);
 				ft_envpclear(&envp);
