@@ -20,7 +20,9 @@ SRCS_NAME	=	main.c	\
 				ft_echo.c \
 				ft_env.c \
 				ft_env_utils.c \
+				ft_errno.c \
 				ft_exec.c \
+				ft_exit.c \
 				ft_export.c \
 				ft_file_creator.c \
 				ft_lstcmd_utils.c \

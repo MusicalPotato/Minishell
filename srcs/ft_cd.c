@@ -12,17 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int	errno_sorter(t_cmd *cmd)
-{
-	printf("%s: ", cmd->name);
-	if (errno == EACCES)
-		return (exit_write("Permission denied: ", cmd->arg[0], -1));
-	else if (errno == ENOENT)
-		return (exit_write("No such file or directory: ", cmd->arg[0], -1));
-	else
-		return (exit_write("Error\n", 0, -1));
-}
-
 int	ft_cd(t_cmd *cmd, char ***envp)
 {
 	errno = 0;
@@ -33,7 +22,7 @@ int	ft_cd(t_cmd *cmd, char ***envp)
 	else
 		chdir(cmd->arg[0]);
 	if (errno)
-		return (errno_sorter(cmd));
+		return (ft_errno(cmd));
 	ft_putenv(ft_envformat("OLDPWD", ft_getenv("PWD", *envp)), envp);
 	ft_putenv(ft_envformat("PWD", getcwd(0, 0)), envp);
 	return (1);
