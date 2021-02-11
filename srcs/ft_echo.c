@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:05:02 by igor              #+#    #+#             */
-/*   Updated: 2021/02/04 13:52:03 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/08 15:58:27 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,24 @@ int	ft_echo(t_cmd *cmd)
 {
 	int	nl;
 	int	i;
+	int j;
 
 	i = ft_check_arg(cmd);
+	j = 0;
 	nl = 1;
 	if (cmd->arg_nbr && (i = ft_check_arg(cmd)))
 		nl = 0;
-	while (i < cmd->arg_nbr && cmd->arg[i][0] != '<')
+	while (i < cmd->arg_nbr)
 	{
-		if (cmd->arg[i][0] == '>')
+		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
 			i += 2;
-		else
+		if (i < cmd->arg_nbr && cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
 		{
+			if (i < cmd->arg_nbr && j > 0)
+				ft_printf(" ");
 			ft_printf("%s", cmd->arg[i]);
 			i++;
-			if (i < cmd->arg_nbr)
-				ft_printf(" ");
+			j = 1;
 		}
 	}
 	if (nl)
