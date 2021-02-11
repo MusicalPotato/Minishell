@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:10:34 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/02/08 20:13:19 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/11 19:56:48 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp)
 	file_rd = ft_file_rd(cmd, file_rd);
 	if (file_rd.fdin == -1 || file_rd.fdout == -1)
 		return (-1);
+	if (file_rd.fdin == -3 || file_rd.fdout == -3)
+		return (1);
 	if (file_rd.fdin == 0 || file_rd.fdout == 0)
 		return (0);
 	ret = ft_sorter(cmd, envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/04 14:27:03 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/11 20:05:01 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,19 @@ int		ft_check_text(int count, char **line)
 {
 	int		quote;
 	int		size;
+	int 	pipe;
 
 	quote = 0;
 	size = 0;
-	while (quote || !size)
+	pipe = 0;
+	while (quote || pipe || !size)
 	{
 		if ((*line)[count + size] == 0)
 			break ;
-		while (((*line)[count + size] != ';' || quote) && (*line)[count + size] != 0)
+		while (((*line)[count + size] != ';' || quote || pipe) && (*line)[count + size] != 0)
 		{
+			if (!ft_is_space((*line)[count + size]))
+				pipe = 0;
 			while ((*line)[count + size] == '\\' && quote != 1)
 			{
 				size += 2;
@@ -74,13 +78,17 @@ int		ft_check_text(int count, char **line)
 						return (-1);
 				}
 			}
+			if ((*line)[count + size] == '|')
+				pipe = 1;
 			quote = ft_istext(quote, (*line)[count + size]);
 			if ((*line)[count + size] != ';' || quote != 0)
 				size++;
 		}
 		if (quote)
 			ft_printf("%cquote> ", (quote - 1) * 100);
-		if (quote)
+		if (pipe)
+			ft_printf("pipe> ");
+		if (quote || pipe)
 			if (!(ft_ask_next(line)))
 				return (-1);
 	}

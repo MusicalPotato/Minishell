@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/08 20:15:54 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/11 19:57:41 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		main(int argc, char **argv, char **envp)
 				ft_envpclear(&envp);
 				return (0);
 			}
-			ft_lstclear_line(&data);
+//			ft_lstclear_line(&data);
 		}
 		else
 			write(2, "Wrong number of arguments\n", 26);
