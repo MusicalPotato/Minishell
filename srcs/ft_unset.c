@@ -12,6 +12,22 @@
 
 #include "../includes/minishell.h"
 
+int		ft_check_format_unset(char *arg)
+{
+	int i;
+
+	i = 0;
+	if (ft_isdigit(arg[i]))
+		return (0);
+	while (ft_isalnum(arg[i]) || arg[i] == '_')
+		i++;
+	if (arg[i])
+		return (0);
+	if (i == 0)
+		return (0);
+	return (1);
+}
+
 int		ft_unsetenv(char *name, char ***envp)
 {
 	int		i;
@@ -43,17 +59,13 @@ int		ft_unsetenv(char *name, char ***envp)
 
 int		ft_unset(t_cmd *cmd, char ***envp)
 {
-	int x;
 	int i;
 
 	i = 0;
 	while (i < cmd->arg_nbr)
 	{
-		x = 0;
-		while (ft_isalnum(cmd->arg[i][x]) || cmd->arg[i][x] == '_')
-			x++;
-		if (cmd->arg[i][x])
-			ft_printf("unset: %s: invalid parameter name\n", cmd->arg[i]);
+		if (!ft_check_format_unset(cmd->arg[i]))
+			ft_printf("minishell: unset: `%s': not a valid identifier\n", cmd->arg[i]);
 		else if (!(ft_unsetenv(cmd->arg[i], envp)))
 			return (0);
 		i++;

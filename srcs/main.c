@@ -26,6 +26,10 @@ int		ft_loop(t_data **data, char ***envp, int *status)
 		ft_parse_env(tempo, envp, status);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
+		if (tempo->cmd->arg_nbr)
+			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp);
+		else
+			ft_putenv(ft_envformat("_", tempo->cmd->name), envp);
 		if ((r = ft_setup_exec(tempo->cmd, envp, status)) <= 0)
 			return (r);
 		tempo = tempo->next;
@@ -54,6 +58,10 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 		ft_parse_env(tempo, envp, status);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
+		if (tempo->cmd->arg_nbr)
+			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp);
+		else
+			ft_putenv(ft_envformat("_", tempo->cmd->name), envp);
 		if ((r = ft_setup_exec(tempo->cmd, envp, status)) <= 0)
 			return (r);
 		tempo = tempo->next;
@@ -85,7 +93,7 @@ int		main(int argc, char **argv, char **envp)
 		}
 		else
 			write(2, "Wrong number of arguments\n", 26);
-		return (0);
+		return (status);
 	}
 	else
 	{

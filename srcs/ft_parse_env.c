@@ -59,6 +59,8 @@ int	ft_parse_env(t_data *d, char ***envp, int *status)
 		s_v = 0;
 		var = NULL;
 		quote = ft_istext(quote, d->line[count]);
+		if (quote != 1 && d->line[count] == '\\')
+			count += 2;
 		if (quote != 1 && d->line[count] == '$')
 		{
 			count++;
@@ -80,10 +82,9 @@ int	ft_parse_env(t_data *d, char ***envp, int *status)
 					value = ft_getenv(var, *envp);
 				if (!(var_to_value(&d->line, count, s_v, value)))
 					return (ft_freeturn(&var, 0));
+			count--;
 			}
 			free(var);
-			if (!(d->line[count - 1]))
-				return (1);
 		}
 		else
 			count++;

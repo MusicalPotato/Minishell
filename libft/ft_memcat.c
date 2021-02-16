@@ -19,7 +19,8 @@ char	*ft_memcat(char *string, char *buf, int string_size, int buf_size)
 
 	if (!(string2 = malloc(sizeof(char) * (string_size + buf_size + 1))))
 	{
-		free(string);
+		if (string)
+			free(string);
 		return (NULL);
 	}
 	i = 0;
@@ -33,7 +34,8 @@ char	*ft_memcat(char *string, char *buf, int string_size, int buf_size)
 		string2[i] = buf[i - string_size];
 		i++;
 	}
-	free(string);
+	if (string)
+		free(string);
 	string2[i] = '\0';
 	return (string2);
 }

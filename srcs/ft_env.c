@@ -12,7 +12,21 @@
 
 #include "../includes/minishell.h"
 
-int			ft_env(t_cmd *cmd, char **envp)
+int		ft_hasvalue(char *envp)
+{
+	int	c;
+
+	c = 0;
+	while (envp[c])
+	{
+		if (envp[c] == '=')
+			return (1);
+		c++;
+	}
+	return (0);
+}
+
+int		ft_env(t_cmd *cmd, char **envp)
 {
 	int i;
 
@@ -24,13 +38,14 @@ int			ft_env(t_cmd *cmd, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		ft_printf("%s\n", envp[i]);
+		if (ft_hasvalue(envp[i]))
+			ft_printf("%s\n", envp[i]);
 		i++;
 	}
 	return (1);
 }
 
-char		*ft_getenv(char *name, char **envp)
+char	*ft_getenv(char *name, char **envp)
 {
 	int	index;
 	int len;
@@ -46,7 +61,7 @@ char		*ft_getenv(char *name, char **envp)
 	return (0);
 }
 
-int			ft_putenv(char *string, char ***envp)
+int		ft_putenv(char *string, char ***envp)
 {
 	int		index;
 	int		len;
@@ -54,7 +69,7 @@ int			ft_putenv(char *string, char ***envp)
 
 	index = 0;
 	len = 0;
-	while (string[len] != '=')
+	while (string[len] != '=' && string[len])
 		len++;
 	while ((*envp)[index])
 	{

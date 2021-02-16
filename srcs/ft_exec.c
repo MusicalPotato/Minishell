@@ -110,9 +110,9 @@ int		ft_exec(t_cmd *cmd, char **envp)
 			i++;
 		}
 		if (cmd->name[0] == '/')
-			ft_printf("no such file or directory: %s\n", cmd->name);
+			ft_printf("minishell: no such file or directory: %s\n", cmd->name);
 		else
-			ft_printf("%s: command not found\n", cmd->name);
+			ft_printf("minishell: %s: command not found\n", cmd->name);
 		exit(127);
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
