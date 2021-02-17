@@ -27,9 +27,9 @@ int		ft_loop(t_data **data, char ***envp, int *status)
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
 		if (tempo->cmd->arg_nbr)
-			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp);
+			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp, 1);
 		else
-			ft_putenv(ft_envformat("_", tempo->cmd->name), envp);
+			ft_putenv(ft_envformat("_", tempo->cmd->name), envp, 1);
 		if ((r = ft_setup_exec(tempo->cmd, envp, status)) <= 0)
 			return (r);
 		tempo = tempo->next;
@@ -59,9 +59,9 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
 		if (tempo->cmd->arg_nbr)
-			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp);
+			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp, 1);
 		else
-			ft_putenv(ft_envformat("_", tempo->cmd->name), envp);
+			ft_putenv(ft_envformat("_", tempo->cmd->name), envp, 1);
 		if ((r = ft_setup_exec(tempo->cmd, envp, status)) <= 0)
 			return (r);
 		tempo = tempo->next;

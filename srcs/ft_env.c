@@ -61,15 +61,20 @@ char	*ft_getenv(char *name, char **envp)
 	return (0);
 }
 
-int		ft_putenv(char *string, char ***envp)
+int		ft_putenv(char *string, char ***envp, int to_free)
 {
 	int		index;
 	int		len;
 	char	**new_envp;
+	char	*new_string;
 
 	index = 0;
 	len = 0;
-	while (string[len] != '=' && string[len])
+	if (!(new_string = ft_strdup(string)))
+		return (0);
+	if (to_free)
+		free(string);
+	while (new_string[len] != '=' && new_string[len])
 		len++;
 	while ((*envp)[index])
 	{
@@ -77,19 +82,14 @@ int		ft_putenv(char *string, char ***envp)
 		{
 			if (!is_in_stack((*envp)[index]))
 				free((*envp)[index]);
-			if (!((*envp)[index] = ft_strdup(string)))
-				return (0);
+			(*envp)[index] = new_string;
 			return (1);
 		}
 		index++;
 	}
 	if (!(new_envp = malloc(sizeof(char *) * (index + 2))))
 		return (0);
-	if (!(new_envp[index] = ft_strdup(string)))
-	{
-		free(new_envp);
-		return (0);
-	}
+	new_envp[index] = new_string;
 	new_envp[index + 1] = 0;
 	while (index--)
 		new_envp[index] = (*envp)[index];

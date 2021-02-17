@@ -72,7 +72,7 @@ int		is_in_stack(void *addr);
 
 int     ft_delenv(char *name, char ***envp);
 char	*ft_getenv(char *name, char **envp);
-int		ft_putenv(char *string, char ***envp);
+int		ft_putenv(char *string, char ***envp, int to_free);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);

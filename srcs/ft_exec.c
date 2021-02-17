@@ -34,6 +34,7 @@ int		ft_sorter(t_cmd *cmd, char ***envp)
 		ret = ft_export(cmd, envp);
 	else
 		ret = ft_exec(cmd, *envp);
+	ft_printf("%d\n", ret);
 	return (ret);
 }
 

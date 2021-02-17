@@ -53,7 +53,7 @@ int		ft_export(t_cmd *cmd, char ***envp)
 	{
 		if (!ft_check_format_export(cmd->arg[i]))
 			ft_printf("minishell: export: `%s': not a valid identifier\n", cmd->arg[i]);
-		else if (!(ft_putenv(cmd->arg[i], envp)))
+		else if (!(ft_putenv(cmd->arg[i], envp, 0)))
 			return (0);
 		i++;
 	}

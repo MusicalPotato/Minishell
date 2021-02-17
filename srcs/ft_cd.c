@@ -23,7 +23,7 @@ int	ft_cd(t_cmd *cmd, char ***envp)
 		chdir(cmd->arg[0]);
 	if (errno)
 		return (ft_errno(cmd));
-	ft_putenv(ft_envformat("OLDPWD", ft_getenv("PWD", *envp)), envp);
-	ft_putenv(ft_envformat("PWD", getcwd(0, 0)), envp);
+	ft_putenv(ft_envformat("OLDPWD", ft_getenv("PWD", *envp)), envp, 1);
+	ft_putenv(ft_envformat("PWD", getcwd(0, 0)), envp, 1);
 	return (1);
 }
