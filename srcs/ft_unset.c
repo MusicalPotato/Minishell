@@ -28,7 +28,7 @@ int		ft_check_format_unset(char *arg)
 	return (1);
 }
 
-int		ft_unsetenv(char *name, char ***envp)
+void	ft_unsetenv(char *name, char ***envp)
 {
 	int		i;
 	int		index;
@@ -54,7 +54,6 @@ int		ft_unsetenv(char *name, char ***envp)
 		else
 			index++;
 	}
-	return (1);
 }
 
 int		ft_unset(t_cmd *cmd, char ***envp)
@@ -66,9 +65,9 @@ int		ft_unset(t_cmd *cmd, char ***envp)
 	{
 		if (!ft_check_format_unset(cmd->arg[i]))
 			ft_printf("minishell: unset: `%s': not a valid identifier\n", cmd->arg[i]);
-		else if (!(ft_unsetenv(cmd->arg[i], envp)))
-			return (0);
+		else
+			ft_unsetenv(cmd->arg[i], envp);
 		i++;
 	}
-	return (1);
+	return (0);
 }

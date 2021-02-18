@@ -61,5 +61,5 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (nl)
 		ft_printf("\n");
-	return (1);
+	return (0);
 }

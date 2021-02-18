@@ -47,14 +47,19 @@ int		ft_export(t_cmd *cmd, char ***envp)
 	int		i;
 	char	*name;
 	char	*value;
+	int		ret;
 
 	i = 0;
+	ret = 0;
 	while (i < cmd->arg_nbr)
 	{
 		if (!ft_check_format_export(cmd->arg[i]))
+		{
 			ft_printf("minishell: export: `%s': not a valid identifier\n", cmd->arg[i]);
+			ret = 1;
+		}
 		else if (!(ft_putenv(cmd->arg[i], envp, 0)))
-			return (0);
+			return (-1);
 		i++;
 	}
 	if (i == 0)
@@ -62,11 +67,11 @@ int		ft_export(t_cmd *cmd, char ***envp)
 		while ((*envp)[i])
 		{
 			if (!(name = ft_get_envname((*envp)[i])))
-				return (0);
-			value = ft_getenv(name, *envp);
+				return (-1);
 			if (ft_strncmp(name, "_", 2))
 			{
 				ft_printf("declare -x %s", name);
+				value = ft_getenv(name, *envp);
 				if (value)
 					ft_printf("=\"%s\"", value);
 				ft_printf("\n");
@@ -75,5 +80,5 @@ int		ft_export(t_cmd *cmd, char ***envp)
 			i++;
 		}
 	}
-	return (1);
+	return (ret);
 }
