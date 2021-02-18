@@ -23,7 +23,8 @@ int		ft_loop(t_data **data, char ***envp, int *status)
 	tempo = *data;
 	while (tempo)
 	{
-		ft_parse_env(tempo, envp, status);
+		if (ft_parse_env(tempo, envp, status) < 0)
+			return (-1);
 		if ((r = ft_parse_info(tempo)) <= 0)
 			return (r);
 		if (tempo->cmd->arg_nbr)
