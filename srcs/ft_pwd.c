@@ -20,5 +20,5 @@ int		ft_pwd(t_cmd *cmd)
 	str = getcwd(0, 0);
 	ft_printf("%s\n", str);
 	free(str);
-	return (1);
+	return (0);
 }

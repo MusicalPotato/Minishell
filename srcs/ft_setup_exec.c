@@ -152,10 +152,18 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 	if (file_rd.fdin == 0 || file_rd.fdout == 0)
 		return (0);
 	ret = ft_sorter(cmd, envp);
+	*status = ret;
 	waitpid(ret, status, 0);
 	if (WIFEXITED(*status))
 		*status = WEXITSTATUS(*status);
 	ft_close_all(file_rd);
 	ft_close_all(pipe_rd);
-	return (ret);
+	if (*status == -1)
+		return (0);
+	if (*status == -2)
+	{
+		*status = 1;
+		return (-1);
+	}
+	return (1);
 }

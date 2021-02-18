@@ -33,7 +33,7 @@ int		ft_env(t_cmd *cmd, char **envp)
 	if (cmd->arg_nbr > 0)
 	{
 		ft_printf("too many arguments\n");
-		return (-1);
+		return (255);
 	}
 	i = 0;
 	while (envp[i])
@@ -42,7 +42,7 @@ int		ft_env(t_cmd *cmd, char **envp)
 			ft_printf("%s\n", envp[i]);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 char	*ft_getenv(char *name, char **envp)
@@ -78,7 +78,7 @@ int		ft_putenv(char *string, char ***envp, int to_free)
 		len++;
 	while ((*envp)[index])
 	{
-		if (!ft_strncmp((*envp)[index], string, len + 1))
+		if (!ft_strncmp((*envp)[index], new_string, len + 1))
 		{
 			if (!is_in_stack((*envp)[index]))
 				free((*envp)[index]);

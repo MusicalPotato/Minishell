@@ -2,7 +2,7 @@
 
 int	ft_errno(t_cmd *cmd)
 {
-	ft_printf("%s: ", cmd->name);
+	ft_printf("minishell: %s: ", cmd->name);
 	if (errno == EACCES)
 		return (exit_write("Permission denied: ", cmd->arg[0], -1));
 	else if (errno == ENOENT)
