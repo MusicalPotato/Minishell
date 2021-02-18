@@ -87,5 +87,6 @@ int				ft_intlen(long long nbr);
 int				ft_freeturn(char **data, int value);
 int				get_next_line(int fd, char **line);
 char			**ft_stradd_back(char **strs, char *new, int size);
+int				ft_abs(int value);
 
 #endif
