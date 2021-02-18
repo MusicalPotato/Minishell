@@ -18,8 +18,8 @@ int		ft_loop(t_data **data, char ***envp, int *status)
 	int		r;
 
 	(void)envp;
-	if ((r = ft_line_reader(data)) <= 0)
-		return (r);
+	if ((*status = ft_line_reader(data)))
+		return (*status);
 	tempo = *data;
 	while (tempo)
 	{
@@ -48,7 +48,7 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 	if (!(str = ft_memcat(str, "\n", ft_strlen(str), 1)))
 		return (exit_write("malloc Error\n", 0, 0));
 	str = argv;
-	if ((r = ft_line_saver(data, &str)) <= 0)
+	if ((r = ft_line_saver(data, &str)))
 		return (ft_freeturn(&str, r));
 //	free(str);
 	tempo = *data;
@@ -83,7 +83,7 @@ int		main(int argc, char **argv, char **envp)
 			(void)argv;
 			signal(SIGINT,handler);
 			signal(SIGQUIT,handler);
-			if (!ft_loop2(&data, &envp, &status, argv[2]))
+			if (ft_loop2(&data, &envp, &status, argv[2]) < 0)
 			{
 				ft_lstclear_line(&data);
 				ft_envpclear(&envp);
@@ -102,7 +102,7 @@ int		main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, handler);
 		while (1)
 		{
-			if (!ft_loop(&data, &envp, &status))
+			if (ft_loop(&data, &envp, &status) < 0)
 			{
 				ft_lstclear_line(&data);
 				ft_envpclear(&envp);

@@ -61,7 +61,7 @@ int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 	int		i;
 
 	i = 0;
-	if (cmd->name[0] == '/')
+	if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/'))
 	{
 		if (!(*pathlist = ft_calloc(sizeof(char*), 2)))
 			return (0);
@@ -106,14 +106,10 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		{
 			execve(pathlist[i], argvlist, envp);
 			if (errno != ENOENT)
-				return (42);
+				exit(ft_errno(cmd));
 			i++;
 		}
-		if (cmd->name[0] == '/')
-			ft_printf("minishell: no such file or directory: %s\n", cmd->name);
-		else
-			ft_printf("minishell: %s: command not found\n", cmd->name);
-		exit(127);
+		exit(ft_errno(cmd));
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
 }
