@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/02/11 15:59:24 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/17 18:27:55 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		ft_sorter(t_cmd *cmd, char ***envp)
 		ret = ft_export(cmd, envp);
 	else
 		ret = ft_exec(cmd, *envp);
-	ft_printf("%d\n", ret);
 	return (ret);
 }
 

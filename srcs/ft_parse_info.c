@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/11 19:57:45 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/17 17:52:35 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 		count++;
 	if ((line[0] == '>' || line[0] == '<') && line[count] == '<')
 		return (exit_write("syntax error near unexpected token ", "'<'", -1));
-	if ((line[0] == '>' || line[0] == '<') && line[count] == '>')
+	if ((line[0] == '>' || line[0] == '<') && line[count] == '>' && line[count + 1] == '>')
+		return (exit_write("syntax error near unexpected token ", "'>>'", -1));
+	else if ((line[0] == '>' || line[0] == '<') && line[count] == '>')
 		return (exit_write("syntax error near unexpected token ", "'>'", -1));
 	while (line[count] != '\n' && line[count] != '\0')
 	{
@@ -71,6 +73,8 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 					count++;
 				if (line[count] == '<')
 					return (exit_write("syntax error near unexpected token ", "'<'", -1));
+				else if (line[count] == '>' && line[count + 1] == '>')
+					return (exit_write("syntax error near unexpected token ", "'>>'", -1));
 				else if (line[count] == '>')
 					return (exit_write("syntax error near unexpected token ", "'>'", -1));
 				if (line[count] && line[count] != ' ' && line[count] != '\n')

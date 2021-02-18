@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/02/11 16:00:34 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/17 19:12:56 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ int		ft_file_recup(t_cmd *cmd)
 	while (cmd->name[0] == '<')
 	{
 		if ((fd = open(cmd->arg[0], O_RDONLY)) == -1)
-		{
-			write(2, cmd->arg[0], ft_strlen(cmd->arg[0]));
-			return (exit_write(" : No such file or directory\n", 0, -1));
-		}
+			ft_errno(cmd);
 		if (cmd->arg_nbr < 2)
 			return (-1);
 		if (remove_after_red(cmd, 0) == 0)
@@ -137,16 +134,19 @@ int		ft_file_recup(t_cmd *cmd)
 			if (fd > 0)
 				close(fd);
 			if ((fd = open(cmd->arg[i + 1], O_RDONLY)) == -1)
-			{
-				write(2, cmd->arg[i + 1], ft_strlen(cmd->arg[i + 1]));
-				return (exit_write(" : No such file or directory\n", 0, -1));
-			}
+				ft_errno(cmd);
 		}
 	return (fd);
 }
 
 t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir)
 {
+	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
+	{
+		rdir.fdin = -1;
+		write(2, "parse error near `\\n'\n", 22);
+		return (rdir);
+	}
 	if (cmd->arg_nbr == 0)
 		return (rdir);
 	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' || cmd->arg[cmd->arg_nbr - 1][0] == '<')
