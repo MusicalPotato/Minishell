@@ -64,9 +64,9 @@ int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 	if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/'))
 	{
 		if (!(*pathlist = ft_calloc(sizeof(char*), 2)))
-			return (0);
+			return (1);
 		if (!((*pathlist)[0] = ft_strdup(cmd->name)))
-			return (free_all(pathlist, 0));
+			return (free_all(pathlist, 1));
 		(*pathlist)[1] = NULL;
 	}
 	else
@@ -93,12 +93,12 @@ int		ft_exec(t_cmd *cmd, char **envp)
 	pid_t	child_pid;
 
 	if (!(set_argvlist(cmd, &argvlist)))
-		return (0);
+		return (-1);
 	if (!(set_pathlist(cmd, &pathlist, envp)))
-		return (free_all(&argvlist, 0));
+		return (free_all(&argvlist, -1));
 	i = 0;
 	if ((child_pid = fork()) == -1)
-		return (free_all(&argvlist, free_all(&pathlist, 0)));
+		return (free_all(&argvlist, free_all(&pathlist, -1)));
 	if (child_pid == 0)
 	{
 		//pathlist a 1 (i=0) element pour nos cmd sinon i=x element(s)
