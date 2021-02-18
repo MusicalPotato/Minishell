@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	Minishell
+NAME		=	minishell
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 LIBFT		=	libft/libft.a

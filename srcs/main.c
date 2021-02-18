@@ -18,8 +18,8 @@ int		ft_loop(t_data **data, char ***envp, int *status)
 	int		r;
 
 	(void)envp;
-	if ((*status = ft_line_reader(data)))
-		return (*status);
+	if ((r = ft_line_reader(data)))
+		return ((*status = r));
 	tempo = *data;
 	while (tempo)
 	{
@@ -44,7 +44,11 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 	char	*str;
 
 	(void)envp;
+<<<<<<< HEAD
 	str = ft_strdup(argv);
+=======
+	str = strdup(argv);
+>>>>>>> b026ffc73af1eccd8ae32e480fa299e7ea6d5884
 	if (!(str = ft_memcat(str, "\n", ft_strlen(str), 1)))
 		return (exit_write("malloc Error\n", 0, ft_freeturn(&str, -1)));
 	if ((r = ft_line_saver(data, &str)))
