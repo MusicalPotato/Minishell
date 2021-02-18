@@ -44,13 +44,12 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 	char	*str;
 
 	(void)envp;
-	str = malloc(sizeof(char) * ft_strlen(argv));
+	str = ft_strdup(argv);
 	if (!(str = ft_memcat(str, "\n", ft_strlen(str), 1)))
-		return (exit_write("malloc Error\n", 0, 0));
-	str = argv;
+		return (exit_write("malloc Error\n", 0, ft_freeturn(&str, -1)));
 	if ((r = ft_line_saver(data, &str)))
-		return (ft_freeturn(&str, r));
-//	free(str);
+		return (ft_freeturn(&str, (*status = r)));
+	free(str);
 	tempo = *data;
 	while (tempo)
 	{
