@@ -70,24 +70,30 @@ int	ft_parse_env(t_data *d, char ***envp, int *status)
 			else
 				s_v++;
 			if (!(var = ft_memcat(var, d->line + count, 0, s_v)))
-				return (exit_write("malloc Error\n", 0, 0));
+				return (exit_write("malloc Error\n", 0, -1));
 			if (var[0])
 			{
 				if (var[0] == '?')
 				{
 					if (!(value = ft_itoa(*status)))
-						return (0);
+						return (exit_write("malloc Error\n", 0, -1));
 				}
 				else
 					value = ft_getenv(var, *envp);
 				if (!(var_to_value(&d->line, count, s_v, value)))
-					return (ft_freeturn(&var, 0));
+				{
+					if (!is_in_stack(value))
+						free(value);
+					return (ft_freeturn(&var, -1));
+				}
 			count--;
 			}
 			free(var);
+			if (!is_in_stack(value))
+				free(value);
 		}
 		else
 			count++;
 	}
-	return (1);
+	return (0);
 }
