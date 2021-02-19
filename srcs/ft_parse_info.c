@@ -6,11 +6,28 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/19 12:10:14 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/19 16:17:53 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		ft_parse_error_check(t_cmd *cmd)
+{
+	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
+	{
+		write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+		return (2);
+	}
+	if (cmd->arg_nbr == 0)
+		return (0);
+	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' || cmd->arg[cmd->arg_nbr - 1][0] == '<')
+	{
+		write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+		return (2);
+	}
+	return (0);
+}
 
 int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 {
@@ -24,11 +41,11 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 	while (ft_is_space(line[count]))
 		count++;
 	if ((line[0] == '>' || line[0] == '<') && line[count] == '<')
-		return (exit_write("syntax error near unexpected token ", "'<'", -2));
+		return (exit_write("minishell: syntax error near unexpected token ", "`<'", -2));
 	if ((line[0] == '>' || line[0] == '<') && line[count] == '>' && line[count + 1] == '>')
-		return (exit_write("syntax error near unexpected token ", "'>>'", -2));
+		return (exit_write("minishell: syntax error near unexpected token ", "`>>'", -2));
 	else if ((line[0] == '>' || line[0] == '<') && line[count] == '>')
-		return (exit_write("syntax error near unexpected token ", "'>'", -2));
+		return (exit_write("minishell: syntax error near unexpected token ", "`>'", -2));
 	while (line[count] != '\n' && line[count] != '\0')
 	{
 		while (ft_is_space(line[count]))
@@ -68,15 +85,15 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 					count++;
 				}
 				if (line[count] == '<')
-					return (exit_write("'<<' not supported by minishell\n", 0, -2));
+					return (exit_write("minishell: `<<' not supported by Minishell", 0, -2));
 				while (ft_is_space(line[count]))
 					count++;
 				if (line[count] == '<')
-					return (exit_write("syntax error near unexpected token ", "'<'", -2));
+					return (exit_write("minishell: syntax error near unexpected token ", "`<'", -2));
 				else if (line[count] == '>' && line[count + 1] == '>')
-					return (exit_write("syntax error near unexpected token ", "'>>'", -2));
+					return (exit_write("minishell: syntax error near unexpected token ", "`>>'", -2));
 				else if (line[count] == '>')
-					return (exit_write("minishell: syntax error near unexpected token ", "'>'", -2));
+					return (exit_write("minishell: syntax error near unexpected token ", "`>'", -2));
 				if (line[count] && line[count] != ' ' && line[count] != '\n')
 					if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++)))
 						return (exit_write("malloc Error\n", 0, -1));
@@ -91,7 +108,7 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 				while (ft_is_space(line[count]))
 					count++;
 				if (line[count] == '|')
-					return (exit_write("minishell: syntax error near unexpected token ", "'|'", -2));
+					return (exit_write("minishell: syntax error near unexpected token ", "`|'", -2));
 				if (line[count] && line[count] != ' ' && line[count] != '\n')
 					if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++)))
 						return (exit_write("malloc Error\n", 0, -1));
@@ -140,18 +157,18 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 				return (exit_write("malloc Error\n", 0, -1));
 			count++;
 			if (line[count - 1] == '<' && line[count] == '<')
-				return (exit_write("minishell: syntax error near unexpected token ", "'<'", -2));
+				return (exit_write("minishell: syntax error near unexpected token ", "`<'", -2));
 			if (line[count - 1] == '>' && line[count] == '<')
-				return (exit_write("minishell: syntax error near unexpected token ", "'<'", -2));
+				return (exit_write("minishell: syntax error near unexpected token ", "`<'", -2));
 			if (line[count - 1] == '>' && line[count] == '>')
 			{
 				if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
 					return (exit_write("malloc Error\n", 0, -1));
 				count++;
 				if (line[count] == '<')
-					return (exit_write("minishell: syntax error near unexpected token ", "'<'", -2));
+					return (exit_write("minishell: syntax error near unexpected token ", "`<'", -2));
 				if (line[count] == '>')
-					return (exit_write("minishell: syntax error near unexpected token ", "'>'", -2));
+					return (exit_write("minishell: syntax error near unexpected token ", "`>'", -2));
 			}
 			return (count);
 		}
@@ -177,8 +194,7 @@ int		ft_parse_info(t_data *d)
 		return (ft_abs(ret));
 	if (ret == -1)
 		return (-1);
-	if (!(ft_lstadd_back_cmd(&(d->cmd),
-		ft_lstnew_cmd(ft_strdup(cmd)))))
+	if (!(ft_lstadd_back_cmd(&(d->cmd), ft_lstnew_cmd(ft_strdup(cmd)))))
 		return (ft_freeturn(&cmd, -1));
 	free(cmd);
 	if (d->line[ret] == ' ' || d->line[ret] == '\t' || d->line[ret] == '|' || d->line[ret - 1] == '>' || d->line[ret - 1] == '<' || d->line[ret] == '>' || d->line[ret] == '<')
@@ -188,5 +204,5 @@ int		ft_parse_info(t_data *d)
 		if (ret == -1)
 			return (-1);
 	}
-	return (0);
+	return (ft_parse_error_check(d->cmd));
 }
