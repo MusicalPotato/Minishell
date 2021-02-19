@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/02/19 12:47:23 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/19 16:41:46 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		ft_redir_check(t_cmd *cmd)
 		if (cmd->arg_nbr < 2)
 			return (-3);
 		if (remove_after_red(cmd, 0) == 0)
-			return (0);
+			return (-1);
 	}
 	while (i < cmd->arg_nbr)
 	{
@@ -122,7 +122,7 @@ int		ft_file_recup(t_cmd *cmd)
 	while (cmd->name[0] == '<')
 	{
 		if ((fd = open(cmd->arg[0], O_RDONLY)) == -1)
-			ft_errno2(cmd);
+			return (ft_errno2(cmd));
 		if (cmd->arg_nbr < 2)
 			return (-1);
 		if (remove_after_red(cmd, 0) == 0)
@@ -134,27 +134,15 @@ int		ft_file_recup(t_cmd *cmd)
 			if (fd > 0)
 				close(fd);
 			if ((fd = open(cmd->arg[i + 1], O_RDONLY)) == -1)
-				ft_errno2(cmd);
+				return (ft_errno2(cmd));
 		}
 	return (fd);
 }
 
 t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir)
 {
-	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
-	{
-		rdir.fdin = -1;
-		write(2, "parse error near `\\n'\n", 22);
-		return (rdir);
-	}
 	if (cmd->arg_nbr == 0)
 		return (rdir);
-	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' || cmd->arg[cmd->arg_nbr - 1][0] == '<')
-	{
-		rdir.fdin = -1;
-		write(2, "zsh: parse error near `\\n'\n", 27);
-		return (rdir);
-	}
 	rdir.fdin = ft_redir_check(cmd);
 	rdir.fdout = ft_file_recup(cmd);
 	return (ft_open_all(rdir));

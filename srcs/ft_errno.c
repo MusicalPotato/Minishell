@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 12:34:31 by igor              #+#    #+#             */
-/*   Updated: 2021/02/19 13:01:26 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/19 16:41:47 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_errno2(t_cmd *cmd)
 			ft_printf("minishell: %s: No such file or directory: %s\n", cmd->name, cmd->arg[0]);
 		else
 			ft_printf("minishell: %s: No such file or directory\n", cmd->arg[i + 1]);
-		ret = 127;
+		ret = 1;
 	}
 	else
 		return (0);
