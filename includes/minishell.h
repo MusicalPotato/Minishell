@@ -76,6 +76,6 @@ int		ft_putenv(char *string, char ***envp, int to_free);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);
-int		ft_errno(t_cmd *cmd);
+int		ft_errno_exec(t_cmd *cmd, char **envp);
 
 #endif
