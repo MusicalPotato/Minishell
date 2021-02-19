@@ -28,11 +28,7 @@ int ft_errno_exec(t_cmd *cmd, char *path)
 	}
 	else if (errno == EACCES)
 	{
-		ft_printf("minishell: ");
-		if (!(cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/')))
-			ft_printf("%s: Permission denied\n", path);
-		else
-			ft_printf("%s: Permission denied\n", cmd->name);
+		ft_printf("minishell: %s: Permission denied\n", path);
 		ret = 126;
 	}
 	else if (errno == ENOENT)
