@@ -59,57 +59,67 @@ int		set_argvlist(t_cmd *cmd, char ***argvlist)
 int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 {
 	int		i;
+	char	*path;
+	int		emsg;
 
 	i = 0;
-	if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/'))
+	emsg = 1;
+	path = ft_getenv("PATH", envp);
+	if (!path || !path[0])
+		emsg = 2;
+	if (!(cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/')) && path)
 	{
-		if (!(*pathlist = ft_calloc(sizeof(char*), 2)))
-			return (1);
-		if (!((*pathlist)[0] = ft_strdup(cmd->name)))
-			return (free_all(pathlist, 1));
-		(*pathlist)[1] = NULL;
-	}
-	else
-	{
-		if (!(*pathlist = ft_split(ft_getenv("PATH", envp), ':')))
+		if (!(*pathlist = ft_split(path, ':')))
 			return (0);
 		while ((*pathlist)[i])
 		{
-			if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], "/", ft_strlen((*pathlist)[i]), 1))
-					|| !((*pathlist)[i] = ft_memcat((*pathlist)[i], cmd->name,
+			if ((*pathlist)[i][0])
+				if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], "/", ft_strlen((*pathlist)[i]), 1)))
+					return (free_all(pathlist, 0));
+			if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], cmd->name,
 					ft_strlen((*pathlist)[i]), ft_strlen(cmd->name))))
 				return (free_all(pathlist, 0));
 			i++;
 		}
 	}
-	return (1);
+	else
+	{
+		if (!(*pathlist = ft_calloc(sizeof(char *), 2)))
+			return (0);
+		if (!((*pathlist)[0] = ft_strdup(cmd->name)))
+			return (free_all(pathlist, 0));
+		(*pathlist)[1] = NULL;
+	}
+	return (emsg);
 }
 
 int		ft_exec(t_cmd *cmd, char **envp)
 {
 	int		i;
+	int		emsg;
 	char	**pathlist;
 	char	**argvlist;
 	pid_t	child_pid;
 
 	if (!(set_argvlist(cmd, &argvlist)))
 		return (-1);
-	if (!(set_pathlist(cmd, &pathlist, envp)))
+	if (!(emsg = set_pathlist(cmd, &pathlist, envp)))
 		return (free_all(&argvlist, -1));
 	i = 0;
 	if ((child_pid = fork()) == -1)
 		return (free_all(&argvlist, free_all(&pathlist, -1)));
 	if (child_pid == 0)
 	{
-		//pathlist a 1 (i=0) element pour nos cmd sinon i=x element(s)
 		while (pathlist[i])
 		{
 			execve(pathlist[i], argvlist, envp);
 			if (errno != ENOENT)
-				exit(ft_errno_exec(cmd, pathlist[i]));
+				exit(ft_errno_exec(cmd, pathlist[i], emsg));
 			i++;
 		}
-		exit(ft_errno_exec(cmd, pathlist[i]));
+		if (i > 0)
+			i--;
+		exit(ft_errno_exec(cmd, pathlist[i], emsg));
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
 }
