@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/04 13:21:48 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/19 12:36:12 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,7 @@ int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);
 int		ft_errno(t_cmd *cmd);
+int     ft_errno2(t_cmd *cmd);
+
 
 #endif

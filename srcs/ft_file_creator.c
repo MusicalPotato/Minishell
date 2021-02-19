@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/02/17 19:12:56 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/19 12:47:23 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir)
 	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' || cmd->arg[cmd->arg_nbr - 1][0] == '<')
 	{
 		rdir.fdin = -1;
-		write(2, "syntax error near unexpected token `newline'\n", 45);
+		write(2, "zsh: parse error near `\\n'\n", 27);
 		return (rdir);
 	}
 	rdir.fdin = ft_redir_check(cmd);
