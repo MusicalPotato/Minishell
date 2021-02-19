@@ -2,11 +2,27 @@
 
 int	ft_errno(t_cmd *cmd)
 {
-	ft_printf("minishell: %s: ", cmd->name);
-	if (errno == EACCES)
-		return (exit_write("Permission denied: ", cmd->arg[0], -1));
+	int	ret;
+
+	if (errno == EISDIR)
+	{
+		ft_printf("minishell: %s: is a directory\n", cmd->name);
+		ret = 126;
+	}
+	else if (errno == EACCES)
+	{
+		ft_printf("minishell: %s: Permission denied\n", cmd->name);
+		ret = 126;
+	}
 	else if (errno == ENOENT)
-		return (exit_write("No such file or directory: ", cmd->arg[0], -1));
+	{
+		if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/'))
+			ft_printf("minishell: %s: No such file or directory\n", cmd->name);
+		else
+			ft_printf("minishell: %s: command not found\n", cmd->name);
+		ret = 127;
+	}
 	else
-		return (exit_write("Error\n", 0, -1));
+		return (0);
+	return (ret);
 }

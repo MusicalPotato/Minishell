@@ -119,10 +119,7 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 	{
 		pipe(filedes);
 		if ((childpid = fork()) == -1)
-		{
-			perror("fork");
-			exit(1);
-		}
+			exit(-1);
 		if (childpid == 0)
 		{
 			close(filedes[0]);
@@ -146,11 +143,11 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 	file_rd = ft_rdir_init();
 	file_rd = ft_file_rd(cmd, file_rd);
 	if (file_rd.fdin == -1 || file_rd.fdout == -1)
-		return (-1);
-	if (file_rd.fdin == -3 || file_rd.fdout == -3)
 		return (1);
-	if (file_rd.fdin == 0 || file_rd.fdout == 0)
+	if (file_rd.fdin == -3 || file_rd.fdout == -3)
 		return (0);
+	if (file_rd.fdin == 0 || file_rd.fdout == 0)
+		return (-1);
 	ret = ft_sorter(cmd, envp);
 	*status = ret;
 	waitpid(ret, status, 0);
@@ -159,11 +156,8 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 	ft_close_all(file_rd);
 	ft_close_all(pipe_rd);
 	if (*status == -1)
-		return (0);
-	if (*status == -2)
-	{
-		*status = 1;
 		return (-1);
-	}
-	return (1);
+	if (*status == -2)
+		return ((*status = 1));
+	return (0);
 }
