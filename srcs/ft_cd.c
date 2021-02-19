@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:25:46 by igor              #+#    #+#             */
-/*   Updated: 2021/01/27 08:16:20 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/19 12:53:11 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_cd(t_cmd *cmd, char ***envp)
 	else
 		chdir(cmd->arg[0]);
 	if (errno)
-		return (ft_errno(cmd));
+		return (ft_errno2(cmd));
 	ft_putenv(ft_envformat("OLDPWD", ft_getenv("PWD", *envp)), envp, 1);
 	pwd = getcwd(0, 0);
 	ft_putenv(ft_envformat("PWD", pwd), envp, 1);
