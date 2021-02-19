@@ -122,7 +122,7 @@ int		ft_file_recup(t_cmd *cmd)
 	while (cmd->name[0] == '<')
 	{
 		if ((fd = open(cmd->arg[0], O_RDONLY)) == -1)
-			ft_errno(cmd);
+			ft_errno2(cmd);
 		if (cmd->arg_nbr < 2)
 			return (-1);
 		if (remove_after_red(cmd, 0) == 0)
@@ -134,7 +134,7 @@ int		ft_file_recup(t_cmd *cmd)
 			if (fd > 0)
 				close(fd);
 			if ((fd = open(cmd->arg[i + 1], O_RDONLY)) == -1)
-				ft_errno(cmd);
+				ft_errno2(cmd);
 		}
 	return (fd);
 }

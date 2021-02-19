@@ -106,10 +106,10 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		{
 			execve(pathlist[i], argvlist, envp);
 			if (errno != ENOENT)
-				exit(ft_errno_exec(cmd, envp));
+				exit(ft_errno_exec(cmd, pathlist[i]));
 			i++;
 		}
-		exit(ft_errno_exec(cmd, envp));
+		exit(ft_errno_exec(cmd, pathlist[i]));
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
 }

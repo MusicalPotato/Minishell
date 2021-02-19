@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	ft_errno_exec(t_cmd *cmd, char **envp)
+int ft_errno_exec(t_cmd *cmd, char *path)
 {
 	int	ret;
 	int	i;
@@ -30,8 +30,9 @@ int	ft_errno_exec(t_cmd *cmd, char **envp)
 	{
 		ft_printf("minishell: ");
 		if (!(cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/')))
-			ft_printf("%s/", ft_getenv("PATH", envp));
-		ft_printf("%s: Permission denied\n", cmd->name);
+			ft_printf("%s: Permission denied\n", path);
+		else
+			ft_printf("%s: Permission denied\n", cmd->name);
 		ret = 126;
 	}
 	else if (errno == ENOENT)
