@@ -67,6 +67,7 @@ t_rdir	ft_open_all(t_rdir rdir);
 void	ft_close_all(t_rdir rdir);
 
 char	*ft_envformat(char *name, char *value);
+int		ft_putshlvl(char *arg, char ***envp, int add);
 void	ft_envpclear(char ***envp);
 int		is_in_stack(void *addr);
 
