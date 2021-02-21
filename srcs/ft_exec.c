@@ -67,7 +67,7 @@ int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 	path = ft_getenv("PATH", envp);
 	if (!path || !path[0])
 		emsg = 2;
-	if (!(cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/')) && path)
+	if (!ft_hasslash(cmd->name) && path)
 	{
 		if (!(*pathlist = ft_split(path, ':')))
 			return (0);

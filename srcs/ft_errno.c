@@ -12,6 +12,20 @@
 
 #include "../includes/minishell.h"
 
+int		ft_hasslash(char *string)
+{
+	int	i;
+
+	i = 0;
+	while (string[i])
+	{
+		if (string[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int ft_errno_exec(t_cmd *cmd, char *path, int emsg)
 {
 	int	ret;
@@ -33,7 +47,7 @@ int ft_errno_exec(t_cmd *cmd, char *path, int emsg)
 	}
 	else if (errno == ENOENT)
 	{
-		if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/') || emsg == 2)
+		if (ft_hasslash(cmd->name) || emsg == 2)
 			ft_printf("minishell: %s: No such file or directory\n", cmd->name);
 		else
 			ft_printf("minishell: %s: command not found\n", cmd->name);

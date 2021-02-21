@@ -47,6 +47,7 @@ int		ft_istext(int text, char c);
 char	*ft_strndup(const char *s1, int size);
 int		exit_write(char *msg, char *bonus, int value);
 int		free_all(char ***data, int ret);
+int		ft_hasslash(char *string);
 
 int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status);
 int		ft_sorter(t_cmd *cmd, char ***envp);
