@@ -27,8 +27,6 @@ char	*ft_envformat(char *name, char *value)
 	int		len;
 	int		i;
 
-	if (!value)
-		return (0);
 	len = ft_strlen(name);
 	if (!(string = malloc(sizeof(char) * (len + ft_strlen(value) + 2))))
 		return (NULL);
@@ -39,7 +37,7 @@ char	*ft_envformat(char *name, char *value)
 		i++;
 	}
 	string[i++] = '=';
-	while (value[i - len - 1])
+	while (value && value[i - len - 1])
 	{
 		string[i] = value[i - len - 1];
 		i++;

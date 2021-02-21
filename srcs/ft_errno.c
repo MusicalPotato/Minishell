@@ -60,7 +60,7 @@ int	ft_errno2(t_cmd *cmd)
 	}
 	else if (errno == EACCES)
 	{
-		ft_printf("minishell: %s: Permission denied\n", cmd->name);
+		ft_printf("minishell: %s: %s: Permission denied\n", cmd->name, cmd->arg[0]);
 		ret = 126;
 	}
 	else if (errno == ENOENT)
