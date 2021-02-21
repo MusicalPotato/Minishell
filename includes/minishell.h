@@ -67,6 +67,7 @@ t_rdir	ft_open_all(t_rdir rdir);
 void	ft_close_all(t_rdir rdir);
 
 char	*ft_envformat(char *name, char *value);
+int		ft_putshlvl(char *arg, char ***envp, int add);
 void	ft_envpclear(char ***envp);
 int		is_in_stack(void *addr);
 
@@ -76,7 +77,7 @@ int		ft_putenv(char *string, char ***envp, int to_free);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);
-int		ft_errno_exec(t_cmd *cmd, char *path);
+int		ft_errno_exec(t_cmd *cmd, char *path, int emsg);
 int     ft_errno2(t_cmd *cmd);
 
 

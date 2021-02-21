@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int ft_errno_exec(t_cmd *cmd, char *path)
+int ft_errno_exec(t_cmd *cmd, char *path, int emsg)
 {
 	int	ret;
 	int	i;
@@ -33,7 +33,7 @@ int ft_errno_exec(t_cmd *cmd, char *path)
 	}
 	else if (errno == ENOENT)
 	{
-		if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/'))
+		if (cmd->name[0] == '/' || (cmd->name[0] == '.' && cmd->name[1] == '/') || emsg == 2)
 			ft_printf("minishell: %s: No such file or directory\n", cmd->name);
 		else
 			ft_printf("minishell: %s: command not found\n", cmd->name);

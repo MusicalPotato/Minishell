@@ -42,6 +42,29 @@ char	*ft_get_envname(char *envp)
 	return (name);
 }
 
+int		ft_putshlvl(char *arg, char ***envp, int add)
+{
+	int		nbr;
+	char	*value;
+
+	if (!arg)
+		nbr = 1;
+	else
+		nbr = ft_atoi(arg) + add;
+	if (nbr > 2000000)
+	{
+		ft_printf("minishell: warning: shell level (%d) too high, resetting to 1\n", nbr);
+		nbr = 1;
+	}
+	else if (nbr <= -1999999)
+		nbr = 0;
+	if (!(value = ft_itoa(nbr)))
+		return (0);
+	if (!(ft_putenv(ft_envformat("SHLVL", value), envp, 1)))
+		return (ft_freeturn(&value, 0));
+	return (ft_freeturn(&value, 1));
+}
+
 int		ft_export(t_cmd *cmd, char ***envp)
 {
 	int		i;

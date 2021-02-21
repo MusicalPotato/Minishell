@@ -77,6 +77,8 @@ int		main(int argc, char **argv, char **envp)
 
 	data = NULL;
 	status = 0;
+	if (!(ft_putshlvl(ft_getenv("SHLVL", envp), &envp, 1)))
+		return (exit_write("malloc Error\n", 0, -1));
 	if (argc != 1)
 	{
 		if (argv[1][0] == '-' && argv[1][1] == 'c' && argc == 3)
@@ -88,7 +90,7 @@ int		main(int argc, char **argv, char **envp)
 			{
 				ft_lstclear_line(&data);
 				ft_envpclear(&envp);
-				return (0);
+				return (-1);
 			}
 //			ft_lstclear_line(&data);
 		}
@@ -107,7 +109,7 @@ int		main(int argc, char **argv, char **envp)
 			{
 				ft_lstclear_line(&data);
 				ft_envpclear(&envp);
-				return (0);
+				return (-1);
 			}
 			ft_lstclear_line(&data);
 		}

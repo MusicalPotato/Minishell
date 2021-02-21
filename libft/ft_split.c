@@ -32,55 +32,41 @@ static char	*ft_complet_tab(const char *str, int min, int max)
 	return (tab);
 }
 
-static void	ft_settab(char const *s, char c, int a, char **tab)
+static int	ft_settab(char const *s, char c, char **tab)
 {
-	int	x;
 	int	t;
+	int	max;
+	int	min;
 
-	x = 0;
 	t = 0;
-	while (s[++a])
-		if (s[a] == c || !(s[a + 1]))
+	max = 0;
+	min = 0;
+	while (s[max])
+	{
+		if (s[max] == c)
 		{
-			if (!(s[a + 1]) && !(s[a] == c))
-				tab[t++] = ft_complet_tab(s, a - x, a + 1);
-			else if (x > 0)
-				tab[t++] = ft_complet_tab(s, a - x, a);
-			if (t != 0 && !(tab[t - 1]))
-			{
-				while (t - 1)
-					free(tab[--t - 1]);
-				return ;
-			}
-			x = 0;
+			if (!(tab[t++] = ft_complet_tab(s, min, max)))
+				return (0);
+			min = max + 1;
 		}
-		else
-			x++;
-	tab[t] = 0;
+		max++;
+	}
+	tab[t++] = ft_complet_tab(s, min, max);
+	return (1);
 }
 
 static int	splitlen(char const *s, char c)
 {
-	int	a;
-	int	x;
+	int	i;
 	int	size;
 
-	a = 0;
-	x = 0;
-	size = 0;
-	while (s[a])
+	i = 0;
+	size = 1;
+	while (s[i])
 	{
-		if (s[a] == c || !(s[a + 1]))
-		{
-			if (!(s[a + 1] && s[a] == c))
-				x++;
-			if (x > 0)
-				size++;
-			x = 0;
-		}
-		else
-			x++;
-		a++;
+		if (s[i] == c)
+			size++;
+		i++;
 	}
 	return (size);
 }
@@ -89,14 +75,14 @@ char		**ft_split(char const *s, char c)
 {
 	int		size;
 	char	**tab;
-	int		a;
 
 	if (!s)
 		return (0);
 	size = splitlen(s, c);
 	if (!(tab = malloc(sizeof(char *) * (size + 1))))
 		return (0);
-	a = -1;
-	ft_settab(s, c, a, tab);
+	if (!(ft_settab(s, c, tab)))
+		return (0);
+	tab[size] = 0;
 	return (tab);
 }
