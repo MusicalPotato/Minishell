@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/19 16:17:53 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/22 15:37:55 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 
 int		ft_parse_error_check(t_cmd *cmd)
 {
+	if (cmd->arg_nbr && cmd->arg[cmd->arg_nbr - 1][0] == '|')
+	{
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
+		return (2);
+	}
 	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
 	{
 		write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+		return (2);
+	}
+	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg[0][0] == '|')
+	{
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 		return (2);
 	}
 	if (cmd->arg_nbr == 0)
@@ -130,9 +140,9 @@ int		ft_cmd_recup(char *line, int count, char **cmd)
 
 	quote = 0;
 	if (line[0] == '|')
-		exit_write("minishell: syntax error near unexpected token `|'\n", 0, -2);
+		return (exit_write("minishell: syntax error near unexpected token `|'\n", 0, -2));
 	if (line[0] == ';')
-		exit_write("minishell: syntax error near unexpected token `;'\n", 0, -2);
+		return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, -2));
 	while (line[count] != '\0' && (quote || (line[count] != '\n' && line[count] != ' ' && line[count] != '|' && line[count] != '\t')))
 	{
 		if (line[count] == '\\' && (quote == 0 || (quote == 2 && (line[count + 1] == '"' || line[count + 1] == '\\'))))

@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/11 20:05:01 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/22 19:02:05 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,39 @@ int		ft_ask_next(char **line)
 	return (1);
 }
 
+int		ft_pipe_chev_check(int count, char **line, int i)
+{
+	while (ft_is_space((*line)[count]))
+		count++;
+	if ((*line)[count] == ';' && i > 0)
+	{
+		count++;
+		while (ft_is_space((*line)[count]))
+			count++;
+		if ((*line)[count] == '|')
+			return (exit_write("minishell: syntax error near unexpected token `|'\n", 0, 2));
+	}
+	if (((*line)[count] == '<' || (*line)[count] == '>' || (*line)[count] == '|') && i > 0)
+	{
+		count++;
+		while (ft_is_space((*line)[count]))
+			count++;
+		if ((*line)[count] == ';')
+			return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, 2));
+	}
+	if (((*line)[count] == '<' || (*line)[count] == '>') && i == 0)
+	{
+		if ((*line)[count] == '>')
+			count++;
+		count++;
+		while (ft_is_space((*line)[count]))
+			count++;
+		if ((*line)[count] == ';')
+			return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, 2));
+	}
+	return (0);
+}
+
 int		ft_check_text(int count, char **line)
 {
 	int		quote;
@@ -66,6 +99,8 @@ int		ft_check_text(int count, char **line)
 			break ;
 		while (((*line)[count + size] != ';' || quote || pipe) && (*line)[count + size] != 0)
 		{
+			if (quote == 0 && ft_pipe_chev_check(count + size, line, count + size))
+				return (-2);
 			if (!ft_is_space((*line)[count + size]))
 				pipe = 0;
 			while ((*line)[count + size] == '\\' && quote != 1)
@@ -104,6 +139,8 @@ int		ft_line_saver(t_data **data, char **line)
 
 	count = 0;
 	fcmd = 0;
+	if ((ft_pipe_chev_check(count, line, 0)))
+		return (2);
 	while ((*line)[count])
 	{
 		end = 0;
@@ -123,7 +160,11 @@ int		ft_line_saver(t_data **data, char **line)
 		}
 		fcmd = 1;
 		if ((size = ft_check_text(count, line)) < 0)
+		{
+			if (size == -2)
+				return (2);
 			return (-1);
+		}
 		if (size)
 			if (!(ft_lstadd_back_line(data,
 				ft_lstnew_line(ft_strndup(*line + count, size)))))

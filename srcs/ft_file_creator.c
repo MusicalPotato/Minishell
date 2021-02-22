@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/02/19 16:41:46 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/22 19:08:47 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int		ft_file_recup(t_cmd *cmd)
 		if ((fd = open(cmd->arg[0], O_RDONLY)) == -1)
 			return (ft_errno2(cmd));
 		if (cmd->arg_nbr < 2)
-			return (-1);
+			return (-3);
 		if (remove_after_red(cmd, 0) == 0)
 			return (0);
 	}
