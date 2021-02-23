@@ -65,11 +65,50 @@ int		ft_putshlvl(char *arg, char ***envp, int add)
 	return (ft_freeturn(&value, 1));
 }
 
-int		ft_export(t_cmd *cmd, char ***envp)
+void	ft_display_value(char *value)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("=\"");
+	while (value[i])
+	{
+		if (value[i] == '\\'|| value[i] == '$'|| value[i] == '\"')
+			ft_printf("\\");
+		ft_printf("%c", value[i]);
+		i++;
+	}
+	ft_printf("\"");
+}
+
+int		ft_display_export(char ***envp)
 {
 	int		i;
 	char	*name;
 	char	*value;
+
+	i = 0;
+	while ((*envp)[i])
+		{
+			if (!(name = ft_get_envname((*envp)[i])))
+				return (-1);
+			if (ft_strncmp(name, "_", 2))
+			{
+				ft_printf("declare -x %s", name);
+				value = ft_getenv(name, *envp);
+				if (value)
+					ft_display_value(value);
+				ft_printf("\n");
+			}
+			free(name);
+			i++;
+		}
+	return (1);
+}
+
+int		ft_export(t_cmd *cmd, char ***envp)
+{
+	int		i;
 	int		ret;
 
 	i = 0;
@@ -86,22 +125,6 @@ int		ft_export(t_cmd *cmd, char ***envp)
 		i++;
 	}
 	if (i == 0)
-	{
-		while ((*envp)[i])
-		{
-			if (!(name = ft_get_envname((*envp)[i])))
-				return (-1);
-			if (ft_strncmp(name, "_", 2))
-			{
-				ft_printf("declare -x %s", name);
-				value = ft_getenv(name, *envp);
-				if (value)
-					ft_printf("=\"%s\"", value);
-				ft_printf("\n");
-			}
-			free(name);
-			i++;
-		}
-	}
+		ft_display_export(envp);
 	return (ret);
 }
