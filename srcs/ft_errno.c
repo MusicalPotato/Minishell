@@ -26,12 +26,13 @@ int		ft_hasslash(char *string)
 	return (0);
 }
 
-int ft_errno_exec(t_cmd *cmd, char *path, int emsg)
+int ft_errno_exec(t_cmd *cmd, t_rdir pipe_rd, char *path, int emsg)
 {
 	int	ret;
 	int	i;
 
 	i = -1;
+	ft_close_all(pipe_rd);
 	while (cmd->arg_nbr > ++i + 1)
 		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
 			return (ft_errno2(cmd));

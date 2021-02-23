@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		ft_sorter(t_cmd *cmd, char ***envp)
+int		ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
 {
 	int	ret;
 
@@ -33,7 +33,7 @@ int		ft_sorter(t_cmd *cmd, char ***envp)
 	else if (!ft_strncmp(cmd->name, "export", 7))
 		ret = ft_export(cmd, envp);
 	else
-		ret = ft_exec(cmd, *envp);
+		ret = ft_exec(cmd, pipe_rd, *envp);
 	return (ret);
 }
 
@@ -93,7 +93,7 @@ int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 	return (emsg);
 }
 
-int		ft_exec(t_cmd *cmd, char **envp)
+int		ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp)
 {
 	int		i;
 	int		emsg;
@@ -114,12 +114,12 @@ int		ft_exec(t_cmd *cmd, char **envp)
 		{
 			execve(pathlist[i], argvlist, envp);
 			if (errno != ENOENT)
-				exit(ft_errno_exec(cmd, pathlist[i], emsg));
+				exit(ft_errno_exec(cmd, pipe_rd, pathlist[i], emsg));
 			i++;
 		}
 		if (i > 0)
 			i--;
-		exit(ft_errno_exec(cmd, pathlist[i], emsg));
+		exit(ft_errno_exec(cmd, pipe_rd, pathlist[i], emsg));
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
 }

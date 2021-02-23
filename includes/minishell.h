@@ -50,8 +50,8 @@ int		free_all(char ***data, int ret);
 int		ft_hasslash(char *string);
 
 int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status);
-int		ft_sorter(t_cmd *cmd, char ***envp);
-int		ft_exec(t_cmd *cmd, char **envp);
+int		ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp);
+int		ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp);
 
 int		ft_cd(t_cmd *cmd, char ***envp);
 int     ft_echo(t_cmd *cmd);
@@ -78,7 +78,7 @@ int		ft_putenv(char *string, char ***envp, int to_free);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
 
 void	handler(int signum);
-int		ft_errno_exec(t_cmd *cmd, char *path, int emsg);
+int		ft_errno_exec(t_cmd *cmd, t_rdir pipe_rd, char *path, int emsg);
 int     ft_errno2(t_cmd *cmd);
 
 
