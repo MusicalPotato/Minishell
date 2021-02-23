@@ -12,14 +12,34 @@
 
 #include "../includes/minishell.h"
 
+int	ft_countbs(char *str)
+{
+	int	n;
+	int	i;
+
+	i = 0;
+	n = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '\\')
+			n++;
+		i++;
+	}
+	return (n);
+}
+
 int	var_to_value(char **str, int count, int s_var, char *val)
 {
 	char	*newstr;
 	int		s_val;
+	int		n;
 	int		a;
 
 	s_val = ft_strlen(val);
-	if (!(newstr = malloc(sizeof(char) * (ft_strlen(*str) - s_var + s_val))))
+	n = ft_countbs(val);
+	if (!(newstr = malloc(sizeof(char) * (ft_strlen(*str) - s_var + s_val + n))))
 		return (exit_write("malloc Error\n", 0, 0));
 	a = 0;
 	while (a < count - 1)
@@ -27,17 +47,23 @@ int	var_to_value(char **str, int count, int s_var, char *val)
 		newstr[a] = (*str)[a];
 		a++;
 	}
+	n = 0;
 	while (a < count + s_val - 1)
 	{
-		newstr[a] = val[a - count + 1];
+		if (val[a - count + 1] == '\\')
+		{
+			newstr[a + n] = '\\';
+			n++;
+		}
+		newstr[a + n] = val[a - count + 1];
 		a++;
 	}
 	while ((*str)[a - s_val + s_var + 1])
 	{
-		newstr[a] = (*str)[a - s_val + s_var + 1];
+		newstr[a + n] = (*str)[a - s_val + s_var + 1];
 		a++;
 	}
-	newstr[a] = 0;
+	newstr[a + n] = 0;
 	if (*str)
 		free(*str);
 	*str = newstr;
