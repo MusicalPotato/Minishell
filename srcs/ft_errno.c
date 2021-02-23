@@ -83,7 +83,7 @@ int	ft_errno2(t_cmd *cmd)
 		if (cmd->name[0] == '<')
 			ft_printf("minishell: %s: No such file or directory\n", cmd->arg[0]);
 		else if (cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
-			ft_printf("minishell: %s: No such file or directory: %s\n", cmd->name, cmd->arg[0]);
+			ft_printf("minishell: %s: %s: No such file or directory\n", cmd->name, cmd->arg[0]);
 		else
 			ft_printf("minishell: %s: No such file or directory\n", cmd->arg[i + 1]);
 		ret = 1;

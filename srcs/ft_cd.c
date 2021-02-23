@@ -15,11 +15,18 @@
 int	ft_cd(t_cmd *cmd, char ***envp)
 {
 	char	*pwd;
+	char	*value;
+
 	errno = 0;
 	if (cmd->arg_nbr > 1 && cmd->arg[0][0] != '>' && cmd->arg[1][0] != '>')
-		return (exit_write("cd: too many arguments\n", 0, 1));
+		return (exit_write("minishell: cd: too many arguments\n", 0, 1));
 	if (!cmd->arg_nbr || cmd->arg[0][0] == '>')
+	{
+		value = ft_getenv("HOME", *envp);
+		if (!value)
+			return (exit_write("minishell: cd: HOME not set\n", 0, 1));
 		chdir(ft_getenv("HOME", *envp));
+	}
 	else if (cmd->arg[0][0] == 0)
 		chdir(ft_getenv("PWD", *envp));
 	else
