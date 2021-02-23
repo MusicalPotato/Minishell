@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/23 15:02:41 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/23 16:14:52 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 int		ft_parse_error_check(t_cmd *cmd)
 {
-	if (cmd->arg_nbr && cmd->arg[cmd->arg_nbr - 1][0] == '|')
-	{
-		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
-		return (2);
-	}
 	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
 	{
 		write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
