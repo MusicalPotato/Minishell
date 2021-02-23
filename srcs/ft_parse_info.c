@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/22 15:37:55 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/23 15:02:41 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 				return (exit_write("malloc Error\n", 0, -1));
 		while (quote || (line[count] != '\n' && line[count] != ' ' && line[count] != '\0' && line[count] != '\t'))
 		{
-			if (line[count] == '\\' && (quote == 0 || (quote == 2 && (line[count + 1] == '"' || line[count + 1] == '\\'))))
+			if (line[count] == '\\' && (quote == 0 || (quote == 2 && (line[count + 1] == '"' || line[count + 1] == '\\' || line[count + 1] == '$'))))
 			{
 				count++;
 				if (line[count] != '\n')
