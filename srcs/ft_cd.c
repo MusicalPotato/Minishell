@@ -12,7 +12,42 @@
 
 #include "../includes/minishell.h"
 
-int	ft_cd(t_cmd *cmd, char ***envp)
+int	ft_errno_cd(t_cmd *cmd, t_rdir pipe_rd)
+{
+	int	ret;
+	int	i;
+
+	i = -1;
+	ft_close_all(pipe_rd);
+	while (cmd->arg_nbr > i + 1 && ++i)
+		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
+			break ;
+	if (errno == EISDIR)
+	{
+		ft_printf("minishell: %s: is a directory\n", cmd->name);
+		ret = 126;
+	}
+	else if (errno == EACCES)
+	{
+		ft_printf("minishell: %s: %s: Permission denied\n", cmd->name, cmd->arg[0]);
+		ret = 126;
+	}
+	else if (errno == ENOENT)
+	{
+		if (cmd->name[0] == '<')
+			ft_printf("minishell: %s: No such file or directory\n", cmd->arg[0]);
+		else if (cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
+			ft_printf("minishell: %s: %s: No such file or directory\n", cmd->name, cmd->arg[0]);
+		else
+			ft_printf("minishell: %s: No such file or directory\n", cmd->arg[i + 1]);
+		ret = 1;
+	}
+	else
+		return (0);
+	return (ret);
+}
+
+int	ft_cd(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
 {
 	char	*pwd;
 	char	*value;
@@ -32,7 +67,7 @@ int	ft_cd(t_cmd *cmd, char ***envp)
 	else
 		chdir(cmd->arg[0]);
 	if (errno)
-		return (ft_errno2(cmd));
+		return (ft_errno_cd(cmd, pipe_rd));
 	ft_putenv(ft_envformat("OLDPWD", ft_getenv("PWD", *envp)), envp, 1);
 	pwd = getcwd(0, 0);
 	ft_putenv(ft_envformat("PWD", pwd), envp, 1);

@@ -74,8 +74,9 @@ int		ft_setup(int argc, char **argv, char ***envp)
 {
 	char	*str;
 
-	if (argc > 0)
-		return (/*exit_write("Wrong number of arguments\n", 0, 0)*/1);
+	(void)argc;
+//	if (argc > 0)
+//		return (exit_write("Wrong number of arguments\n", 0, 0));
 	if (!(str = getcwd(0, 0)))
 		return (0);
 	if (!(ft_putenv(ft_envformat("PWD", str), envp, 1)))

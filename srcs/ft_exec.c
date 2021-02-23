@@ -19,7 +19,7 @@ int		ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
 	if (!ft_strncmp(cmd->name, "echo", 5))
 		ret = ft_echo(cmd);
 	else if (!ft_strncmp(cmd->name, "cd", 3))
-		ret = ft_cd(cmd, envp);
+		ret = ft_cd(cmd, pipe_rd, envp);
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		ret = ft_pwd(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
