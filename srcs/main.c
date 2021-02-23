@@ -70,6 +70,26 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 	return (1);
 }
 
+int		ft_setup(int argc, char **argv, char ***envp)
+{
+	char	*str;
+
+	if (argc > 0)
+		return (/*exit_write("Wrong number of arguments\n", 0, 0)*/1);
+	if (!(str = getcwd(0, 0)))
+		return (0);
+	if (!(ft_putenv(ft_envformat("PWD", str), envp, 1)))
+		return (ft_freeturn(&str, 0));
+	free(str);
+	if (!(ft_putshlvl(ft_getenv("SHLVL", *envp), envp, 1)))
+		return (exit_write("malloc Error\n", 0, 0));
+	if (!(str = ft_strdup(argv[0])))
+		return (0);
+	if (!(ft_putenv(ft_envformat("_", str), envp, 1)))
+		return (0);
+	return (1);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
@@ -77,8 +97,8 @@ int		main(int argc, char **argv, char **envp)
 
 	data = NULL;
 	status = 0;
-	if (!(ft_putshlvl(ft_getenv("SHLVL", envp), &envp, 1)))
-		return (exit_write("malloc Error\n", 0, -1));
+	if (!ft_setup(argc, argv, &envp))
+		return (-1);
 	if (argc != 1)
 	{
 		if (argv[1][0] == '-' && argv[1][1] == 'c' && argc == 3)

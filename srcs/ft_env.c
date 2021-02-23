@@ -70,10 +70,11 @@ int		ft_putenv(char *string, char ***envp, int to_free)
 
 	index = 0;
 	len = 0;
-	if (!(new_string = ft_strdup(string)))
-		return (0);
+	new_string = ft_strdup(string);
 	if (to_free)
 		free(string);
+	if (!new_string)
+		return (0);
 	while (new_string[len] != '=' && new_string[len])
 		len++;
 	while ((*envp)[index])
