@@ -54,6 +54,11 @@ int ft_errno_exec(t_cmd *cmd, t_rdir pipe_rd, char *path, int emsg)
 			ft_printf("minishell: %s: command not found\n", cmd->name);
 		ret = 127;
 	}
+	else if (errno == ENOEXEC)
+	{
+		ft_printf("minishell: %s: Exec format error\n", cmd->name);
+		ret = 126;
+	}
 	else
 		return (0);
 	return (ret);

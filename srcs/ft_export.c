@@ -110,6 +110,7 @@ int		ft_export(t_cmd *cmd, char ***envp)
 {
 	int		i;
 	int		ret;
+	char	*envname;
 
 	i = 0;
 	ret = 0;
@@ -124,7 +125,14 @@ int		ft_export(t_cmd *cmd, char ***envp)
 			return (-1);
 		i++;
 	}
-	if (i == 0)
+	if (cmd->arg_nbr && ft_check_format_export(cmd->arg[i - 1]))
+	{
+		if (!(envname = ft_get_envname(cmd->arg[i - 1])))
+			return (-1);
+		ft_putenv(ft_envformat("_", envname), envp, 1);
+		free(envname);
+	}
+	if (!cmd->arg_nbr)
 		ft_display_export(envp);
 	return (ret);
 }

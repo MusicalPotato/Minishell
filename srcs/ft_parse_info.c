@@ -90,7 +90,7 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 					count++;
 				}
 				if (line[count] == '<')
-					return (exit_write("minishell: `<<' not supported by Minishell", 0, -2));
+					return (exit_write("`<<'not supported by minishell", 0, -2));
 				while (ft_is_space(line[count]))
 					count++;
 				if (line[count] == '<')

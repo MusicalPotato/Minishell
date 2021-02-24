@@ -12,7 +12,7 @@
 
 NAME		=	minishell
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror
 LIBFT		=	libft/libft.a
 
 SRCS_NAME	=	main.c	\

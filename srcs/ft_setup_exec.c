@@ -124,8 +124,8 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 		{
 			close(filedes[0]);
 			file_rd = ft_rdir_init();
-			file_rd = ft_file_rd(cmd, file_rd);
 			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 1);
+			file_rd = ft_file_rd(cmd, file_rd);
 			remove_after_pipe(cmd, index_pipe);
 			ret = ft_sorter(cmd, pipe_rd, envp);
 			ft_close_all(file_rd);
