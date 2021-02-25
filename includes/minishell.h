@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/19 12:36:12 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/25 18:41:44 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char			***envp_gbl;
 
 int		ft_line_reader(t_data **data);
 int		ft_parse_info(t_data *line);
+int		ft_msg_recup(char *line, int count, t_cmd *cmd);
 int		ft_parse_env(t_data *data, char ***envp, int *status);
 
 int		ft_line_saver(t_data **data, char **line);

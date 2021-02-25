@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+         #
+#    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/01/28 13:12:52 by tkleynts         ###   ########.fr        #
+#    Updated: 2021/02/25 18:40:45 by igor             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,9 @@ SRCS_NAME	=	main.c	\
 				ft_file_creator.c \
 				ft_lstcmd_utils.c \
 				ft_lstline_utils.c \
-				ft_parse_info.c \
+				ft_parse_cmd.c \
 				ft_parse_env.c \
+				ft_parse_msg.c \
 				ft_pwd.c \
 				ft_reading.c \
 				ft_setup_exec.c \
