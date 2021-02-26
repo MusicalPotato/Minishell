@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 12:34:31 by igor              #+#    #+#             */
-/*   Updated: 2021/02/23 15:32:06 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/26 14:51:23 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	ft_errno2(t_cmd *cmd)
 	}
 	else if (errno == EACCES)
 	{
-		ft_printf("minishell: %s: %s: Permission denied\n", cmd->name, cmd->arg[0]);
-		ret = 126;
+		ft_printf("minishell: %s: Permission denied\n", cmd->arg[1]);
+		ret = 1;
 	}
 	else if (errno == ENOENT)
 	{
