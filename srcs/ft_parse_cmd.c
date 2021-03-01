@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/25 18:39:56 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/26 15:01:09 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int		ft_cmd_check_1(char *line, int count, char **cmd, int i)
 	if (i == 0)
 	{
 		if (line[0] == '|')
-			return (exit_write("minishell: syntax error near unexpected token `|'\n", 0, -2));
+			return (exit_write(
+				"minishell: syntax error near unexpected token `|'\n", 0, -2));
 		if (line[0] == ';')
-			return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, -2));
+			return (exit_write(
+				"minishell: syntax error near unexpected token `;'\n", 0, -2));
 	}
 	else if (i == 1)
 	{

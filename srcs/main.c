@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/22 16:51:37 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/26 16:54:11 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int		ft_loop(t_data **data, char ***envp, int *status)
 		if ((r = ft_parse_info(tempo)))
 			return ((*status = r));
 		if (tempo->cmd->arg_nbr)
-			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp, 1);
+			ft_putenv(ft_envformat("_",
+			tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp, 1);
 		else
 			ft_putenv(ft_envformat("_", tempo->cmd->name), envp, 1);
 		if ((r = ft_setup_exec(tempo->cmd, envp, status)))
@@ -60,7 +61,8 @@ int		ft_loop2(t_data **data, char ***envp, int *status, char *argv)
 		if ((r = ft_parse_info(tempo)))
 			return ((*status = r));
 		if (tempo->cmd->arg_nbr)
-			ft_putenv(ft_envformat("_", tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp, 1);
+			ft_putenv(ft_envformat("_",
+			tempo->cmd->arg[tempo->cmd->arg_nbr - 1]), envp, 1);
 		else
 			ft_putenv(ft_envformat("_", tempo->cmd->name), envp, 1);
 		if ((r = ft_setup_exec(tempo->cmd, envp, status)))

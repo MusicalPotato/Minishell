@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 12:34:31 by igor              #+#    #+#             */
-/*   Updated: 2021/02/26 14:51:23 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 13:14:10 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_errno2(t_cmd *cmd)
 	int	i;
 
 	i = -1;
-	while (cmd->arg_nbr > i + 1 && ++i)
+	while (cmd->arg_nbr > i++ + 1)
 		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
 			break ;
 	if (errno == EISDIR)

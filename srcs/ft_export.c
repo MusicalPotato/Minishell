@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:18:23 by igor              #+#    #+#             */
-/*   Updated: 2021/02/04 13:54:27 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/02/28 18:30:53 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int		ft_putshlvl(char *arg, char ***envp, int add)
 		nbr = ft_atoi(arg) + add;
 	if (nbr > 2000000)
 	{
-		ft_printf("minishell: warning: shell level (%d) too high, resetting to 1\n", nbr);
+		ft_printf(
+	"minishell: warning: shell level (%d) too high, resetting to 1\n", nbr);
 		nbr = 1;
 	}
 	else if (nbr <= -1999999)
@@ -118,7 +119,8 @@ int		ft_export(t_cmd *cmd, char ***envp)
 	{
 		if (!ft_check_format_export(cmd->arg[i]))
 		{
-			ft_printf("minishell: export: `%s': not a valid identifier\n", cmd->arg[i]);
+			ft_printf(
+			"minishell: export: `%s': not a valid identifier\n", cmd->arg[i]);
 			ret = 1;
 		}
 		else if (!(ft_putenv(cmd->arg[i], envp, 0)))
