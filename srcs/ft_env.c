@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		ft_hasvalue(char *envp)
+int			ft_hasvalue(char *envp)
 {
 	int	c;
 
@@ -26,9 +26,9 @@ int		ft_hasvalue(char *envp)
 	return (0);
 }
 
-int		ft_env(t_cmd *cmd, char **envp)
+int			ft_env(t_cmd *cmd, char **envp)
 {
-	int i;
+	int	i;
 
 	if (cmd->arg_nbr > 0)
 	{
@@ -45,10 +45,10 @@ int		ft_env(t_cmd *cmd, char **envp)
 	return (0);
 }
 
-char	*ft_getenv(char *name, char **envp)
+char		*ft_getenv(char *name, char **envp)
 {
 	int	index;
-	int len;
+	int	len;
 
 	index = 0;
 	len = ft_strlen(name);
@@ -61,14 +61,32 @@ char	*ft_getenv(char *name, char **envp)
 	return (0);
 }
 
-int		ft_putenv(char *string, char ***envp, int to_free)
+static int	ft_replace_env(char ***envp, char *new_string, int len)
+{
+	int	index;
+
+	index = 0;
+	while ((*envp)[index])
+	{
+		if (!ft_strncmp((*envp)[index], new_string, len + 1))
+		{
+			if (!is_in_stack((*envp)[index]))
+				free((*envp)[index]);
+			(*envp)[index] = new_string;
+			return (-1);
+		}
+		index++;
+	}
+	return (index);
+}
+
+int			ft_putenv(char *string, char ***envp, int to_free)
 {
 	int		index;
 	int		len;
 	char	**new_envp;
 	char	*new_string;
 
-	index = 0;
 	len = 0;
 	new_string = ft_strdup(string);
 	if (to_free)
@@ -77,17 +95,8 @@ int		ft_putenv(char *string, char ***envp, int to_free)
 		return (0);
 	while (new_string[len] != '=' && new_string[len])
 		len++;
-	while ((*envp)[index])
-	{
-		if (!ft_strncmp((*envp)[index], new_string, len + 1))
-		{
-			if (!is_in_stack((*envp)[index]))
-				free((*envp)[index]);
-			(*envp)[index] = new_string;
-			return (1);
-		}
-		index++;
-	}
+	if ((index = ft_replace_env(envp, new_string, len)) < 0)
+		return (1);
 	if (!(new_envp = malloc(sizeof(char *) * (index + 2))))
 		return (0);
 	new_envp[index] = new_string;
