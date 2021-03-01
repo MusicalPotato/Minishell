@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 14:23:29 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 14:40:59 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int 	ft_env(t_cmd *cmd, char **envp);
 int     ft_export(t_cmd *cmd, char ***envp);
 int     ft_pwd(t_cmd *cmd);
 int     ft_unset(t_cmd *cmd, char ***envp);
-int		ft_exit(t_cmd *cmd);
+int		ft_exit(t_cmd *cmd, int i);
 
 int     ft_file_create(t_cmd *cmd);
 int		ft_file_recup(t_cmd *cmd);
