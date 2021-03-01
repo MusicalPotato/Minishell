@@ -53,5 +53,4 @@ int	ft_exit(t_cmd *cmd)
 		exit(i);
 	}
 	exit(0);
-	return (0);
 }

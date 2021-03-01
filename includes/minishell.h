@@ -6,7 +6,7 @@
 /*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 14:27:52 by nlaurids         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:58:32 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int     ft_unset(t_cmd *cmd, char ***envp);
 int		ft_exit(t_cmd *cmd);
 
 int     ft_file_create(t_cmd *cmd);
+int		ft_file_recup(t_cmd *cmd);
+int		remove_after_red(t_cmd *cmd, int index_red);
 t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir);
 t_rdir	ft_pipe_rd(t_rdir rdir, int filedes[2], int fd_def);
 t_rdir	ft_open_all(t_rdir rdir);
