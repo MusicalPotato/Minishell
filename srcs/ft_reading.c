@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		ft_is_space(char line)
+int			ft_is_space(char line)
 {
 	if (line == ' ' || line == '\t' || line == '\n'
 	|| line == '\v' || line == '\f' || line == '\r')
@@ -20,7 +20,7 @@ int		ft_is_space(char line)
 	return (0);
 }
 
-int		ft_istext(int text, char c)
+int			ft_istext(int text, char c)
 {
 	if (!text && c == '\'')
 		text = 1;
@@ -33,7 +33,7 @@ int		ft_istext(int text, char c)
 	return (text);
 }
 
-int		ft_ask_next(char **line)
+int			ft_ask_next(char **line)
 {
 	int		r;
 	char	*text;
@@ -51,7 +51,7 @@ int		ft_ask_next(char **line)
 	return (1);
 }
 
-int		ft_pipe_chev_check(int count, char **line, int i)
+int			ft_pipe_chev_check(int count, char **line, int i)
 {
 	while (ft_is_space((*line)[count]))
 		count++;
@@ -84,58 +84,87 @@ int		ft_pipe_chev_check(int count, char **line, int i)
 	return (0);
 }
 
-int		ft_check_text(int count, char **line)
+static int	ft_reach_end(char **line, int count, int size, int quo_pi[2])
 {
-	int		quote;
-	int		size;
-	int		pipe;
+	while (((*line)[count + size] != ';' || quo_pi[0]
+			|| quo_pi[1]) && (*line)[count + size] != 0)
+	{
+		if (quo_pi[0] == 0 && ft_pipe_chev_check(count + size,
+											line, count + size))
+			return (-2);
+		if (!ft_is_space((*line)[count + size]))
+			quo_pi[1] = 0;
+		while ((*line)[count + size] == '\\' && quo_pi[0] != 1)
+		{
+			size += 2;
+			if (!(*line)[count + size])
+			{
+				ft_printf("> ");
+				if (!(ft_ask_next(line)))
+					return (-1);
+			}
+		}
+		if ((*line)[count + size] == '|')
+			quo_pi[1] = 1;
+		quo_pi[0] = ft_istext(quo_pi[0], (*line)[count + size]);
+		if ((*line)[count + size] != ';' || quo_pi[0] != 0)
+			size++;
+	}
+	return (size);
+}
 
-	quote = 0;
+int			ft_check_text(int count, char **line)
+{
+	int		quo_pi[2];
+	int		size;
+
+	quo_pi[0] = 0;
+	quo_pi[1] = 0;
 	size = 0;
-	pipe = 0;
-	while (quote || pipe || !size)
+	while (quo_pi[0] || quo_pi[1] || !size)
 	{
 		if ((*line)[count + size] == 0)
 			break ;
-		while (((*line)[count + size] != ';' || quote || pipe) && (*line)[count + size] != 0)
-		{
-			if (quote == 0 && ft_pipe_chev_check(count + size, line, count + size))
-				return (-2);
-			if (!ft_is_space((*line)[count + size]))
-				pipe = 0;
-			while ((*line)[count + size] == '\\' && quote != 1)
-			{
-				size += 2;
-				if (!(*line)[count + size])
-				{
-					ft_printf("> ");
-					if (!(ft_ask_next(line)))
-						return (-1);
-				}
-			}
-			if ((*line)[count + size] == '|')
-				pipe = 1;
-			quote = ft_istext(quote, (*line)[count + size]);
-			if ((*line)[count + size] != ';' || quote != 0)
-				size++;
-		}
-		if (quote)
-			ft_printf("%cquote> ", (quote - 1) * 100);
-		if (pipe)
+		if ((size = ft_reach_end(line, count, size, quo_pi)) < 0)
+			return (size);
+		if (quo_pi[0])
+			ft_printf("%cquote> ", (quo_pi[0] - 1) * 100);
+		if (quo_pi[1])
 			ft_printf("pipe> ");
-		if (quote || pipe)
+		if (quo_pi[0] || quo_pi[1])
 			if (!(ft_ask_next(line)))
 				return (-1);
 	}
 	return (size);
 }
 
-int		ft_line_saver(t_data **data, char **line)
+static int	ft_skipspace(char **line, int count, int fcmd)
+{
+	int	end;
+
+	end = 0;
+	while (ft_is_space((*line)[count]) || (*line)[count] == ';')
+	{
+		while (ft_is_space((*line)[count]))
+			count++;
+		if ((*line)[count] == ';' && !fcmd)
+			return (exit_write(SINERR, "`;'", -1));
+		if ((*line)[count] == ';')
+		{
+			if (!end && (end = 1))
+				count++;
+			else
+				return (exit_write(SINERR, "`;'", -1));
+		}
+	}
+	return (count);
+}
+
+int			ft_line_saver(t_data **data, char **line)
 {
 	int		size;
 	int		count;
 	int		fcmd;
-	int		end;
 
 	count = 0;
 	fcmd = 0;
@@ -143,28 +172,13 @@ int		ft_line_saver(t_data **data, char **line)
 		return (2);
 	while ((*line)[count])
 	{
-		end = 0;
-		while (ft_is_space((*line)[count]) || (*line)[count] == ';')
-		{
-			while (ft_is_space((*line)[count]))
-				count++;
-			if ((*line)[count] == ';' && !fcmd)
-				return (exit_write(SINERR, "`;'", 2));
-			if ((*line)[count] == ';')
-			{
-				if (!end && (end = 1))
-					count++;
-				else
-					return (exit_write(SINERR, "`;'", 2));
-			}
-		}
+		if ((count = ft_skipspace(line, count, fcmd)) < 0)
+			return (2);
 		fcmd = 1;
-		if ((size = ft_check_text(count, line)) < 0)
-		{
-			if (size == -2)
-				return (2);
-			return (-1);
-		}
+		if ((size = ft_check_text(count, line)) < 1)
+			return (ft_abs(size));
+		else if (size < 0)
+			return (size);
 		if (size)
 			if (!(ft_lstadd_back_line(data,
 				ft_lstnew_line(ft_strndup(*line + count, size)))))
@@ -174,12 +188,12 @@ int		ft_line_saver(t_data **data, char **line)
 	return (0);
 }
 
-int		ft_line_reader(t_data **data)
+int			ft_line_reader(t_data **data)
 {
 	char	*line;
 	int		r;
 
-	inexec = 0;
+	g_inexec = 0;
 	ft_printf("prompt > ");
 	if ((r = get_next_line(1, &line)) < 0)
 		return (exit_write("GNL Error\n", 0, -1));
@@ -190,6 +204,6 @@ int		ft_line_reader(t_data **data)
 	if ((r = ft_line_saver(data, &line)))
 		return (ft_freeturn(&line, r));
 	free(line);
-	inexec = 1;
+	g_inexec = 1;
 	return (0);
 }
