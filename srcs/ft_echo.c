@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:05:02 by igor              #+#    #+#             */
-/*   Updated: 2021/02/08 15:58:27 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 13:13:06 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	ft_echo(t_cmd *cmd)
 {
 	int	nl;
 	int	i;
-	int j;
+	int	j;
 
 	i = ft_check_arg(cmd);
 	j = 0;
 	nl = 1;
-	if (cmd->arg_nbr && (i = ft_check_arg(cmd)))
+	if (cmd->arg_nbr && i)
 		nl = 0;
 	while (i < cmd->arg_nbr)
 	{

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 10:03:55 by igor              #+#    #+#             */
-/*   Updated: 2021/02/04 13:52:58 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:27:19 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../includes/minishell.h"
 
 int		is_in_stack(void *addr)
 {
@@ -66,4 +66,42 @@ void	ft_envpclear(char ***envp)
 		(*envp) = NULL;
 	}
 	return ;
+}
+
+char	*ft_get_envname(char *envp)
+{
+	char	*name;
+	int		len;
+
+	name = NULL;
+	len = 0;
+	while (envp[len] && envp[len] != '=')
+		len++;
+	if (!(name = ft_memcat(name, envp, 0, len)))
+		return (NULL);
+	return (name);
+}
+
+int		ft_putshlvl(char *arg, char ***envp, int add)
+{
+	int		nbr;
+	char	*value;
+
+	if (!arg)
+		nbr = 1;
+	else
+		nbr = ft_atoi(arg) + add;
+	if (nbr > 2000000)
+	{
+		ft_printf(
+				"minishell: warning: shell level (%d) too high, resetting to 1\n", nbr);
+		nbr = 1;
+	}
+	else if (nbr <= -1999999)
+		nbr = 0;
+	if (!(value = ft_itoa(nbr)))
+		return (0);
+	if (!(ft_putenv(ft_envformat("SHLVL", value), envp, 1)))
+		return (ft_freeturn(&value, 0));
+	return (ft_freeturn(&value, 1));
 }
