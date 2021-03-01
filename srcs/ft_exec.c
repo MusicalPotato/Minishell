@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/02/17 18:27:55 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 14:40:31 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
 		ret = ft_pwd(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
-		ret = ft_exit(cmd);
+		ret = ft_exit(cmd, 0);
 	else if (cmd->name[0] == '>')
 		return (0);
 	else if (!ft_strncmp(cmd->name, "env", 4))

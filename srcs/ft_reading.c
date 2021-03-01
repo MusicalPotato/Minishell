@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/23 12:12:03 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 15:04:50 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		ft_pipe_chev_check(int count, char **line, int i)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == '|')
-			return (exit_write("minishell: syntax error near unexpected token `|'\n", 0, 2));
+			return (exit_write(SINERR, "`|'", 2));
 	}
 	if (((*line)[count] == '<' || (*line)[count] == '>' || (*line)[count] == '|') && i > 0)
 	{
@@ -69,7 +69,7 @@ int		ft_pipe_chev_check(int count, char **line, int i)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == ';')
-			return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, 2));
+			return (exit_write(SINERR, "`;'", 2));
 	}
 	if (((*line)[count] == '<' || (*line)[count] == '>') && i == 0)
 	{
@@ -79,7 +79,7 @@ int		ft_pipe_chev_check(int count, char **line, int i)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == ';')
-			return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, 2));
+			return (exit_write(SINERR, "`;'", 2));
 	}
 	return (0);
 }
@@ -88,7 +88,7 @@ int		ft_check_text(int count, char **line)
 {
 	int		quote;
 	int		size;
-	int 	pipe;
+	int		pipe;
 
 	quote = 0;
 	size = 0;
@@ -149,13 +149,13 @@ int		ft_line_saver(t_data **data, char **line)
 			while (ft_is_space((*line)[count]))
 				count++;
 			if ((*line)[count] == ';' && !fcmd)
-				return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, 2));
+				return (exit_write(SINERR, "`;'", 2));
 			if ((*line)[count] == ';')
 			{
 				if (!end && (end = 1))
 					count++;
 				else
-					return (exit_write("minishell: syntax error near unexpected token `;'\n", 0, 2));
+					return (exit_write(SINERR, "`;'", 2));
 			}
 		}
 		fcmd = 1;
