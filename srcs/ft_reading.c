@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 15:04:50 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/01 16:43:26 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int		ft_line_reader(t_data **data)
 	char	*line;
 	int		r;
 
-	inexec = 0;
+	g_inexec = 0;
 	ft_printf("prompt > ");
 	if ((r = get_next_line(1, &line)) < 0)
 		return (exit_write("GNL Error\n", 0, -1));
@@ -190,6 +190,6 @@ int		ft_line_reader(t_data **data)
 	if ((r = ft_line_saver(data, &line)))
 		return (ft_freeturn(&line, r));
 	free(line);
-	inexec = 1;
+	g_inexec = 1;
 	return (0);
 }
