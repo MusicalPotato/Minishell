@@ -1,0 +1,121 @@
+Norme: ./srcs/ft_lstline_utils.c
+Norme: ./srcs/ft_env_utils.c
+Norme: ./srcs/ft_reading.c
+Error: 7 functions in the file
+Error (line 54): function ft_pipe_chev_check has 29 lines
+Error (line 64): line has 94 characters
+Error (line 66): line has 92 characters
+Error (line 72): line has 94 characters
+Error (line 82): line has 94 characters
+Error (line 87): function ft_check_text has 42 lines
+Error (line 91, col 4): bad spacing
+Error (line 100): line has 94 characters
+Error (line 102): line has 84 characters
+Error (line 133): function ft_line_saver has 40 lines
+Error (line 152): line has 98 characters
+Error (line 158): line has 102 characters
+Norme: ./srcs/ft_echo.c
+Norme: ./srcs/ft_parse_msg.c
+Norme: ./srcs/ft_file_creator.c
+Error: 7 functions in the file
+Norme: ./srcs/ft_parse_cmd.c
+Error (line 20): bad indentation
+Error (line 23): bad indentation
+Error (line 29): bad indentation
+Error (line 39): bad indentation
+Error (line 70): bad indentation
+Error (line 73): bad indentation
+Error (line 81): bad indentation
+Error (line 88): function ft_cmd_recup has 26 lines
+Error (line 112): If is not on the same line that else
+Error (line 112): bad indentation
+Error (line 113): bad indentation
+Error (line 136): spaces at the end of line
+Error (line 136, col 1): no newline after block
+Norme: ./srcs/ft_utils.c
+Norme: ./srcs/ft_cd.c
+Error (line 15): function ft_errno_cd has 31 lines
+Error (line 32): line has 85 characters
+Error (line 38): line has 82 characters
+Error (line 40): line has 97 characters
+Error (line 42): line has 86 characters
+Norme: ./srcs/main.c
+Error (line 42): function ft_loop2 has 29 lines
+Error (line 80): C++ comment
+Error (line 81): C++ comment
+Error (line 96): function main has 43 lines
+Error (line 110, col 16): bad character after ,
+Error (line 111, col 17): bad character after ,
+Error (line 118): C++ comment
+Error (line 119, col 2): no empty line before block
+Norme: ./srcs/ft_lstcmd_utils.c
+Norme: ./srcs/ft_parse_env.c
+Error (line 33): function var_to_value has 36 lines
+Error (line 42): line has 82 characters
+Error (line 73): function ft_parse_env has 53 lines
+Error (line 73, col 0): ft_parse_env has 6 variables
+Error (line 95): line has 88 characters
+Error (line 118): bad indentation
+Error (line 119): bad indentation
+Error (line 120): bad indentation
+Norme: ./srcs/ft_unset.c
+Error (line 42): line has 82 characters
+Error (line 70): line has 88 characters
+Norme: ./srcs/ft_env.c
+Error (line 64): function ft_putenv has 35 lines
+Norme: ./srcs/ft_pwd.c
+Norme: ./srcs/ft_setup_exec.c
+Error: 6 functions in the file
+Error (line 108): function ft_setup_exec has 53 lines
+Error (line 108, col 0): ft_setup_exec has 6 variables
+Error (line 133): must begin only by tabulations
+Error (line 133): bad indentation
+Error (line 134): must begin only by tabulations
+Error (line 134): bad indentation
+Error (line 135): must begin only by tabulations
+Error (line 135): bad indentation
+Error (line 136): must begin only by tabulations
+Error (line 136): bad indentation
+Norme: ./srcs/ft_exit.c
+Error: 42 header not at top of the file
+Error (line 21): function ft_exit has 34 lines
+Error (line 26): C++ comment
+Error (line 39): line has 92 characters
+Error (line 51): line has 88 characters
+Error (line 52): C++ comment
+Error (line 52): bad indentation
+Norme: ./srcs/ft_errno.c
+Error: global scope bad aligned
+Error: file must end with a single empty line
+Error (line 29): Space before function name
+Error (line 29): function ft_errno_exec has 34 lines
+Error (line 67): function ft_errno2 has 30 lines
+Error (line 89): line has 82 characters
+Error (line 91): line has 97 characters
+Error (line 93): line has 86 characters
+Error (line 99, col 0): no newline after block
+Norme: ./srcs/ft_exec.c
+Error (line 49): line has 88 characters
+Error (line 59): function set_pathlist has 33 lines
+Error (line 77): line has 102 characters
+Error (line 96): function ft_exec has 27 lines
+Norme: ./srcs/ft_export.c
+Error: 6 functions in the file
+Error (line 77, col 22): missing space around ||
+Error (line 77, col 40): missing space around ||
+Error (line 93): bad indentation
+Error (line 94): bad indentation
+Error (line 95): bad indentation
+Error (line 96): bad indentation
+Error (line 97): bad indentation
+Error (line 98): bad indentation
+Error (line 99): bad indentation
+Error (line 100): bad indentation
+Error (line 101): bad indentation
+Error (line 102): bad indentation
+Error (line 103): bad indentation
+Error (line 104): bad indentation
+Error (line 105): bad indentation
+Error (line 106): bad indentation
+Error (line 110): function ft_export has 28 lines
+Norme: ./srcs/ft_sig_handle.c

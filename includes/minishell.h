@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/25 18:41:44 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 12:54:06 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "../libft/libft.h"
 # include "structs.h"
 # include "signal.h"
+
+#define SINERR "minishell: syntax error near unexpected token "
 
 unsigned short	inexec;
 char			***envp_gbl;

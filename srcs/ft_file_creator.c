@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/02/22 19:08:47 by igor             ###   ########.fr       */
+/*   Updated: 2021/02/26 15:51:51 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,32 @@ int		remove_after_red(t_cmd *cmd, int index_red)
 	return (1);
 }
 
-int		ft_redir_check(t_cmd *cmd)
+int		ft_redir_check_1(t_cmd *cmd, int fd)
 {
-	int fd;
+	if (cmd->name[1] == '>')
+	{
+		if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_APPEND,
+												S_IRWXU)) == -1)
+			return (exit_write("File creation failed\n", 0, -1));
+	}
+	else if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_TRUNC,
+												S_IRWXU)) == -1)
+		return (exit_write("File creation failed\n", 0, -1));
+	if (cmd->arg_nbr < 2)
+		return (-3);
+	if (remove_after_red(cmd, 0) == 0)
+		return (-1);
+	return (fd);
+}
+
+int		ft_redir_check(t_cmd *cmd, int fd)
+{
 	int i;
 
 	i = 0;
-	fd = -2;
 	while (cmd->name[0] == '>')
-	{
-		if (cmd->name[1] == '>')
-		{
-			if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_APPEND, S_IRWXU)) == -1)
-				return (exit_write("File creation failed\n", 0, -1));
-		}
-		else if ((fd = open(cmd->arg[0], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU)) == -1)
-			return (exit_write("File creation failed\n", 0, -1));
-		if (cmd->arg_nbr < 2)
-			return (-3);
-		if (remove_after_red(cmd, 0) == 0)
-			return (-1);
-	}
+		if ((fd = ft_redir_check_1(cmd, fd)) < 0)
+			return (fd);
 	while (i < cmd->arg_nbr)
 	{
 		if (cmd->arg[i][0] == '>')
@@ -143,7 +148,7 @@ t_rdir	ft_file_rd(t_cmd *cmd, t_rdir rdir)
 {
 	if (cmd->arg_nbr == 0)
 		return (rdir);
-	rdir.fdin = ft_redir_check(cmd);
+	rdir.fdin = ft_redir_check(cmd, -2);
 	rdir.fdout = ft_file_recup(cmd);
 	return (ft_open_all(rdir));
 }
