@@ -6,12 +6,14 @@
 /*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 16:12:27 by gorban            #+#    #+#             */
-/*   Updated: 2021/01/11 18:17:51 by nlaurids         ###   ########.fr       */
+/*   Updated: 2021/03/01 13:14:06 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# include <stdio.h>
 
 # include <string.h>
 # include <unistd.h>

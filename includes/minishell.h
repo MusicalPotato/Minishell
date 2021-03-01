@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 12:54:06 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:27:52 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ int     ft_delenv(char *name, char ***envp);
 char	*ft_getenv(char *name, char **envp);
 int		ft_putenv(char *string, char ***envp, int to_free);
 int		ft_setenv(char *name, char *value, int replace, char ***envp);
+char	*ft_get_envname(char *envp);
 
 void	handler(int signum);
 int		ft_errno_exec(t_cmd *cmd, t_rdir pipe_rd, char *path, int emsg);
 int     ft_errno2(t_cmd *cmd);
-
 
 #endif
