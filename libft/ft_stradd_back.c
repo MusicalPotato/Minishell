@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stradd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ijacquet <ijacquet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 12:12:53 by gorban            #+#    #+#             */
-/*   Updated: 2020/11/05 14:29:42 by ijacquet         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:53:55 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**ft_stradd_back(char **strs, char *new, int size)
 {
-	int 	i;
+	int		i;
 	char	**newstrs;
 
 	if (!(newstrs = malloc(sizeof(char *) * (size + 1))))
