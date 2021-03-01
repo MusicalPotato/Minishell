@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int		ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
+int			ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
 {
 	int	ret;
 
@@ -37,7 +37,7 @@ int		ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
 	return (ret);
 }
 
-int		set_argvlist(t_cmd *cmd, char ***argvlist)
+int			set_argvlist(t_cmd *cmd, char ***argvlist)
 {
 	int		i;
 
@@ -46,7 +46,8 @@ int		set_argvlist(t_cmd *cmd, char ***argvlist)
 		return (0);
 	if (!((*argvlist)[0] = ft_strdup(cmd->name)))
 		return (free_all(argvlist, 0));
-	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>' && cmd->arg[i - 1][0] != '<')
+	while (i <= cmd->arg_nbr && cmd->arg[i - 1][0] != '>'
+			&& cmd->arg[i - 1][0] != '<')
 	{
 		if (!((*argvlist)[i] = ft_strdup(cmd->arg[i - 1])))
 			return (free_all(argvlist, 0));
@@ -56,31 +57,40 @@ int		set_argvlist(t_cmd *cmd, char ***argvlist)
 	return (1);
 }
 
-int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
+static int	ft_complet_pathlist(char ***pathlist, char *path, t_cmd *cmd)
 {
-	int		i;
+	int	i;
+
+	i = 0;
+	if (!(*pathlist = ft_split(path, ':')))
+		return (0);
+	while ((*pathlist)[i])
+	{
+		if ((*pathlist)[i][0])
+			if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], "/",
+				ft_strlen((*pathlist)[i]), 1)))
+				return (free_all(pathlist, 0));
+		if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], cmd->name,
+				ft_strlen((*pathlist)[i]), ft_strlen(cmd->name))))
+			return (free_all(pathlist, 0));
+		i++;
+	}
+	return (1);
+}
+
+int			set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
+{
 	char	*path;
 	int		emsg;
 
-	i = 0;
 	emsg = 1;
 	path = ft_getenv("PATH", envp);
 	if (!path || !path[0])
 		emsg = 2;
 	if (!ft_hasslash(cmd->name) && path)
 	{
-		if (!(*pathlist = ft_split(path, ':')))
+		if (!ft_complet_pathlist(pathlist, path, cmd))
 			return (0);
-		while ((*pathlist)[i])
-		{
-			if ((*pathlist)[i][0])
-				if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], "/", ft_strlen((*pathlist)[i]), 1)))
-					return (free_all(pathlist, 0));
-			if (!((*pathlist)[i] = ft_memcat((*pathlist)[i], cmd->name,
-					ft_strlen((*pathlist)[i]), ft_strlen(cmd->name))))
-				return (free_all(pathlist, 0));
-			i++;
-		}
 	}
 	else
 	{
@@ -93,7 +103,7 @@ int		set_pathlist(t_cmd *cmd, char ***pathlist, char **envp)
 	return (emsg);
 }
 
-int		ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp)
+int			ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp)
 {
 	int		i;
 	int		emsg;
@@ -117,8 +127,6 @@ int		ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp)
 				exit(ft_errno_exec(cmd, pipe_rd, pathlist[i], emsg));
 			i++;
 		}
-		if (i > 0)
-			i--;
 		exit(ft_errno_exec(cmd, pipe_rd, pathlist[i], emsg));
 	}
 	return (free_all(&argvlist, free_all(&pathlist, child_pid)));
