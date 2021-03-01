@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:14:32 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/02/04 14:15:49 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/01 13:38:27 by nlaurids         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	ft_unsetenv(char *name, char ***envp)
 	len = ft_strlen(name);
 	while ((*envp)[index])
 	{
-		if (!ft_strncmp((*envp)[index], name, len) && (*envp)[index][len] == '=')
+		if (!ft_strncmp((*envp)[index], name, len) &&
+				(*envp)[index][len] == '=')
 		{
 			temp = (*envp)[index];
 			i = index;
@@ -67,7 +68,8 @@ int		ft_unset(t_cmd *cmd, char ***envp)
 	{
 		if (!ft_check_format_unset(cmd->arg[i]))
 		{
-			ft_printf("minishell: unset: `%s': not a valid identifier\n", cmd->arg[i]);
+			ft_printf("minishell: unset: `%s': not a valid identifier\n",
+					cmd->arg[i]);
 			ret = 1;
 		}
 		else

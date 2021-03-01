@@ -6,11 +6,11 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 10:03:55 by igor              #+#    #+#             */
-/*   Updated: 2021/02/04 13:52:58 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/01 16:54:06 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../includes/minishell.h"
 
 int		is_in_stack(void *addr)
 {
