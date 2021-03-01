@@ -6,7 +6,7 @@
 #    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/02/25 18:40:45 by igor             ###   ########.fr        #
+#    Updated: 2021/03/01 14:21:46 by igor             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS_NAME	=	main.c	\
 				ft_exit.c \
 				ft_export.c \
 				ft_file_creator.c \
+				ft_file_redirect.c \
 				ft_lstcmd_utils.c \
 				ft_lstline_utils.c \
 				ft_parse_cmd.c \
