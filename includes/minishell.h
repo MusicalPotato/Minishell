@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/02 13:52:22 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/02 14:09:27 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ int				ft_hasslash(char *string);
 int				ft_setup_exec(t_cmd *cmd, char ***envp, int *status);
 void			ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp, int *ret);
 int				ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp);
+
+int             check_if_pipe(t_cmd *cmd);
+int	        	remove_after_pipe(t_cmd *cmd, int index_pipe);
+int     		remove_befor_pipe(t_cmd *cmd, int index_pipe);
 
 int				ft_cd(t_cmd *cmd, t_rdir pipe_rd, char ***envp);
 int				ft_echo(t_cmd *cmd);
