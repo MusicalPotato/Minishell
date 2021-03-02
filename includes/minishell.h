@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/02 14:32:00 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/02 14:35:28 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ int				free_all(char ***data, int ret);
 int				ft_hasslash(char *string);
 
 int				ft_setup_exec(t_cmd *cmd, char ***envp, int *status);
-int				ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp);
+void			ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp, int *ret);
 int				ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp);
+
+int             check_if_pipe(t_cmd *cmd);
+int	        	remove_after_pipe(t_cmd *cmd, int index_pipe);
+int     		remove_befor_pipe(t_cmd *cmd, int index_pipe);
 
 int				ft_cd(t_cmd *cmd, t_rdir pipe_rd, char ***envp);
 int				ft_echo(t_cmd *cmd);
@@ -66,8 +70,8 @@ int				ft_exit(t_cmd *cmd, int i);
 int				ft_file_create(t_cmd *cmd);
 int				ft_file_recup(t_cmd *cmd);
 int				remove_after_red(t_cmd *cmd, int index_red);
-t_rdir			ft_file_rd(t_cmd *cmd, t_rdir rdir);
-t_rdir			ft_pipe_rd(t_rdir rdir, int filedes[2], int fd_def);
+void			ft_file_rd(t_cmd *cmd, t_rdir *rdir);
+void			ft_pipe_rd(t_rdir *rdir, int filedes[2], int fd_def);
 t_rdir			ft_open_all(t_rdir rdir);
 void			ft_close_all(t_rdir rdir);
 

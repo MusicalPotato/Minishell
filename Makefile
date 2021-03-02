@@ -6,7 +6,7 @@
 #    By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/03/02 14:29:54 by tkleynts         ###   ########.fr        #
+#    Updated: 2021/03/02 14:37:22 by tkleynts         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS_NAME	=	main.c	\
 				ft_parse_cmd.c \
 				ft_parse_env.c \
 				ft_parse_msg.c \
+				ft_pipe_redir.c \
 				ft_pwd.c \
 				ft_reading.c \
 				ft_setup_exec.c \

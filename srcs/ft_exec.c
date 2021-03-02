@@ -6,35 +6,32 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:22:53 by nlaurids          #+#    #+#             */
-/*   Updated: 2021/03/01 14:40:31 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 18:04:17 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp)
+void		ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp, int *ret)
 {
-	int	ret;
-
 	if (!ft_strncmp(cmd->name, "echo", 5))
-		ret = ft_echo(cmd);
+		*ret = ft_echo(cmd);
 	else if (!ft_strncmp(cmd->name, "cd", 3))
-		ret = ft_cd(cmd, pipe_rd, envp);
+		*ret = ft_cd(cmd, pipe_rd, envp);
 	else if (!ft_strncmp(cmd->name, "pwd", 4))
-		ret = ft_pwd(cmd);
+		*ret = ft_pwd(cmd);
 	else if (!ft_strncmp(cmd->name, "exit", 5))
-		ret = ft_exit(cmd, 0);
+		*ret = ft_exit(cmd, 0);
 	else if (cmd->name[0] == '>')
-		return (0);
+		*ret = 0;
 	else if (!ft_strncmp(cmd->name, "env", 4))
-		ret = ft_env(cmd, *envp);
+		*ret = ft_env(cmd, *envp);
 	else if (!ft_strncmp(cmd->name, "unset", 6))
-		ret = ft_unset(cmd, envp);
+		*ret = ft_unset(cmd, envp);
 	else if (!ft_strncmp(cmd->name, "export", 7))
-		ret = ft_export(cmd, envp);
+		*ret = ft_export(cmd, envp);
 	else
-		ret = ft_exec(cmd, pipe_rd, *envp);
-	return (ret);
+		*ret = ft_exec(cmd, pipe_rd, *envp);
 }
 
 int			set_argvlist(t_cmd *cmd, char ***argvlist)
