@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
+#    By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/03/01 14:21:46 by igor             ###   ########.fr        #
+#    Updated: 2021/03/01 16:48:42 by tkleynts         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS_NAME	=	main.c	\
 				ft_exec.c \
 				ft_exit.c \
 				ft_export.c \
+				ft_display.c \
 				ft_file_creator.c \
 				ft_file_redirect.c \
 				ft_lstcmd_utils.c \

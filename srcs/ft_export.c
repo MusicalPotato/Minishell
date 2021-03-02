@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:18:23 by igor              #+#    #+#             */
-/*   Updated: 2021/02/28 18:30:53 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/01 16:42:04 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,45 +66,16 @@ int		ft_putshlvl(char *arg, char ***envp, int add)
 	return (ft_freeturn(&value, 1));
 }
 
-void	ft_display_value(char *value)
+int		ft_ck_env(t_cmd *cmd, char ***envp, int i, char **envname)
 {
-	int	i;
-
-	i = 0;
-	ft_printf("=\"");
-	while (value[i])
+	if (cmd->arg_nbr && ft_check_format_export(cmd->arg[i - 1]))
 	{
-		if (value[i] == '\\'|| value[i] == '$'|| value[i] == '\"')
-			ft_printf("\\");
-		ft_printf("%c", value[i]);
-		i++;
+		if (!(*envname = ft_get_envname(cmd->arg[i - 1])))
+			return (-1);
+		ft_putenv(ft_envformat("_", *envname), envp, 1);
+		free(*envname);
 	}
-	ft_printf("\"");
-}
-
-int		ft_display_export(char ***envp)
-{
-	int		i;
-	char	*name;
-	char	*value;
-
-	i = 0;
-	while ((*envp)[i])
-		{
-			if (!(name = ft_get_envname((*envp)[i])))
-				return (-1);
-			if (ft_strncmp(name, "_", 2))
-			{
-				ft_printf("declare -x %s", name);
-				value = ft_getenv(name, *envp);
-				if (value)
-					ft_display_value(value);
-				ft_printf("\n");
-			}
-			free(name);
-			i++;
-		}
-	return (1);
+	return (0);
 }
 
 int		ft_export(t_cmd *cmd, char ***envp)
@@ -127,13 +98,8 @@ int		ft_export(t_cmd *cmd, char ***envp)
 			return (-1);
 		i++;
 	}
-	if (cmd->arg_nbr && ft_check_format_export(cmd->arg[i - 1]))
-	{
-		if (!(envname = ft_get_envname(cmd->arg[i - 1])))
-			return (-1);
-		ft_putenv(ft_envformat("_", envname), envp, 1);
-		free(envname);
-	}
+	if (ft_ck_env(cmd, envp, i, &envname) < 0)
+		return (-1);
 	if (!cmd->arg_nbr)
 		ft_display_export(envp);
 	return (ret);
