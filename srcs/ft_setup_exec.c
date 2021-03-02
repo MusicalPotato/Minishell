@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:10:34 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/02/22 17:01:22 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/02 13:40:05 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,84 +77,97 @@ int		remove_befor_pipe(t_cmd *cmd, int index_pipe)
 	return (1);
 }
 
-t_rdir	ft_pipe_rd(t_rdir rdir, int filedes[2], int fd_def)
+void	ft_pipe_rd(t_rdir *rdir, int filedes[2], int fd_def)
 {
 	if (fd_def == 1)
 	{
-		rdir.fdin = filedes[1];
-		rdir.sdin = dup(1);
-		dup2(rdir.fdin, 1);
+		rdir->fdin = filedes[1];
+		rdir->sdin = dup(1);
+		dup2(rdir->fdin, 1);
 	}
 	else if (fd_def == 0)
 	{
-		rdir.fdout = filedes[0];
-		rdir.sdout = dup(0);
-		dup2(rdir.fdout, 0);
+		rdir->fdout = filedes[0];
+		rdir->sdout = dup(0);
+		dup2(rdir->fdout, 0);
 	}
-	return (rdir);
 }
 
-t_rdir	ft_rdir_init(void)
+void	ft_rdir_init(t_rdir *rdir)
 {
-	t_rdir	rdir;
+	rdir->fdin = -2;
+	rdir->fdout = -2;
+	rdir->sdin = -1;
+	rdir->sdout = -1;
+}
 
-	rdir.fdin = -2;
-	rdir.fdout = -2;
-	rdir.sdin = -1;
-	rdir.sdout = -1;
-	return (rdir);
+/*
+**	a[0] = filedes 
+**	a[1] = filedes
+**	a[2] = childpid
+**	a[3] = index_pipe
+**	a[4] = ret
+**
+**	rd[0] = file_rd
+**	rd[1] = pipe_rd
+*/
+
+void	ft_setup_exec_2(int a[5], t_rdir rd[2], t_cmd *cmd, char ***envp)
+{
+	if (a[2] == 0)
+	{
+		close(a[0]);
+		ft_rdir_init(&rd[0]);
+		ft_pipe_rd(&rd[1], a, 1);
+		ft_file_rd(cmd, &rd[0]);
+		remove_after_pipe(cmd, a[3]);
+		ft_sorter(cmd, rd[1], envp, &a[4]);
+		ft_close_all(rd[0]);
+		ft_close_all(rd[1]);
+		exit(0);
+	}
+	else
+	{
+		close(a[1]);
+		remove_befor_pipe(cmd, a[3]);
+		ft_close_all(rd[1]);
+		ft_pipe_rd(&rd[1], a, 0);
+	}
+}
+
+void	ft_setup_exec_3()
+{
+
 }
 
 int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 {
-	int		childpid;
-	int		ret;
-	int		index_pipe;
-	int		filedes[2];
-	t_rdir	file_rd;
-	t_rdir	pipe_rd;
+	int		a[5];
+	t_rdir	rd[2];
 
-	pipe_rd = ft_rdir_init();
-	while ((index_pipe = check_if_pipe(cmd)) > -1)
+	ft_rdir_init(&rd[1]);
+	while ((a[3] = check_if_pipe(cmd)) > -1)
 	{
-		pipe(filedes);
-		if ((childpid = fork()) == -1)
+		pipe(a);
+		if ((a[2] = fork()) == -1)
 			exit(-1);
-		if (childpid == 0)
-		{
-			close(filedes[0]);
-			file_rd = ft_rdir_init();
-			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 1);
-			file_rd = ft_file_rd(cmd, file_rd);
-			remove_after_pipe(cmd, index_pipe);
-			ret = ft_sorter(cmd, pipe_rd, envp);
-			ft_close_all(file_rd);
-			ft_close_all(pipe_rd);
-            exit(0);
-        }
-        else
-        {
-			close(filedes[1]);
-			remove_befor_pipe(cmd, index_pipe);
-			ft_close_all(pipe_rd);
-			pipe_rd = ft_pipe_rd(pipe_rd, filedes, 0);
-		}
+		ft_setup_exec_2(a, rd, cmd, envp);
 	}
-	file_rd = ft_rdir_init();
-	file_rd = ft_file_rd(cmd, file_rd);
-	if (file_rd.fdout == 1)
+	ft_rdir_init(&rd[0]);
+	ft_file_rd(cmd, &rd[0]);
+	if (rd[0].fdout == 1)
 		*status = 1;
-	if (file_rd.fdin == -1 || file_rd.fdout == -1)
+	if (rd[0].fdin == -1 || rd[0].fdout == -1)
 		return (-1);
-	if (file_rd.fdin == -3 || file_rd.fdout == -3 || file_rd.fdout == 1)
+	if (rd[0].fdin == -3 || rd[0].fdout == -3 || rd[0].fdout == 1)
 		return (0);
-	ret = ft_sorter(cmd, pipe_rd, envp);
-	*status = ret;
-	waitpid(ret, status, 0);
+	ft_sorter(cmd, rd[1], envp, &a[4]);
+	*status = a[4];
+	waitpid(a[4], status, 0);
 	if (WIFEXITED(*status))
 		*status = WEXITSTATUS(*status);
-	ft_close_all(file_rd);
-	ft_close_all(pipe_rd);
+	ft_close_all(rd[0]);
+	ft_close_all(rd[1]);
 	if (*status == -1)
 		return (-1);
 	if (*status == -2)
