@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 15:09:29 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/02 14:12:26 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 int		ft_parse_error_check(t_cmd *cmd)
 {
 	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
-		return (exit_write(SINERR, "`newline'", 2));
+		return (exit_write(SYNERR, "`newline'", 2));
 	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg[0][0] == '|')
-		return (exit_write(SINERR, "`|'", 2));
+		return (exit_write(SYNERR, "`|'", 2));
 	if (cmd->arg_nbr == 0)
 		return (0);
 	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' ||
 			cmd->arg[cmd->arg_nbr - 1][0] == '<')
-		return (exit_write(SINERR, "`newline'", 2));
+		return (exit_write(SYNERR, "`newline'", 2));
 	return (0);
 }
 
@@ -31,9 +31,9 @@ int		ft_cmd_check_1(char *line, int count, char **cmd, int i)
 	if (i == 0)
 	{
 		if (line[0] == '|')
-			return (exit_write(SINERR, "`|'", -2));
+			return (exit_write(SYNERR, "`|'", -2));
 		if (line[0] == ';')
-			return (exit_write(SINERR, "`;'", -2));
+			return (exit_write(SYNERR, "`;'", -2));
 	}
 	else if (i == 1)
 	{
@@ -60,18 +60,18 @@ int		ft_cmd_check_2(char *line, int count, char **cmd)
 		return (exit_write("malloc Error\n", 0, -1));
 	count++;
 	if (line[count - 1] == '<' && line[count] == '<')
-		return (exit_write(SINERR, "`<'", -2));
+		return (exit_write(SYNERR, "`<'", -2));
 	if (line[count - 1] == '>' && line[count] == '<')
-		return (exit_write(SINERR, "`<'", -2));
+		return (exit_write(SYNERR, "`<'", -2));
 	if (line[count - 1] == '>' && line[count] == '>')
 	{
 		if (!(*cmd = ft_memcat(*cmd, line + count, ft_strlen(*cmd), 1)))
 			return (exit_write("malloc Error\n", 0, -1));
 		count++;
 		if (line[count] == '<')
-			return (exit_write(SINERR, "`<'", -2));
+			return (exit_write(SYNERR, "`<'", -2));
 		if (line[count] == '>')
-			return (exit_write(SINERR, "`>'", -2));
+			return (exit_write(SYNERR, "`>'", -2));
 	}
 	return (count);
 }

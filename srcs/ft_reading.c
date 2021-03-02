@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 16:43:26 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/02 14:31:43 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@ int			ft_istext(int text, char c)
 	return (text);
 }
 
-int			ft_ask_next(char **line)
-{
-	int		r;
-	char	*text;
-
-	text = NULL;
-	if ((r = get_next_line(1, &text)) < 0)
-		return (exit_write("GNL Error\n", 0, -1));
-	else if (r == 0)
-		return (ft_freeturn(line, -1));
-	if (!(text = ft_memcat(text, "\n", ft_strlen(text), 1)))
-		return (exit_write("malloc Error\n", 0, -1));
-	if (!(*line = ft_memcat(*line, text, ft_strlen(*line), ft_strlen(text))))
-		return (exit_write("malloc Error\n", 0, ft_freeturn(&text, -1)));
-	free(text);
-	return (1);
-}
-
 int			ft_pipe_chev_check(int count, char **line, int i)
 {
 	while (ft_is_space((*line)[count]))
@@ -61,7 +43,7 @@ int			ft_pipe_chev_check(int count, char **line, int i)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == '|')
-			return (exit_write(SINERR, "`|'", 2));
+			return (exit_write(SYNERR, "`|'", 2));
 	}
 	if (((*line)[count] == '<' || (*line)[count] == '>' || (*line)[count] == '|') && i > 0)
 	{
@@ -69,7 +51,7 @@ int			ft_pipe_chev_check(int count, char **line, int i)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == ';')
-			return (exit_write(SINERR, "`;'", 2));
+			return (exit_write(SYNERR, "`;'", 2));
 	}
 	if (((*line)[count] == '<' || (*line)[count] == '>') && i == 0)
 	{
@@ -79,7 +61,7 @@ int			ft_pipe_chev_check(int count, char **line, int i)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == ';')
-			return (exit_write(SINERR, "`;'", 2));
+			return (exit_write(SYNERR, "`;'", 2));
 	}
 	return (0);
 }
@@ -98,11 +80,7 @@ static int	ft_reach_end(char **line, int count, int size, int quo_pi[2])
 		{
 			size += 2;
 			if (!(*line)[count + size])
-			{
-				ft_printf("> ");
-				if (!(ft_ask_next(line)))
-					return (-1);
-			}
+				return (exit_write(MLERR, 0, -2));
 		}
 		if ((*line)[count + size] == '|')
 			quo_pi[1] = 1;
@@ -127,13 +105,8 @@ int			ft_check_text(int count, char **line)
 			break ;
 		if ((size = ft_reach_end(line, count, size, quo_pi)) < 0)
 			return (size);
-		if (quo_pi[0])
-			ft_printf("%cquote> ", (quo_pi[0] - 1) * 100);
-		if (quo_pi[1])
-			ft_printf("pipe> ");
 		if (quo_pi[0] || quo_pi[1])
-			if (!(ft_ask_next(line)))
-				return (-1);
+			return (exit_write(MLERR, 0, -2));
 	}
 	return (size);
 }
@@ -148,13 +121,13 @@ static int	ft_skipspace(char **line, int count, int fcmd)
 		while (ft_is_space((*line)[count]))
 			count++;
 		if ((*line)[count] == ';' && !fcmd)
-			return (exit_write(SINERR, "`;'", -1));
+			return (exit_write(SYNERR, "`;'", -1));
 		if ((*line)[count] == ';')
 		{
 			if (!end && (end = 1))
 				count++;
 			else
-				return (exit_write(SINERR, "`;'", -1));
+				return (exit_write(SYNERR, "`;'", -1));
 		}
 	}
 	return (count);

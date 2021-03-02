@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setup_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:10:34 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/02/22 17:01:22 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/02 11:39:40 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
 			ret = ft_sorter(cmd, pipe_rd, envp);
 			ft_close_all(file_rd);
 			ft_close_all(pipe_rd);
-            exit(0);
-        }
-        else
-        {
+			exit(0);
+		}
+		else
+		{
 			close(filedes[1]);
 			remove_befor_pipe(cmd, index_pipe);
 			ft_close_all(pipe_rd);

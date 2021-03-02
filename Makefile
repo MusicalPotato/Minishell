@@ -6,11 +6,12 @@
 #    By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/03/01 16:48:42 by tkleynts         ###   ########.fr        #
+#    Updated: 2021/03/02 14:29:54 by tkleynts         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
+		
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror
 LIBFT		=	libft/libft.a
@@ -38,14 +39,19 @@ SRCS_NAME	=	main.c	\
 				ft_sig_handle.c \
 				ft_unset.c \
 				ft_utils.c \
+				
+INC_NAME	= 	minishell.h \
+				structs.h \
 
 SRCS		=	$(addprefix srcs/, $(SRCS_NAME))
+
+INC			= $(addprefix includes/, $(INC_NAME))
 
 OBJS		= 	$(SRCS:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) $(LIBFT)
+$(NAME) : $(OBJS) $(LIBFT) $(INC)
 			$(CC)  $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT) : 

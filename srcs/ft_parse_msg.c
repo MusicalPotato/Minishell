@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 18:38:59 by igor              #+#    #+#             */
-/*   Updated: 2021/03/01 13:10:02 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/02 14:12:52 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int		ft_msg_check_1(char *line, int count, int i, int *quote)
 		while (ft_is_space(line[count]))
 			count++;
 		if ((line[0] == '>' || line[0] == '<') && line[count] == '<')
-			return (exit_write(SINERR, "`<'", -2));
+			return (exit_write(SYNERR, "`<'", -2));
 		if ((line[0] == '>' || line[0] == '<') && line[count] == '>' &&
 				line[count + 1] == '>')
-			return (exit_write(SINERR, "`>>'", -2));
+			return (exit_write(SYNERR, "`>>'", -2));
 		else if ((line[0] == '>' || line[0] == '<') && line[count] == '>')
-			return (exit_write(SINERR, "`>'", -2));
+			return (exit_write(SYNERR, "`>'", -2));
 	}
 	else if (i == 1)
 	{
@@ -56,7 +56,7 @@ int		ft_msg_check_2(char *line, int count, t_cmd *cmd, int i)
 	while (ft_is_space(line[count]))
 		count++;
 	if (line[count] == '|')
-		return (exit_write(SINERR, "`|'", -2));
+		return (exit_write(SYNERR, "`|'", -2));
 	if (line[count] && line[count] != ' ' && line[count] != '\n')
 		if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0),
 			cmd->arg_nbr++)))
@@ -80,11 +80,11 @@ int		ft_msg_check_3(char *line, int count, t_cmd *cmd)
 	while (ft_is_space(line[count]))
 		count++;
 	if (line[count] == '<')
-		return (exit_write(SINERR, "`<'", -2));
+		return (exit_write(SYNERR, "`<'", -2));
 	else if (line[count] == '>' && line[count + 1] == '>')
-		return (exit_write(SINERR, "`>>'", -2));
+		return (exit_write(SYNERR, "`>>'", -2));
 	else if (line[count] == '>')
-		return (exit_write(SINERR, "`>'", -2));
+		return (exit_write(SYNERR, "`>'", -2));
 	if ((line[count] && line[count] != ' ' && line[count] != '\n') &&
 		(!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++))))
 		return (exit_write("malloc Error\n", 0, -1));

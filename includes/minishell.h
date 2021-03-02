@@ -6,14 +6,14 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 16:51:31 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/02 14:32:00 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define SINERR "minishell: syntax error near unexpected token "
-
+# define SYNERR "minishell: syntax error near unexpected token "
+# define MLERR "minishell: multiline is not supported\n"
 
 # include <stdio.h>
 
@@ -35,7 +35,6 @@ int				ft_parse_env(t_data *data, char ***envp, int *status);
 
 int				ft_line_saver(t_data **data, char **line);
 int				ft_check_text(int count, char **line);
-int				ft_ask_next(char **line);
 
 t_data			*ft_lstnew_line(char *content);
 int				ft_lstadd_back_line(t_data **alst, t_data *new);
