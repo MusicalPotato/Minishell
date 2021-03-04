@@ -7,7 +7,7 @@ t_hist	*ft_lstnew_hist(char *content)
 	if (!(list = malloc(sizeof(t_hist))))
 	{
 		ft_freeturn(&content, 0);
-		return (0);
+		return (NULL);
 	}
 	list->line = content;
 	list->next = NULL;

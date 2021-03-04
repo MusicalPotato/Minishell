@@ -30,7 +30,7 @@ int			ft_env(t_cmd *cmd, char **envp)
 {
 	int	i;
 
-	if (cmd->arg_nbr > 0)
+	if (cmd->argc > 0)
 	{
 		ft_fprintf(2, "too many arguments\n");
 		return (255);

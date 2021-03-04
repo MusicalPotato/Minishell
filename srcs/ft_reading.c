@@ -133,7 +133,7 @@ static int	ft_skipspace(char **line, int count, int fcmd)
 	return (count);
 }
 
-int			ft_line_saver(t_data **data, char **line)
+int			ft_line_saver(t_data *data, char **line)
 {
 	int		size;
 	int		count;
@@ -153,8 +153,8 @@ int			ft_line_saver(t_data **data, char **line)
 		else if (size < 0)
 			return (size);
 		if (size)
-			if (!(ft_lstadd_back_data(data,
-				ft_lstnew_data(ft_strndup(*line + count, size)))))
+			if (!(ft_lstadd_back_cmd(&(data->cmd),
+				ft_lstnew_cmd(ft_strndup(*line + count, size)))))
 				return (exit_write("malloc Error\n", 0, -1));
 		count += size;
 	}
@@ -181,71 +181,47 @@ int			ft_line_reader(t_data **data)
 	return (0);
 }*/
 
-int			ft_init_term(char ***envp)
-{
-    int		ret;
-    char	*term_type;
-
-	term_type = ft_getenv("TERM", *envp);
-    if (term_type == NULL)
-		return (exit_write("TERM must be set (see 'env').\n", 0, 0));
-    ret = tgetent(NULL, term_type);
-    if (ret == -1)
-		return (exit_write("Could not access to the termcap database..\n", 0, 0));
-    else if (ret == 0)
-		return (exit_write("Terminal type is not defined in termcap database (or have too few informations).\n", 0, 0));
-    return (1);
-}
-
 int			ft_outc(int c)
 {
 	return ((int)write(STDIN_FILENO, &c, 1));
 }
 
-int			ft_line_reader(t_data **data, char ***envp, t_hist **hist)
+int			ft_line_reader(t_data *data)
 {
+	int		ret;
+	int		index;
 	char	buf[BSIZE];
 	char	*string;
-	int		fd;
-	int		index;
 	t_hist	*cur;
-	struct	termios termios;
 
-	if (!ft_init_term(envp))
-		return (-1);
-	if (tcgetattr(0, &termios) == -1)
+    if (tcsetattr(0, 0, &(data->termios)) == -1)
         return (-1);
-	termios.c_lflag &= ~(ICANON);
-	termios.c_lflag &= ~(ECHO);
-    if (tcsetattr(0, 0, &termios) == -1)
-        return (-1);
-	fd = open("history", O_APPEND | O_CREAT | O_RDWR);
-	cur = *hist;
+	g_inexec = 0;
+	cur = data->hist;
 	string = NULL;
 	index = 0;
 	ft_printf("prompt > ");
 	while (1)
 	{
 		ft_bzero(buf, BSIZE);
-		read(STDIN_FILENO, buf, BSIZE);
+		if (read(STDIN_FILENO, buf, BSIZE) < 0)
+			return (-1);
 		if (ENTER)
 		{
 			write(STDOUT_FILENO, "\n", 1);
 			if (string && string[0] != 0)
 			{
-				ft_lstadd_front_hist(hist, ft_lstnew_hist(ft_strdup(string)));
+				ft_lstadd_front_hist(&data->hist, ft_lstnew_hist(ft_strdup(string)));
 				if (!(string = ft_memcat(string, "\n", ft_strlen(string), 1)))
 					return (exit_write("malloc Error\n", 0, -1));
-				write(fd, string, ft_strlen(string));
-				if ((fd = ft_line_saver(data, &string)))
-					return (ft_freeturn(&string, fd));
+				write(data->fd, string, ft_strlen(string));
+				if ((ret = ft_line_saver(data, &string)))
+					return (ft_freeturn(&string, ret));
 				free(string);
 				string = NULL;
-				cur = *hist;
-				return (0);
+				break ;
 			}
-			else
-				ft_printf("prompt > ");
+			ft_printf("prompt > ");
 		}
 		else if (HAUT)
 		{
@@ -256,6 +232,7 @@ int			ft_line_reader(t_data **data, char ***envp, t_hist **hist)
 			free(string);
 			string = ft_strdup(cur->line);
 			index = ft_strlen(string);
+			ft_printf("prompt > ");
 			write(STDOUT_FILENO, cur->line, ft_strlen(cur->line));
 		}
 		else if (BAS)
@@ -266,6 +243,7 @@ int			ft_line_reader(t_data **data, char ***envp, t_hist **hist)
 				cur = cur->prev;
 			free(string);
 			string = NULL;
+			ft_printf("prompt > ");
 			if (cur->line)
 			{
 				string = ft_strdup(cur->line);
@@ -280,15 +258,18 @@ int			ft_line_reader(t_data **data, char ***envp, t_hist **hist)
 				write(STDOUT_FILENO, "\b", 1);
 				tputs(tgoto(tgetstr("ec", NULL), 0, 0), 0, ft_outc);
 				string = ft_memcat(string, 0, ft_strlen(string) - 1, 0);
-				index += -1;
+				index = ft_strlen(string);
 			}
 		}
 		else
 		{
 			string = ft_memcat(string, buf, ft_strlen(string), ft_strlen(buf));
-			index += 1;
+			index = ft_strlen(string);
 			write(STDOUT_FILENO, buf, ft_strlen(buf));
 		}
 	}
+	g_inexec = 1;
+	if (tcsetattr(0, 0, &(data->termios_backup)) == -1)
+        return (-1);
 	return (0);
 }

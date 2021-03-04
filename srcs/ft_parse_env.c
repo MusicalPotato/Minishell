@@ -70,7 +70,7 @@ int	var_to_value(char **str, int count, int s_var, char *val)
 	return (1);
 }
 
-int	ft_parse_env(t_data *d, char ***envp, int *status)
+int	ft_parse_env(t_data *d, t_cmd *cmd)
 {
 	char	*var;
 	char	*value;
@@ -81,35 +81,35 @@ int	ft_parse_env(t_data *d, char ***envp, int *status)
 
 	count = 0;
 	quote = 0;
-	while (d->line[count])
+	while (cmd->line[count])
 	{
 		s_v = 0;
 		var = NULL;
-		quote = ft_istext(quote, d->line[count]);
-		if (quote != 1 && d->line[count] == '\\')
+		quote = ft_istext(quote, cmd->line[count]);
+		if (quote != 1 && cmd->line[count] == '\\')
 			count += 2;
-		if (quote != 1 && d->line[count] == '$')
+		if (quote != 1 && cmd->line[count] == '$')
 		{
 			count++;
-			if (d->line[count + s_v] != '?')
-				while (ft_isalnum(d->line[count + s_v]) || d->line[count + s_v] == '_')
+			if (cmd->line[count + s_v] != '?')
+				while (ft_isalnum(cmd->line[count + s_v]) || cmd->line[count + s_v] == '_')
 					s_v++;
 			else
 				s_v++;
-			if (!(var = ft_memcat(var, d->line + count, 0, s_v)))
+			if (!(var = ft_memcat(var, cmd->line + count, 0, s_v)))
 				return (exit_write("malloc Error\n", 0, -1));
 			if (var[0])
 			{
 				to_free = 0;
 				if (var[0] == '?')
 				{
-					if (!(value = ft_itoa(*status)))
+					if (!(value = ft_itoa(d->status)))
 						return (exit_write("malloc Error\n", 0, -1));
 					to_free = 1;
 				}
 				else
-					value = ft_getenv(var, *envp);
-				if (!(var_to_value(&d->line, count, s_v, value)))
+					value = ft_getenv(var, d->envp);
+				if (!(var_to_value(&cmd->line, count, s_v, value)))
 				{
 					if (to_free)
 						free(value);

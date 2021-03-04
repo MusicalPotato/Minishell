@@ -23,10 +23,10 @@ t_cmd	*ft_lstnew_cmd(char *content)
 		ft_freeturn(&content, 1);
 		return (0);
 	}
-	list->arg = NULL;
-	list->arg_nbr = 0;
+	list->line = content;
+	list->argv = NULL;
+	list->argc = 0;
 	list->next = 0;
-	list->name = content;
 	return (list);
 }
 
@@ -57,17 +57,17 @@ void	ft_lstclear_cmd(t_cmd **lst)
 	while (*lst)
 	{
 		l = (*lst)->next;
-		free((*lst)->name);
-		(*lst)->name = NULL;
-		while (x < (*lst)->arg_nbr)
+		free((*lst)->line);
+		(*lst)->line = NULL;
+		while (x < (*lst)->argc)
 		{
-			free((*lst)->arg[x]);
-			(*lst)->arg[x] = NULL;
+			free((*lst)->argv[x]);
+			(*lst)->argv[x] = NULL;
 			x++;
 		}
-		free((*lst)->arg);
-		(*lst)->arg = NULL;
-		(*lst)->arg_nbr = 0;
+		free((*lst)->argv);
+		(*lst)->argv = NULL;
+		(*lst)->argc = 0;
 		(*lst)->next = NULL;
 		free(*lst);
 		*lst = l;

@@ -14,14 +14,14 @@
 
 int		ft_parse_error_check(t_cmd *cmd)
 {
-	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg_nbr == 0)
+	if ((cmd->argv[0][0] == '>' || cmd->argv[0][0] == '<') && cmd->argc == 0)
 		return (exit_write(SYNERR, "`newline'", 2));
-	if ((cmd->name[0] == '>' || cmd->name[0] == '<') && cmd->arg[0][0] == '|')
+	if ((cmd->argv[0][0] == '>' || cmd->argv[0][0] == '<') && cmd->argv[1][0] == '|')
 		return (exit_write(SYNERR, "`|'", 2));
-	if (cmd->arg_nbr == 0)
+	if (cmd->argc == 0)
 		return (0);
-	if (cmd->arg[cmd->arg_nbr - 1][0] == '>' ||
-			cmd->arg[cmd->arg_nbr - 1][0] == '<')
+	if (cmd->argv[cmd->argc - 1][0] == '>' ||
+			cmd->argv[cmd->argc - 1][0] == '<')
 		return (exit_write(SYNERR, "`newline'", 2));
 	return (0);
 }
@@ -104,29 +104,29 @@ int		ft_cmd_recup(char *line, int count, char **cmd, int quote)
 	return (count);
 }
 
-int		ft_parse_info(t_data *d)
+int		ft_parse_info(t_cmd *cur)
 {
-	int		ret;
+	int		count;
 	char	*cmd;
 
-	ret = 0;
+	count = 0;
 	cmd = malloc(1);
 	*cmd = 0;
-	if ((ret = ft_cmd_recup(d->line, ret, &cmd, 0)) < -1)
-		return (ft_abs(ret));
-	if (ret == -1)
+	if ((count = ft_cmd_recup(cur->line, count, &cmd, 0)) < -1)
+		return (ft_abs(count));
+	if (count == -1)
 		return (-1);
-	if (!(ft_lstadd_back_cmd(&(d->cmd), ft_lstnew_cmd(ft_strdup(cmd)))))
-		return (ft_freeturn(&cmd, -1));
+	cur->argv = malloc(sizeof(char *) * 1);
+	cur->argv[0] = ft_strdup(cmd);
 	free(cmd);
-	if (d->line[ret] == ' ' || d->line[ret] == '\t' || d->line[ret] == '|' ||
-	d->line[ret - 1] == '>' || d->line[ret - 1] == '<' || d->line[ret] == '>'
-	|| d->line[ret] == '<')
+	if (cur->line[count] == ' ' || cur->line[count] == '\t' || cur->line[count] == '|' ||
+	cur->line[count - 1] == '>' || cur->line[count - 1] == '<' || cur->line[count] == '>'
+	|| cur->line[count] == '<')
 	{
-		if ((ret = ft_msg_recup(d->line, ret, d->cmd)) < -1)
-			return (ft_abs(ret));
-		if (ret == -1)
+		if ((count = ft_msg_recup(cur, count, cur->line)) < -1)
+			return (ft_abs(count));
+		if (count == -1)
 			return (-1);
 	}
-	return (ft_parse_error_check(d->cmd));
+	return (ft_parse_error_check(cur));
 }

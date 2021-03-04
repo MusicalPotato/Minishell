@@ -15,10 +15,10 @@
 
 typedef struct	s_rdir
 {
-	int	fdin;
-	int	fdout;
-	int	sdin;
-	int	sdout;
+	int					fdin;
+	int					fdout;
+	int					sdin;
+	int					sdout;
 }				t_rdir;
 
 typedef struct	s_history
@@ -30,17 +30,21 @@ typedef struct	s_history
 
 typedef struct	s_commande
 {
-	char				*name;
-	char				**arg;
-	int					arg_nbr;
+	char				*line;
+	char				**argv;
+	int					argc;
 	struct s_commande	*next;
 }				t_cmd;
 
 typedef struct	s_data
 {
-	char			*line;
-	t_cmd			*cmd;
-	struct s_data	*next;
+	int					status;
+	char				**envp;
+	t_cmd				*cmd;
+	int					fd;
+	t_hist				*hist;
+	struct termios		termios;
+	struct termios		termios_backup;
 }				t_data;
 
 #endif

@@ -41,16 +41,16 @@ int		ft_msg_check_2(char *line, int count, t_cmd *cmd, int i)
 	if (i == 0)
 	{
 		if (line[++count] != '\n')
-			if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr
-			- 1], line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)))
+			if (!(cmd->argv[cmd->argc - 1] = ft_memcat(cmd->argv[cmd->argc
+			- 1], line + count, ft_strlen(cmd->argv[cmd->argc - 1]), 1)))
 				return (exit_write("malloc Error\n", 0, -1));
 		count++;
 		return (count);
 	}
-	if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++)))
+	if (!(cmd->argv = ft_stradd_back(cmd->argv, ft_strdup(0), cmd->argc++)))
 		return (exit_write("malloc Error\n", 0, -1));
-	if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1],
-	line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)))
+	if (!(cmd->argv[cmd->argc - 1] = ft_memcat(cmd->argv[cmd->argc - 1],
+	line + count, ft_strlen(cmd->argv[cmd->argc - 1]), 1)))
 		return (exit_write("malloc Error\n", 0, -1));
 	count++;
 	while (ft_is_space(line[count]))
@@ -58,22 +58,22 @@ int		ft_msg_check_2(char *line, int count, t_cmd *cmd, int i)
 	if (line[count] == '|')
 		return (exit_write(SYNERR, "`|'", -2));
 	if (line[count] && line[count] != ' ' && line[count] != '\n')
-		if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0),
-			cmd->arg_nbr++)))
+		if (!(cmd->argv = ft_stradd_back(cmd->argv, ft_strdup(0),
+			cmd->argc++)))
 			return (exit_write("malloc Error\n", 0, -1));
 	return (count);
 }
 
 int		ft_msg_check_3(char *line, int count, t_cmd *cmd)
 {
-	if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++)))
+	if (!(cmd->argv = ft_stradd_back(cmd->argv, ft_strdup(0), cmd->argc++)))
 		return (exit_write("malloc Error\n", 0, -1));
-	if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1],
-				line + count++, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)))
+	if (!(cmd->argv[cmd->argc - 1] = ft_memcat(cmd->argv[cmd->argc - 1],
+				line + count++, ft_strlen(cmd->argv[cmd->argc - 1]), 1)))
 		return (exit_write("malloc Error\n", 0, -1));
 	if (line[count - 1] == '>' && line[count] == '>')
-		if (!(cmd->arg[cmd->arg_nbr - 1] = ft_memcat(cmd->arg[cmd->arg_nbr - 1]
-		, line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)) || !count++)
+		if (!(cmd->argv[cmd->argc - 1] = ft_memcat(cmd->argv[cmd->argc - 1]
+		, line + count, ft_strlen(cmd->argv[cmd->argc - 1]), 1)) || !count++)
 			return (exit_write("malloc Error\n", 0, -1));
 	if (line[count] == '<')
 		return (exit_write("`<<' not supported by minishell\n", 0, -2));
@@ -86,7 +86,7 @@ int		ft_msg_check_3(char *line, int count, t_cmd *cmd)
 	else if (line[count] == '>')
 		return (exit_write(SYNERR, "`>'", -2));
 	if ((line[count] && line[count] != ' ' && line[count] != '\n') &&
-		(!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0), cmd->arg_nbr++))))
+		(!(cmd->argv = ft_stradd_back(cmd->argv, ft_strdup(0), cmd->argc++))))
 		return (exit_write("malloc Error\n", 0, -1));
 	return (count);
 }
@@ -103,20 +103,19 @@ int		ft_msg_check(char *line, int count, int *quote, t_cmd *cmd)
 		count = ft_msg_check_3(line, count, cmd);
 	else if ((line[count] == '|') && !*quote)
 		count = ft_msg_check_2(line, count, cmd, 1);
-	else if (!(cmd->arg[cmd->arg_nbr - 1] =
-		ft_memcat(cmd->arg[cmd->arg_nbr - 1],
-		line + count, ft_strlen(cmd->arg[cmd->arg_nbr - 1]), 1)) || !count++)
+	else if (!(cmd->argv[cmd->argc - 1] =
+		ft_memcat(cmd->argv[cmd->argc - 1],
+		line + count, ft_strlen(cmd->argv[cmd->argc - 1]), 1)) || !count++)
 		return (exit_write("malloc Error\n", 0, -1));
 	return (count);
 }
 
-int		ft_msg_recup(char *line, int count, t_cmd *cmd)
+int		ft_msg_recup(t_cmd *cmd, int count, char *line)
 {
 	int quote;
 
-	cmd->arg_nbr = 0;
+	cmd->argc = 1;
 	quote = 0;
-	cmd->arg = NULL;
 	if ((count = ft_msg_check_1(line, count, 0, &quote)) < 0)
 		return (count);
 	while (line[count] != '\n' && line[count] != '\0')
@@ -127,13 +126,14 @@ int		ft_msg_recup(char *line, int count, t_cmd *cmd)
 			break ;
 		if (line[count] != '\n' && line[count] != '<' && line[count] != '>'
 					&& line[count] != '|')
-			if (!(cmd->arg = ft_stradd_back(cmd->arg, ft_strdup(0),
-					cmd->arg_nbr++)))
+			if (!(cmd->argv = ft_stradd_back(cmd->argv, ft_strdup(0),
+					cmd->argc++)))
 				return (exit_write("malloc Error\n", 0, -1));
 		while (quote || (line[count] != '\n' && line[count] != ' ' &&
 					line[count] != '\0' && line[count] != '\t'))
 			if ((count = ft_msg_check(line, count, &quote, cmd)) < 0)
 				return (count);
 	}
+	cmd->argc--;
 	return (count);
 }

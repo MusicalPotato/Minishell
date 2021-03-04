@@ -16,10 +16,10 @@ int		check_if_pipe(t_cmd *cmd)
 {
 	int	i;
 
-	i = 0;
-	while (i < cmd->arg_nbr)
+	i = 1;
+	while (i <= cmd->argc)
 	{
-		if (!strncmp(cmd->arg[i], "|", 2))
+		if (!strncmp(cmd->argv[i], "|", 2))
 			return (i);
 		i++;
 	}
@@ -32,21 +32,21 @@ int		remove_after_pipe(t_cmd *cmd, int index_pipe)
 	int		i;
 
 	i = 0;
-	if (!(lst = malloc(sizeof(char *) * (index_pipe))))
+	if (!(lst = malloc(sizeof(char *) * (index_pipe + 1))))
 		return (0);
-	while (i < index_pipe)
+	while (i <= index_pipe)
 	{
-		lst[i] = cmd->arg[i];
+		lst[i] = cmd->argv[i];
 		i++;
 	}
-	while (i < cmd->arg_nbr)
+	while (i <= cmd->argc)
 	{
-		free(cmd->arg[i]);
+		free(cmd->argv[i]);
 		i++;
 	}
-	cmd->arg_nbr = index_pipe;
-	free(cmd->arg);
-	cmd->arg = lst;
+	cmd->argc = index_pipe - 1;
+	free(cmd->argv);
+	cmd->argv = lst;
 	return (1);
 }
 
@@ -56,24 +56,22 @@ int		remove_befor_pipe(t_cmd *cmd, int index_pipe)
 	int		i;
 
 	i = 0;
-	if (!(lst = malloc(sizeof(char *) * (cmd->arg_nbr - index_pipe - 1))))
+	if (!(lst = malloc(sizeof(char *) * (cmd->argc - index_pipe))))
 		return (0);
-	free(cmd->name);
-	cmd->name = cmd->arg[index_pipe + i + 1];
-	while (i < cmd->arg_nbr - index_pipe - 2)
+	while (i <= cmd->argc - index_pipe - 1)
 	{
-		lst[i] = cmd->arg[index_pipe + i + 2];
+		lst[i] = cmd->argv[index_pipe + i + 1];
 		i++;
 	}
 	i = 0;
-	while (i < index_pipe + 1)
+	while (i <= index_pipe)
 	{
-		free(cmd->arg[i]);
+		free(cmd->argv[i]);
 		i++;
 	}
-	free(cmd->arg);
-	cmd->arg = lst;
-	cmd->arg_nbr = cmd->arg_nbr - index_pipe - 2;
+	free(cmd->argv);
+	cmd->argv = lst;
+	cmd->argc = cmd->argc - index_pipe - 1;
 	return (1);
 }
 

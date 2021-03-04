@@ -21,40 +21,40 @@ void	ft_rdir_init(t_rdir *rdir)
 }
 
 /*
-**	a[0] = filedes
-**	a[1] = filedes
-**	a[2] = childpid
-**	a[3] = index_pipe
-**	a[4] = ret
+**	v[0] = filedes
+**	v[1] = filedes
+**	v[2] = childpid
+**	v[3] = index_pipe
+**	v[4] = ret
 **
 **	rd[0] = file_rd
 **	rd[1] = pipe_rd
 */
 
-void	ft_setup_exec_2(int a[5], t_rdir rd[2], t_cmd *cmd, char ***envp)
+static void	ft_setup_exec_pipe(t_data *d, t_cmd *cmd, int v[5], t_rdir rd[2])
 {
-	if (a[2] == 0)
+	if (v[2] == 0)
 	{
-		close(a[0]);
+		close(v[0]);
 		ft_rdir_init(&rd[0]);
-		ft_pipe_rd(&rd[1], a, 1);
+		ft_pipe_rd(&rd[1], v, 1);
 		ft_file_rd(cmd, &rd[0]);
-		remove_after_pipe(cmd, a[3]);
-		ft_sorter(cmd, rd[1], envp, &a[4]);
+		remove_after_pipe(cmd, v[3]);
+		ft_sorter(d, cmd, rd[1], &v[4]);
 		ft_close_all(rd[0]);
 		ft_close_all(rd[1]);
 		exit(0);
 	}
 	else
 	{
-		close(a[1]);
-		remove_befor_pipe(cmd, a[3]);
+		close(v[1]);
+		remove_befor_pipe(cmd, v[3]);
 		ft_close_all(rd[1]);
-		ft_pipe_rd(&rd[1], a, 0);
+		ft_pipe_rd(&rd[1], v, 0);
 	}
 }
 
-int		ft_setup_exec_3(t_rdir rd[2], t_cmd *cmd, int *status)
+static int	ft_setup_exec_3(t_rdir rd[2], t_cmd *cmd, int *status)
 {
 	ft_rdir_init(&rd[0]);
 	ft_file_rd(cmd, &rd[0]);
@@ -67,31 +67,31 @@ int		ft_setup_exec_3(t_rdir rd[2], t_cmd *cmd, int *status)
 	return (1);
 }
 
-int		ft_setup_exec(t_cmd *cmd, char ***envp, int *status)
+int			ft_setup_exec(t_data *d, t_cmd *cmd)
 {
-	int		a[5];
+	int		v[5];
 	t_rdir	rd[2];
 
 	ft_rdir_init(&rd[1]);
-	while ((a[3] = check_if_pipe(cmd)) > -1)
+	while ((v[3] = check_if_pipe(cmd)) > -1)
 	{
-		pipe(a);
-		if ((a[2] = fork()) == -1)
+		pipe(v);
+		if ((v[2] = fork()) == -1)
 			exit(-1);
-		ft_setup_exec_2(a, rd, cmd, envp);
+		ft_setup_exec_pipe(d, cmd, v, rd);
 	}
-	if ((a[4] = ft_setup_exec_3(rd, cmd, status)) != 1)
-		return (a[4]);
-	ft_sorter(cmd, rd[1], envp, &a[4]);
-	*status = a[4];
-	waitpid(a[4], status, 0);
-	if (WIFEXITED(*status))
-		*status = WEXITSTATUS(*status);
+	if ((v[4] = ft_setup_exec_3(rd, cmd, &(d->status))) != 1)
+		return (v[4]);
+	ft_sorter(d, cmd, rd[1], &v[4]);
+	d->status = v[4];
+	waitpid(v[4], &(d->status), 0);
+	if (WIFEXITED(d->status))
+		d->status = WEXITSTATUS(d->status);
 	ft_close_all(rd[0]);
 	ft_close_all(rd[1]);
-	if (*status == -1)
+	if (d->status == -1)
 		return (-1);
-	if (*status == -2)
-		return ((*status = 1));
+	if (d->status == -2)
+		return ((d->status = 1));
 	return (0);
 }

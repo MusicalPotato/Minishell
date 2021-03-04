@@ -34,16 +34,15 @@
 
 unsigned short	g_inexec;
 
-int				ft_line_reader(t_data **data, char ***envp, t_hist **hist);
-int				ft_parse_info(t_data *line);
-int				ft_msg_recup(char *line, int count, t_cmd *cmd);
-int				ft_parse_env(t_data *data, char ***envp, int *status);
+int				ft_line_reader(t_data *data);
+int				ft_parse_env(t_data *data, t_cmd *cmd);
+int				ft_parse_info(t_cmd *cur);
+int				ft_msg_recup(t_cmd *cmd, int count, char *line);
 
-int				ft_line_saver(t_data **data, char **line);
+int				ft_line_saver(t_data *data, char **line);
 int				ft_check_text(int count, char **line);
 
-t_data			*ft_lstnew_data(char *content);
-int				ft_lstadd_back_data(t_data **alst, t_data *new);
+t_data			*ft_lstnew_data(char **envp);
 void			ft_lstclear_data(t_data **lst);
 
 t_cmd			*ft_lstnew_cmd(char *content);
@@ -62,8 +61,8 @@ int				exit_write(char *msg, char *bonus, int value);
 int				free_all(char ***data, int ret);
 int				ft_hasslash(char *string);
 
-int				ft_setup_exec(t_cmd *cmd, char ***envp, int *status);
-void			ft_sorter(t_cmd *cmd, t_rdir pipe_rd, char ***envp, int *ret);
+int				ft_setup_exec(t_data *d, t_cmd *c);
+void			ft_sorter(t_data *d, t_cmd *cmd, t_rdir pipe_rd, int *ret);
 int				ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp);
 
 int             check_if_pipe(t_cmd *cmd);

@@ -17,15 +17,15 @@ int	ft_check_arg(t_cmd *cmd)
 	int	i;
 	int	a;
 
-	i = 0;
-	while (i < cmd->arg_nbr)
+	i = 1;
+	while (i <= cmd->argc)
 	{
-		if (!ft_strncmp(cmd->arg[i], "-n", 2))
+		if (!ft_strncmp(cmd->argv[i], "-n", 2))
 		{
 			a = 1;
-			while (cmd->arg[i][a] == 'n')
+			while (cmd->argv[i][a] == 'n')
 				a++;
-			if (cmd->arg[i][a] && cmd->arg[i][a] != 'n')
+			if (cmd->argv[i][a] && cmd->argv[i][a] != 'n')
 				return (i);
 		}
 		else
@@ -44,17 +44,17 @@ int	ft_echo(t_cmd *cmd)
 	i = ft_check_arg(cmd);
 	j = 0;
 	nl = 1;
-	if (cmd->arg_nbr && i)
+	if (cmd->argc && i)
 		nl = 0;
-	while (i < cmd->arg_nbr)
+	while (i <= cmd->argc)
 	{
-		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
+		if (cmd->argv[i][0] == '>' || cmd->argv[i][0] == '<')
 			i += 2;
-		if (i < cmd->arg_nbr && cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
+		if (i <= cmd->argc && cmd->argv[i][0] != '>' && cmd->argv[i][0] != '<')
 		{
-			if (i < cmd->arg_nbr && j > 0)
+			if (i <= cmd->argc && j > 0)
 				ft_printf(" ");
-			ft_printf("%s", cmd->arg[i]);
+			ft_printf("%s", cmd->argv[i]);
 			i++;
 			j = 1;
 		}

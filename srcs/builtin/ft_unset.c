@@ -62,18 +62,18 @@ int		ft_unset(t_cmd *cmd, char ***envp)
 	int i;
 	int	ret;
 
-	i = 0;
+	i = 1;
 	ret = 0;
-	while (i < cmd->arg_nbr)
+	while (i <= cmd->argc)
 	{
-		if (!ft_check_format_unset(cmd->arg[i]))
+		if (!ft_check_format_unset(cmd->argv[i]))
 		{
 			ft_fprintf(2, "minishell: unset: `%s': not a valid identifier\n",
-					cmd->arg[i]);
+					cmd->argv[i]);
 			ret = 1;
 		}
 		else
-			ft_unsetenv(cmd->arg[i], envp);
+			ft_unsetenv(cmd->argv[i], envp);
 		i++;
 	}
 	return (ret);

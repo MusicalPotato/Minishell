@@ -12,54 +12,36 @@
 
 #include "../../includes/minishell.h"
 
-t_data	*ft_lstnew_data(char *content)
+t_data	*ft_lstnew_data(char **envp)
 {
 	t_data	*list;
 
-	if (!content)
-		return (0);
 	if (!(list = malloc(sizeof(t_data))))
-	{
-		ft_freeturn(&content, 0);
 		return (0);
+	list->status = 0;
+	list->envp = envp;
+	list->cmd = NULL;
+	list->fd = 0;
+	list->hist = NULL;
+	if (tcgetattr(0, &(list->termios)) == -1
+	|| tcgetattr(0, &(list->termios_backup)) == -1)
+	{
+		free(list);
+        return (0);
 	}
-	list->line = content;
-	list->cmd = 0;
-	list->next = 0;
+	list->termios.c_lflag &= ~(ICANON);
+	list->termios.c_lflag &= ~(ECHO);
 	return (list);
-}
-
-int		ft_lstadd_back_data(t_data **alst, t_data *new)
-{
-	t_data	*l;
-
-	if (!(alst) || !(new))
-		return (0);
-	if (!(*alst))
-	{
-		*alst = new;
-		return (1);
-	}
-	l = *alst;
-	while (l->next)
-		l = l->next;
-	l->next = new;
-	return (1);
 }
 
 void	ft_lstclear_data(t_data **lst)
 {
-	t_data	*l;
-
-	while (*lst)
-	{
-		l = (*lst)->next;
-		free((*lst)->line);
-		(*lst)->line = NULL;
-		ft_lstclear_cmd(&((*lst)->cmd));
-		(*lst)->next = NULL;
-		free(*lst);
-		*lst = l;
-	}
+	(*lst)->status = 0;
+	ft_envpclear(&((*lst)->envp));
+	(*lst)->envp = NULL;
+	ft_lstclear_cmd(&((*lst)->cmd));
+	close((*lst)->fd);
+	(*lst)->fd = 0;
+	ft_lstclear_hist(&(*lst)->hist);
 	*lst = NULL;
 }

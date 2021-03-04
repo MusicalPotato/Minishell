@@ -32,25 +32,25 @@ int	ft_errno_exec(t_cmd *cmd, t_rdir pipe_rd, char *path, int emsg)
 	int	i;
 
 	ret = 0;
-	i = -1;
+	i = 0;
 	ft_close_all(pipe_rd);
-	while (cmd->arg_nbr > ++i + 1)
-		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
+	while (cmd->argc >= ++i + 1)
+		if (cmd->argv[i][0] == '>' || cmd->argv[i][0] == '<')
 			return (ft_errno2(cmd));
 	if (errno == EISDIR && (ret = 126))
-		ft_fprintf(2, "minishell: %s: is a directory\n", cmd->name);
+		ft_fprintf(2, "minishell: %s: is a directory\n", cmd->argv[0]);
 	else if (errno == EACCES && (ret = 126))
 		ft_fprintf(2, "minishell: %s: Permission denied\n", path);
 	else if (errno == ENOENT && (ret = 127))
 	{
-		if (ft_hasslash(cmd->name) || emsg == 2)
+		if (ft_hasslash(cmd->argv[0]) || emsg == 2)
 			ft_fprintf(2,
-				"minishell: %s: No such file or directory\n", cmd->name);
+				"minishell: %s: No such file or directory\n", cmd->argv[0]);
 		else
-			ft_fprintf(2, "minishell: %s: command not found\n", cmd->name);
+			ft_fprintf(2, "minishell: %s: command not found\n", cmd->argv[0]);
 	}
 	else if (errno == ENOEXEC && (ret = 126))
-		ft_fprintf(2, "minishell: %s: Exec format error\n", cmd->name);
+		ft_fprintf(2, "minishell: %s: Exec format error\n", cmd->argv[0]);
 	return (ret);
 }
 
@@ -60,25 +60,25 @@ int	ft_errno2(t_cmd *cmd)
 	int	i;
 
 	ret = 0;
-	i = -1;
-	while (cmd->arg_nbr > i++ + 1)
-		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
+	i = 0;
+	while (cmd->argc >= i++ + 1)
+		if (cmd->argv[i][0] == '>' || cmd->argv[i][0] == '<')
 			break ;
 	if (errno == EISDIR && (ret = 126))
-		ft_fprintf(2, "minishell: %s: is a directory\n", cmd->name);
+		ft_fprintf(2, "minishell: %s: is a directory\n", cmd->argv[0]);
 	else if (errno == EACCES && (ret = 1))
-		ft_fprintf(2, "minishell: %s: Permission denied\n", cmd->arg[1]);
+		ft_fprintf(2, "minishell: %s: Permission denied\n", cmd->argv[2]);
 	else if (errno == ENOENT && (ret = 1))
 	{
-		if (cmd->name[0] == '<')
+		if (cmd->argv[0][0] == '<')
 			ft_fprintf(2, "minishell: %s: No such file or directory\n",
-					cmd->arg[0]);
-		else if (cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
+					cmd->argv[1]);
+		else if (cmd->argv[i][0] != '>' && cmd->argv[i][0] != '<')
 			ft_fprintf(2, "minishell: %s: %s: No such file or directory\n",
-					cmd->name, cmd->arg[0]);
+					cmd->argv[0], cmd->argv[1]);
 		else
 			ft_fprintf(2, "minishell: %s: No such file or directory\n",
-					cmd->arg[i + 1]);
+					cmd->argv[i + 1]);
 	}
 	return (ret);
 }

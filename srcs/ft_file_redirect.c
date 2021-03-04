@@ -17,23 +17,23 @@ int		ft_file_recup(t_cmd *cmd)
 	int fd;
 	int i;
 
-	i = -1;
+	i = 0;
 	fd = -2;
-	while (cmd->name[0] == '<')
+	while (cmd->argv[0][0] == '<')
 	{
-		if ((fd = open(cmd->arg[0], O_RDONLY)) == -1)
+		if ((fd = open(cmd->argv[1], O_RDONLY)) == -1)
 			return (ft_errno2(cmd));
-		if (cmd->arg_nbr < 2)
+		if (cmd->argc < 2)
 			return (-3);
 		if (remove_after_red(cmd, 0) == 0)
 			return (0);
 	}
-	while (++i < cmd->arg_nbr)
-		if (cmd->arg[i][0] == '<' && cmd->arg[i][0] != '|')
+	while (++i <= cmd->argc)
+		if (cmd->argv[i][0] == '<' && cmd->argv[i][0] != '|')
 		{
 			if (fd > 0)
 				close(fd);
-			if ((fd = open(cmd->arg[i + 1], O_RDONLY)) == -1)
+			if ((fd = open(cmd->argv[i + 1], O_RDONLY)) == -1)
 				return (ft_errno2(cmd));
 		}
 	return (fd);
