@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_fprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/21 16:00:22 by gorban            #+#    #+#             */
-/*   Updated: 2021/03/04 14:46:29 by tkleynts         ###   ########.fr       */
+/*   Created: 2021/03/04 14:46:20 by tkleynts          #+#    #+#             */
+/*   Updated: 2021/03/04 14:50:05 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_parse_write(const char *array, long flags[6], int fd)
-{
-	int	zap;
-
-	zap = 0;
-	while (*(array + zap) && *(array + zap) != '%')
-		zap++;
-	ft_write(fd, (char *)array, zap, flags);
-	return (zap);
-}
-
-int	ft_printf(const char *array, ...)
+int	ft_fprintf(int fd, const char *array, ...)
 {
 	va_list	ap;
 	int		zap;
 	int		zaap;
 	long	flags[6];
 
+	if (fd < 0)
+		return (-1);
 	va_start(ap, array);
 	while (*array)
 	{
@@ -41,7 +32,7 @@ int	ft_printf(const char *array, ...)
 				return (-1);
 		}
 		else
-			zap = ft_parse_write(array, flags, 1);
+			zap = ft_parse_write(array, flags, fd);
 		array += zap;
 	}
 	va_end(ap);

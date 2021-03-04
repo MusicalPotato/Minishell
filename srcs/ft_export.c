@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 04:18:23 by igor              #+#    #+#             */
-/*   Updated: 2021/03/01 16:42:04 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/04 16:01:31 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		ft_putshlvl(char *arg, char ***envp, int add)
 		nbr = ft_atoi(arg) + add;
 	if (nbr > 2000000)
 	{
-		ft_printf(
+		ft_fprintf(2,
 	"minishell: warning: shell level (%d) too high, resetting to 1\n", nbr);
 		nbr = 1;
 	}
@@ -90,7 +90,7 @@ int		ft_export(t_cmd *cmd, char ***envp)
 	{
 		if (!ft_check_format_export(cmd->arg[i]))
 		{
-			ft_printf(
+			ft_fprintf(2,
 			"minishell: export: `%s': not a valid identifier\n", cmd->arg[i]);
 			ret = 1;
 		}
