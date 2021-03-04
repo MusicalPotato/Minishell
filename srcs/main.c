@@ -12,13 +12,13 @@
 
 #include "../includes/minishell.h"
 
-int		ft_loop(t_data **data, char ***envp, int *status)
+int		ft_loop(t_data **data, char ***envp, int *status, t_hist **hist)
 {
 	t_data	*tempo;
 	int		r;
 
 	(void)envp;
-	if ((r = ft_line_reader(data)))
+	if ((r = ft_line_reader(data, envp, hist)))
 		return ((*status = r));
 	tempo = *data;
 	while (tempo)
@@ -93,14 +93,32 @@ int		ft_setup(int argc, char **argv, char ***envp)
 	return (1);
 }
 
+int		ft_claim_history(t_hist **hist)
+{
+	char	*line;
+	int		fd;
+	int		ret;
+
+	line = NULL;
+    fd = open("history", O_APPEND | O_CREAT | O_RDWR);
+    while ((ret = get_next_line(fd, &line)) > 0)
+        ft_lstadd_front_hist(hist, ft_lstnew_hist(line));
+	if (ret == -1)
+		return (exit_write("claim history: GNL Error\n", 0, 0));
+	return (1);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
+	t_hist	*hist;
 	int		status;
 
 	data = NULL;
 	status = 0;
 	if (!ft_setup(argc, argv, &envp))
+		return (-1);
+	if (!ft_claim_history(&hist))
 		return (-1);
 	if (argc != 1)
 	{
@@ -111,7 +129,7 @@ int		main(int argc, char **argv, char **envp)
 			signal(SIGQUIT,handler);
 			if (ft_loop2(&data, &envp, &status, argv[2]) < 0)
 			{
-				ft_lstclear_line(&data);
+				ft_lstclear_data(&data);
 				ft_envpclear(&envp);
 				return (-1);
 			}
@@ -128,13 +146,14 @@ int		main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, handler);
 		while (1)
 		{
-			if (ft_loop(&data, &envp, &status) < 0)
+			if (ft_loop(&data, &envp, &status, &hist) < 0)
 			{
-				ft_lstclear_line(&data);
+				ft_lstclear_data(&data);
+				ft_lstclear_hist(&hist);
 				ft_envpclear(&envp);
 				return (-1);
 			}
-			ft_lstclear_line(&data);
+			ft_lstclear_data(&data);
 		}
 	}
 	return (1);

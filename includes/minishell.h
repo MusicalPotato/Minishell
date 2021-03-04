@@ -14,6 +14,11 @@
 # define MINISHELL_H
 # define SYNERR "minishell: syntax error near unexpected token "
 # define MLERR "minishell: multiline is not supported\n"
+# define BSIZE 1000
+# define ENTER ((buf[0] == 10 && buf[1] == 0 )|| (buf[0] == 13 && buf[1] == 0))
+# define SUPP (buf[0] == 127 && buf[1] == 0)
+# define HAUT (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
+# define BAS (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
 
 # include <stdio.h>
 
@@ -22,13 +27,14 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+# include <curses.h>
+# include <term.h>
 # include "structs.h"
 # include "signal.h"
 
-
 unsigned short	g_inexec;
 
-int				ft_line_reader(t_data **data);
+int				ft_line_reader(t_data **data, char ***envp, t_hist **hist);
 int				ft_parse_info(t_data *line);
 int				ft_msg_recup(char *line, int count, t_cmd *cmd);
 int				ft_parse_env(t_data *data, char ***envp, int *status);
@@ -36,13 +42,18 @@ int				ft_parse_env(t_data *data, char ***envp, int *status);
 int				ft_line_saver(t_data **data, char **line);
 int				ft_check_text(int count, char **line);
 
-t_data			*ft_lstnew_line(char *content);
-int				ft_lstadd_back_line(t_data **alst, t_data *new);
-void			ft_lstclear_line(t_data **lst);
+t_data			*ft_lstnew_data(char *content);
+int				ft_lstadd_back_data(t_data **alst, t_data *new);
+void			ft_lstclear_data(t_data **lst);
 
 t_cmd			*ft_lstnew_cmd(char *content);
 int				ft_lstadd_back_cmd(t_cmd **alst, t_cmd *new);
 void			ft_lstclear_cmd(t_cmd **lst);
+
+t_hist			*ft_lstnew_hist(char *content);
+int				ft_lstadd_back_hist(t_hist **alst, t_hist *new);
+int				ft_lstadd_front_hist(t_hist **alst, t_hist *new);
+void			ft_lstclear_hist(t_hist **lst);
 
 int				ft_is_space(char line);
 int				ft_istext(int text, char c);

@@ -21,6 +21,12 @@ typedef struct	s_rdir
 	int	sdout;
 }				t_rdir;
 
+typedef struct	s_history
+{
+	char				*line;
+	struct s_history	*next;
+	struct s_history	*prev;
+}				t_hist;
 
 typedef struct	s_commande
 {
@@ -30,7 +36,7 @@ typedef struct	s_commande
 	struct s_commande	*next;
 }				t_cmd;
 
-typedef struct s_data
+typedef struct	s_data
 {
 	char			*line;
 	t_cmd			*cmd;

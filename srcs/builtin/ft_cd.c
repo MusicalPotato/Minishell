@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_errno_cd(t_cmd *cmd, t_rdir pipe_rd)
 {

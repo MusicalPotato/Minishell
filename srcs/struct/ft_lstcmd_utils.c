@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstline_utils.c                                 :+:      :+:    :+:   */
+/*   ft_lstcmd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/11 19:57:34 by igor             ###   ########.fr       */
+/*   Created: 2020/11/05 17:13:44 by ijacquet          #+#    #+#             */
+/*   Updated: 2021/02/08 20:23:46 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-t_data	*ft_lstnew_line(char *content)
+t_cmd	*ft_lstnew_cmd(char *content)
 {
-	t_data	*list;
+	t_cmd	*list;
 
 	if (!content)
 		return (0);
-	if (!(list = malloc(sizeof(t_data))))
+	if (!(list = malloc(sizeof(t_cmd))))
 	{
-		ft_freeturn(&content, 0);
+		ft_freeturn(&content, 1);
 		return (0);
 	}
-	list->line = content;
-	list->cmd = 0;
+	list->arg = NULL;
+	list->arg_nbr = 0;
 	list->next = 0;
+	list->name = content;
 	return (list);
 }
 
-int		ft_lstadd_back_line(t_data **alst, t_data *new)
+int		ft_lstadd_back_cmd(t_cmd **alst, t_cmd *new)
 {
-	t_data	*l;
+	t_cmd	*l;
 
 	if (!(alst) || !(new))
 		return (0);
@@ -47,16 +48,26 @@ int		ft_lstadd_back_line(t_data **alst, t_data *new)
 	return (1);
 }
 
-void	ft_lstclear_line(t_data **lst)
+void	ft_lstclear_cmd(t_cmd **lst)
 {
-	t_data	*l;
+	t_cmd	*l;
+	int		x;
 
+	x = 0;
 	while (*lst)
 	{
 		l = (*lst)->next;
-		free((*lst)->line);
-		(*lst)->line = NULL;
-		ft_lstclear_cmd(&((*lst)->cmd));
+		free((*lst)->name);
+		(*lst)->name = NULL;
+		while (x < (*lst)->arg_nbr)
+		{
+			free((*lst)->arg[x]);
+			(*lst)->arg[x] = NULL;
+			x++;
+		}
+		free((*lst)->arg);
+		(*lst)->arg = NULL;
+		(*lst)->arg_nbr = 0;
 		(*lst)->next = NULL;
 		free(*lst);
 		*lst = l;
