@@ -6,7 +6,7 @@
 /*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 10:24:34 by igor              #+#    #+#             */
-/*   Updated: 2021/02/04 14:26:20 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/04 16:00:52 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			ft_env(t_cmd *cmd, char **envp)
 
 	if (cmd->arg_nbr > 0)
 	{
-		ft_printf("too many arguments\n");
+		ft_fprintf(2, "too many arguments\n");
 		return (255);
 	}
 	i = 0;

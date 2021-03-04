@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:14:32 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/03/01 13:38:27 by nlaurids         ###   ########.fr       */
+/*   Updated: 2021/03/04 16:02:53 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		ft_unset(t_cmd *cmd, char ***envp)
 	{
 		if (!ft_check_format_unset(cmd->arg[i]))
 		{
-			ft_printf("minishell: unset: `%s': not a valid identifier\n",
+			ft_fprintf(2, "minishell: unset: `%s': not a valid identifier\n",
 					cmd->arg[i]);
 			ret = 1;
 		}

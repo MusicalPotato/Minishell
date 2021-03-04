@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlaurids <nlaurids@student.s19.be>         +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:32:08 by igor              #+#    #+#             */
-/*   Updated: 2021/03/01 15:48:34 by nlaurids         ###   ########.fr       */
+/*   Updated: 2021/03/04 16:00:46 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_exit(t_cmd *cmd, int i)
 	{
 		if (cmd->arg[0][i] != ' ' && cmd->arg[0][i] != '\t')
 		{
-			ft_printf(
+			ft_fprintf(2,
 			"minishell: exit: %s: numeric argument required\n", cmd->arg[0]);
 			exit(-1);
 		}
@@ -54,7 +54,7 @@ int	ft_exit(t_cmd *cmd, int i)
 		return (exit_write("minishell: exit: too many arguments\n", 0, -2));
 	i = ft_atoi(cmd->arg[0]);
 	if (i == -1 && !ft_numis_negone(cmd->arg[0]))
-		ft_printf(
+		ft_fprintf(2,
 			"minishell: exit: %s: numeric argument required\n", cmd->arg[0]);
 	exit(i);
 }

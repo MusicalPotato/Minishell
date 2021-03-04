@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:25:46 by igor              #+#    #+#             */
-/*   Updated: 2021/02/21 14:13:47 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/04 15:59:54 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ int	ft_errno_cd(t_cmd *cmd, t_rdir pipe_rd)
 		if (cmd->arg[i][0] == '>' || cmd->arg[i][0] == '<')
 			break ;
 	if (errno == EISDIR && (ret = 126))
-		ft_printf("minishell: %s: is a directory\n", cmd->name);
+		ft_fprintf(2, "minishell: %s: is a directory\n", cmd->name);
 	else if (errno == EACCES && (ret = 126))
-		ft_printf("minishell: %s: %s: Permission denied\n",
+		ft_fprintf(2, "minishell: %s: %s: Permission denied\n",
 				cmd->name, cmd->arg[0]);
 	else if (errno == ENOENT && (ret = 1))
 	{
 		if (cmd->arg[i][0] != '>' && cmd->arg[i][0] != '<')
-			ft_printf("minishell: %s: %s: No such file or directory\n",
+			ft_fprintf(2, "minishell: %s: %s: No such file or directory\n",
 					cmd->name, cmd->arg[0]);
 		else
-			ft_printf("minishell: %s: No such file or directory\n",
+			ft_fprintf(2, "minishell: %s: No such file or directory\n",
 					cmd->arg[i + 1]);
 	}
 	return (ret);
