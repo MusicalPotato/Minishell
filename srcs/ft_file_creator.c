@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 14:48:29 by igor              #+#    #+#             */
-/*   Updated: 2021/03/05 14:19:19 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/05 15:43:11 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_redir_check_1(t_cmd *cmd, int fd)
 		return (exit_write("File creation failed\n", 0, -1));
 	if (cmd->argc < 2)
 		return (-3);
-	if (remove_after_red(cmd, 0) == 0)
+	if (remove_after_red(cmd, 1) == 0)
 		return (-1);
 	return (fd);
 }

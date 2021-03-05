@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:10:34 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/03/05 14:19:29 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/05 15:09:22 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static void	ft_setup_exec_pipe(t_data *d, t_cmd *cmd, int v[5], t_rdir rd[2])
 		close(v[0]);
 		ft_rdir_init(&rd[0]);
 		ft_pipe_rd(&rd[1], v, 1);
-		ft_file_rd(cmd, &rd[0]);
 		remove_after_pipe(cmd, v[3]);
+		ft_file_rd(cmd, &rd[0]);
 		ft_sorter(d, cmd, rd[1], &v[4]);
 		ft_close_all(rd[0]);
 		ft_close_all(rd[1]);
