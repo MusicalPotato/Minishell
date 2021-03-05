@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:19:17 by igor              #+#    #+#             */
-/*   Updated: 2021/03/01 14:20:33 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/05 14:19:09 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ int		ft_file_recup(t_cmd *cmd)
 	return (fd);
 }
 
-t_rdir	ft_open_all(t_rdir rdir)
+t_rdir	*ft_open_all(t_rdir *rdir)
 {
-	if (rdir.fdin > 0)
+	if (rdir->fdin > 0)
 	{
-		rdir.sdin = dup(1);
-		dup2(rdir.fdin, 1);
+		rdir->sdin = dup(1);
+		dup2(rdir->fdin, 1);
 	}
-	if (rdir.fdout > 0)
+	if (rdir->fdout > 0)
 	{
-		rdir.sdout = dup(0);
-		dup2(rdir.fdout, 0);
+		rdir->sdout = dup(0);
+		dup2(rdir->fdout, 0);
 	}
 	return (rdir);
 }

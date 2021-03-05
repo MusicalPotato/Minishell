@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/02 14:35:28 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/05 14:18:28 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int				ft_file_recup(t_cmd *cmd);
 int				remove_after_red(t_cmd *cmd, int index_red);
 void			ft_file_rd(t_cmd *cmd, t_rdir *rdir);
 void			ft_pipe_rd(t_rdir *rdir, int filedes[2], int fd_def);
-t_rdir			ft_open_all(t_rdir rdir);
+t_rdir			*ft_open_all(t_rdir *rdir);
 void			ft_close_all(t_rdir rdir);
 
 int				ft_display_export(char ***envp);
