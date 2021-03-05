@@ -255,9 +255,11 @@ int			ft_line_reader(t_data *data)
 		{
 			if (index > 0)
 			{
-				write(STDOUT_FILENO, "\b", 1);
-				tputs(tgoto(tgetstr("ec", NULL), 0, 0), 0, ft_outc);
+				tputs(tgoto(tgetstr("ch", NULL), 0, 0), 0, ft_outc);
+				tputs(tgetstr("cd", NULL), 0, ft_outc);
+				ft_printf("prompt > ");
 				string = ft_memcat(string, 0, ft_strlen(string) - 1, 0);
+				write(STDOUT_FILENO, string, ft_strlen(string));
 				index = ft_strlen(string);
 			}
 		}

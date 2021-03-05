@@ -44,7 +44,7 @@ int	ft_echo(t_cmd *cmd)
 	i = ft_check_arg(cmd);
 	j = 0;
 	nl = 1;
-	if (cmd->argc && i)
+	if (cmd->argc && i > 1)
 		nl = 0;
 	while (i <= cmd->argc)
 	{
