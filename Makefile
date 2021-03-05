@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+         #
+#    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/03/02 14:37:22 by tkleynts         ###   ########.fr        #
+#    Updated: 2021/03/05 15:18:03 by igor             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ clean :
 
 fclean :	clean
 			rm -f $(NAME)
-			rm -f history
+			rm -f .history
 			make -C libft fclean
 
 re: fclean all

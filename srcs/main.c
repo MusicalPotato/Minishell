@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/01 17:57:47 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/05 15:17:41 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		ft_claim_history(t_data *data)
         if (!(ft_lstadd_front_hist(&(data->hist), ft_lstnew_hist(line))))
 			return (0);
 	if (ret == -1)
-		return (exit_write("claim history: GNL Error\n", 0, 0));
+		return (exit_write("claim : GNL Error\n", 0, 0));
 	return (1);
 }
 
