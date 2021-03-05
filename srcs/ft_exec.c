@@ -34,6 +34,33 @@ void		ft_sorter(t_data *d, t_cmd *cmd, t_rdir pipe_rd, int *ret)
 		*ret = ft_exec(cmd, pipe_rd, d->envp);
 }
 
+static int	ft_set_argvlist(t_cmd *cmd)
+{
+	int		i;
+	char	**argvlist;
+
+	i = 0;
+	while (i <= cmd->argc && cmd->argv[i][0] != '>'
+			&& cmd->argv[i][0] != '<')
+		i++;
+	if (!(argvlist = ft_calloc(sizeof(char *), (i + 1))))
+		return (0);
+	i = 0;
+	while (i <= cmd->argc && cmd->argv[i][0] != '>'
+			&& cmd->argv[i][0] != '<')
+	{
+		if (!(argvlist[i] = ft_strdup(cmd->argv[i])))
+			return (free_all(&argvlist, 0));
+		i++;
+	}
+	argvlist[i] = NULL;
+	if (!(cmd->argv = ft_stradd_back(cmd->argv, NULL, cmd->argc)))
+		return (free_all(&argvlist, -1));
+	free_all(&(cmd->argv), 1);
+	cmd->argv = argvlist;
+	return (1);
+}
+
 static int	ft_complet_pathlist(char ***pathlist, char *path, t_cmd *cmd)
 {
 	int	i;
@@ -87,7 +114,8 @@ int			ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp)
 	char	**pathlist;
 	pid_t	child_pid;
 
-	cmd->argv = ft_stradd_back(cmd->argv, NULL, cmd->argc + 1);
+	if (!ft_set_argvlist(cmd))
+		return (-1);
 	if (!(emsg = ft_set_pathlist(cmd, &pathlist, envp)))
 		return (-1);
 	i = 0;

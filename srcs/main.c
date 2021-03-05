@@ -78,7 +78,7 @@ int		ft_claim_history(t_data *data)
 	int		ret;
 
 	line = NULL;
-    data->fd = open("history", O_APPEND | O_CREAT | O_RDWR, S_IRWXU);
+    data->fd = open(".history", O_APPEND | O_CREAT | O_RDWR, S_IRWXU);
 	if (data->fd < 0)
 		return (0);
 	if (!(data->hist = ft_lstnew_hist(NULL)))
