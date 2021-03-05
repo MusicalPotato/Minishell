@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/02 14:35:13 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/05 13:27:12 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,12 +254,14 @@ int			ft_line_reader(t_data *data)
 		else if (SUPP)
 		{
 			if (index > 0)
-			{
-				write(STDOUT_FILENO, "\b", 1);
-				tputs(tgoto(tgetstr("ec", NULL), 0, 0), 0, ft_outc);
-				string = ft_memcat(string, 0, ft_strlen(string) - 1, 0);
-				index = ft_strlen(string);
-			}
+            {
+                tputs(tgoto(tgetstr("ch", NULL), 0, 0), 0, ft_outc);
+                tputs(tgetstr("cd", NULL), 0, ft_outc);
+                ft_printf("prompt > ");
+                string = ft_memcat(string, 0, ft_strlen(string) - 1, 0);
+                write(STDOUT_FILENO, string, ft_strlen(string));
+                index = ft_strlen(string);
+            }
 		}
 		else
 		{

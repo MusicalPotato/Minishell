@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/02 14:12:26 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/05 13:38:07 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int		ft_parse_error_check(t_cmd *cmd)
 		return (exit_write(SYNERR, "`|'", 2));
 	if (cmd->argc == 0)
 		return (0);
-	if (cmd->argv[cmd->argc - 1][0] == '>' ||
-			cmd->argv[cmd->argc - 1][0] == '<')
+	if (cmd->argv[cmd->argc][0] == '>' ||
+			cmd->argv[cmd->argc][0] == '<')
 		return (exit_write(SYNERR, "`newline'", 2));
 	return (0);
 }
