@@ -39,6 +39,8 @@ int		ft_loop2(t_data *data, char *argv)
 	t_cmd	*cur;
 	int		r;
 
+	argv = ft_strdup(argv);
+	argv = ft_memcat(argv, "\n", ft_strlen(argv), 1);
 	if ((r = ft_line_saver(data, &argv)))
 		return ((data->status = r));
 	cur = data->cmd;
@@ -146,8 +148,9 @@ int		main(int argc, char **argv, char **envp)
 	{
 		if (ft_loop(data) < 0)
 		{
+			status = data->status;
 			ft_lstclear_data(&data);
-			return (-1);
+			return (status);
 		}
 		ft_lstclear_cmd(&(data->cmd));
 	}

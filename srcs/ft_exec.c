@@ -58,6 +58,7 @@ static int	ft_set_argvlist(t_cmd *cmd)
 		return (free_all(&argvlist, -1));
 	free_all(&(cmd->argv), 1);
 	cmd->argv = argvlist;
+	cmd->argc = i - 1;
 	return (1);
 }
 

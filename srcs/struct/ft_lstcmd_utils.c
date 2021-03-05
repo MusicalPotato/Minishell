@@ -59,7 +59,7 @@ void	ft_lstclear_cmd(t_cmd **lst)
 		l = (*lst)->next;
 		free((*lst)->line);
 		(*lst)->line = NULL;
-		while (x < (*lst)->argc)
+		while (x <= (*lst)->argc && (*lst)->argv)
 		{
 			free((*lst)->argv[x]);
 			(*lst)->argv[x] = NULL;
