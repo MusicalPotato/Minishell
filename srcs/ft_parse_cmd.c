@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/05 13:38:07 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:11:23 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int		ft_parse_error_check(t_cmd *cmd)
 {
 	if ((cmd->argv[0][0] == '>' || cmd->argv[0][0] == '<') && cmd->argc == 0)
 		return (exit_write(SYNERR, "`newline'", 2));
-	if ((cmd->argv[0][0] == '>' || cmd->argv[0][0] == '<') && cmd->argv[1][0] == '|')
+	if ((cmd->argv[0][0] == '>' || cmd->argv[0][0] == '<') &&
+		cmd->argv[1][0] == '|')
 		return (exit_write(SYNERR, "`|'", 2));
 	if (cmd->argc == 0)
 		return (0);
@@ -119,9 +120,9 @@ int		ft_parse_info(t_cmd *cur)
 	cur->argv = malloc(sizeof(char *) * 1);
 	cur->argv[0] = ft_strdup(cmd);
 	free(cmd);
-	if (cur->line[count] == ' ' || cur->line[count] == '\t' || cur->line[count] == '|' ||
-	cur->line[count - 1] == '>' || cur->line[count - 1] == '<' || cur->line[count] == '>'
-	|| cur->line[count] == '<')
+	if (cur->line[count] == ' ' || cur->line[count] == '\t' || cur->line[count]
+	== '|' || cur->line[count - 1] == '>' || cur->line[count - 1] == '<' ||
+	cur->line[count] == '>' || cur->line[count] == '<')
 	{
 		if ((count = ft_msg_recup(cur, count, cur->line)) < -1)
 			return (ft_abs(count));

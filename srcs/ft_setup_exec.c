@@ -6,13 +6,13 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 14:10:34 by tkleynts          #+#    #+#             */
-/*   Updated: 2021/03/05 15:09:22 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:16:06 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_rdir_init(t_rdir *rdir)
+void		ft_rdir_init(t_rdir *rdir)
 {
 	rdir->fdin = -2;
 	rdir->fdout = -2;
