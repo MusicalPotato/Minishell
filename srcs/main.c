@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:43:32 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/05 15:17:41 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:34:02 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,24 @@ int		ft_loop2(t_data *data, char *argv)
 	return (1);
 }
 
-int			ft_init_term(char **envp)
+int		ft_init_term(char **envp)
 {
-    int		ret;
-    char	*term_type;
+	int		ret;
+	char	*term_type;
 
 	term_type = ft_getenv("TERM", envp);
-    if (term_type == NULL)
+	if (term_type == NULL)
 		return (exit_write("TERM must be set (see 'env').\n", 0, 0));
-    ret = tgetent(NULL, term_type);
-    if (ret == -1)
-		return (exit_write("Could not access to the termcap database..\n", 0, 0));
-    else if (ret == 0)
-		return (exit_write("Terminal type is not defined in termcap database (or have too few informations).\n", 0, 0));
-    return (1);
+	ret = tgetent(NULL, term_type);
+	if (ret == -1)
+		return (exit_write(
+			"Could not access to the termcap database..\n", 0, 0));
+	else if (ret == 0)
+	{
+		return (exit_write("Terminal type is not defined in termcap \
+				database (or have too few informations).\n", 0, 0));
+	}
+	return (1);
 }
 
 int		ft_claim_history(t_data *data)
@@ -80,20 +84,20 @@ int		ft_claim_history(t_data *data)
 	int		ret;
 
 	line = NULL;
-    data->fd = open(".history", O_APPEND | O_CREAT | O_RDWR, S_IRWXU);
+	data->fd = open(".history", O_APPEND | O_CREAT | O_RDWR, S_IRWXU);
 	if (data->fd < 0)
 		return (0);
 	if (!(data->hist = ft_lstnew_hist(NULL)))
 		return (0);
-    while ((ret = get_next_line(data->fd, &line)) > 0)
-        if (!(ft_lstadd_front_hist(&(data->hist), ft_lstnew_hist(line))))
+	while ((ret = get_next_line(data->fd, &line)) > 0)
+		if (!(ft_lstadd_front_hist(&(data->hist), ft_lstnew_hist(line))))
 			return (0);
 	if (ret == -1)
 		return (exit_write("claim : GNL Error\n", 0, 0));
 	return (1);
 }
 
-int		ft_setup(t_data	**data, int argc, char **argv, char **envp)
+int		ft_setup(t_data **data, int argc, char **argv, char **envp)
 {
 	char	*str;
 
