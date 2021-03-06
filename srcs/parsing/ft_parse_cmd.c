@@ -6,11 +6,11 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 16:02:19 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/06 14:11:23 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:24:29 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int		ft_parse_error_check(t_cmd *cmd)
 {

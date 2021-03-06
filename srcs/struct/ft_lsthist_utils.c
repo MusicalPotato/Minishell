@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lsthist_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 14:40:30 by igor              #+#    #+#             */
+/*   Updated: 2021/03/06 14:41:23 by igor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 t_hist	*ft_lstnew_hist(char *content)
@@ -17,7 +29,7 @@ t_hist	*ft_lstnew_hist(char *content)
 
 int		ft_lstadd_back_hist(t_hist **alst, t_hist *new)
 {
-	t_hist    *list;
+	t_hist	*list;
 
 	if (!new)
 		return (0);
@@ -36,7 +48,7 @@ int		ft_lstadd_back_hist(t_hist **alst, t_hist *new)
 
 int		ft_lstadd_front_hist(t_hist **alst, t_hist *new)
 {
-	t_hist  *tmp;
+	t_hist	*tmp;
 
 	if (!new)
 		return (0);
