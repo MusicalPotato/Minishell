@@ -196,7 +196,7 @@ int			ft_line_reader(t_data *data)
 
     if (tcsetattr(0, 0, &(data->termios)) == -1)
         return (-1);
-	g_inexec = 0;
+	data->inexec = 0;
 	cur = data->hist;
 	string = NULL;
 	index = 0;
@@ -270,7 +270,7 @@ int			ft_line_reader(t_data *data)
 			write(STDOUT_FILENO, buf, ft_strlen(buf));
 		}
 	}
-	g_inexec = 1;
+	data->inexec = 1;
 	if (tcsetattr(0, 0, &(data->termios_backup)) == -1)
         return (-1);
 	return (0);

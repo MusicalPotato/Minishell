@@ -125,34 +125,33 @@ int		ft_setup(t_data	**data, int argc, char **argv, char **envp)
 
 int		main(int argc, char **argv, char **envp)
 {
-	t_data	*data;
 	int		status;
 
-	data = NULL;
-	if (!ft_setup(&data, argc, argv, envp))
+	g_data = NULL;
+	if (!ft_setup(&g_data, argc, argv, envp))
 		return (-1);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	if (argc > 1)
 	{
-		if (ft_loop2(data, argv[2]) < 0)
+		if (ft_loop2(g_data, argv[2]) < 0)
 		{
-			ft_lstclear_data(&data);
+			ft_lstclear_data(&g_data);
 			return (-1);
 		}
-		status = data->status;
-		ft_lstclear_data(&data);
+		status = g_data->status;
+		ft_lstclear_data(&g_data);
 		return (status);
 	}
 	while (1)
 	{
-		if (ft_loop(data) < 0)
+		if (ft_loop(g_data) < 0)
 		{
-			status = data->status;
-			ft_lstclear_data(&data);
+			status = g_data->status;
+			ft_lstclear_data(&g_data);
 			return (status);
 		}
-		ft_lstclear_cmd(&(data->cmd));
+		ft_lstclear_cmd(&(g_data->cmd));
 	}
 	return (1);
 }

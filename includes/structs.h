@@ -39,6 +39,7 @@ typedef struct	s_commande
 typedef struct	s_data
 {
 	int					status;
+	int					inexec;
 	char				**envp;
 	t_cmd				*cmd;
 	int					fd;

@@ -14,7 +14,10 @@
 # define MINISHELL_H
 # define SYNERR "minishell: syntax error near unexpected token "
 # define MLERR "minishell: multiline is not supported\n"
+
 # define BSIZE 1000
+# define SIGMINE 4
+
 # define ENTER ((buf[0] == 10 && buf[1] == 0 )|| (buf[0] == 13 && buf[1] == 0))
 # define SUPP (buf[0] == 127 && buf[1] == 0)
 # define HAUT (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
@@ -32,7 +35,7 @@
 # include "structs.h"
 # include "signal.h"
 
-unsigned short	g_inexec;
+t_data			*g_data;
 
 int				ft_line_reader(t_data *data);
 int				ft_parse_env(t_data *data, t_cmd *cmd);

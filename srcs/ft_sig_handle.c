@@ -14,6 +14,6 @@
 
 void	handler(int signum)
 {
-	if (signum == SIGINT && g_inexec == 0)
+	if (signum == SIGINT && g_data->inexec == 0)
 		ft_printf("\nprompt > ");
 }
