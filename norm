@@ -1,0 +1,72 @@
+Norme: ./srcs/ft_display.c
+Norme: ./srcs/ft_env.c
+Norme: ./srcs/ft_env_utils.c
+Norme: ./srcs/ft_errno.c
+Norme: ./srcs/ft_exec.c
+Norme: ./srcs/ft_file_creator.c
+Norme: ./srcs/ft_file_redirect.c
+Norme: ./srcs/ft_pipe_redir.c
+Error: file must end with a single empty line
+Error (line 92, col 0): no newline after block
+Norme: ./srcs/ft_reading.c
+Error: 9 functions in the file
+Error (line 36): function ft_pipe_chev_check has 29 lines
+Error (line 48): line has 92 characters
+Error (line 136): bad spacing after ft_line_saver
+Error (line 166): bad indentation
+Error (line 167): bad indentation
+Error (line 169): bad indentation
+Error (line 170): bad indentation
+Error (line 171): bad indentation
+Error (line 172): bad indentation
+Error (line 173): bad indentation
+Error (line 174): bad indentation
+Error (line 175): bad indentation
+Error (line 176): bad indentation
+Error (line 177): bad indentation
+Error (line 178): bad indentation
+Error (line 179): bad indentation
+Error (line 180): bad indentation
+Error (line 181): bad indentation
+Error (line 189): function ft_line_reader has 86 lines
+Error (line 197): must begin only by tabulations
+Error (line 197): bad indentation
+Error (line 198): must begin only by tabulations
+Error (line 198): bad indentation
+Error (line 214): line has 86 characters
+Error (line 275): must begin only by tabulations
+Error (line 275): bad indentation
+Norme: ./srcs/ft_setup_exec.c
+Norme: ./srcs/ft_sig_handle.c
+Norme: ./srcs/ft_utils.c
+Norme: ./srcs/main.c
+Error: 6 functions in the file
+Error (line 100): function ft_setup has 26 lines
+Error (line 106): C++ comment
+Error (line 107): C++ comment
+Error (line 130): function main has 29 lines
+Norme: ./srcs/builtin/ft_cd.c
+Norme: ./srcs/builtin/ft_echo.c
+Norme: ./srcs/builtin/ft_exit.c
+Norme: ./srcs/builtin/ft_export.c
+Norme: ./srcs/builtin/ft_pwd.c
+Norme: ./srcs/builtin/ft_unset.c
+Norme: ./srcs/struct/ft_lstcmd_utils.c
+Norme: ./srcs/struct/ft_lstdata_utils.c
+Error (line 30): must begin only by tabulations
+Error (line 30): bad indentation
+Norme: ./srcs/struct/ft_lsthist_utils.c
+Error: 42 header not at top of the file
+Error (line 20, col 7): bad spacing
+Error (line 39, col 7): bad spacing
+Norme: ./srcs/parsing/ft_parse_cmd.c
+Norme: ./srcs/parsing/ft_parse_env.c
+Error (line 33): function var_to_value has 36 lines
+Error (line 42): line has 82 characters
+Error (line 73): function ft_parse_env has 53 lines
+Error (line 73, col 0): ft_parse_env has 6 variables
+Error (line 95): line has 92 characters
+Error (line 118): bad indentation
+Error (line 119): bad indentation
+Error (line 120): bad indentation
+Norme: ./srcs/parsing/ft_parse_msg.c

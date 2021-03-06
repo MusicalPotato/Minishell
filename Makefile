@@ -6,7 +6,7 @@
 #    By: igor <igor@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 15:45:15 by ijacquet          #+#    #+#              #
-#    Updated: 2021/03/05 15:18:03 by igor             ###   ########.fr        #
+#    Updated: 2021/03/06 14:23:41 by igor             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ SRCS_NAME	=	main.c	\
 				ft_display.c \
 				ft_file_creator.c \
 				ft_file_redirect.c \
-				ft_parse_cmd.c \
-				ft_parse_env.c \
-				ft_parse_msg.c \
+				parsing/ft_parse_cmd.c \
+				parsing/ft_parse_env.c \
+				parsing/ft_parse_msg.c \
 				ft_pipe_redir.c \
 				ft_reading.c \
 				ft_setup_exec.c \
