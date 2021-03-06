@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/05 14:18:28 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:47:36 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define SUPP (buf[0] == 127 && buf[1] == 0)
 # define HAUT (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 # define BAS (buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
+# define EOFF (buf[0] == 4)
+
 
 # include <stdio.h>
 

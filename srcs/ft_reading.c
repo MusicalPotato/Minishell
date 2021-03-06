@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_reading.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:55:36 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/05 13:27:12 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:57:41 by tkleynts         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,11 @@ int			ft_line_reader(t_data *data)
 				write(STDOUT_FILENO, string, ft_strlen(string));
 				index = ft_strlen(string);
 			}
+		}
+		else if (EOFF)
+		{
+			if (index == 0)
+				ft_exit (data, 0);
 		}
 		else
 		{
