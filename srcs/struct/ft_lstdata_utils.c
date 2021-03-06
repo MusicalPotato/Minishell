@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstline_utils.c                                 :+:      :+:    :+:   */
+/*   ft_lstdata_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/11 19:57:34 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/06 14:42:22 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_data	*ft_lstnew_data(char **envp)
 	|| tcgetattr(0, &(list->termios_backup)) == -1)
 	{
 		free(list);
-        return (0);
+		return (0);
 	}
 	list->termios.c_lflag &= ~(ICANON);
 	list->termios.c_lflag &= ~(ECHO);
