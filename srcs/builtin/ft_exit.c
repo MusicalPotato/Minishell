@@ -32,7 +32,7 @@ int	ft_numis_negone(char *num)
 
 int	ft_exit(t_cmd *cmd, int i)
 {
-	if (!cmd->argc)
+	if (!cmd || !cmd->argc)
 		exit(0);
 	while (ft_is_space(cmd->argv[1][i]))
 		i++;
@@ -40,15 +40,14 @@ int	ft_exit(t_cmd *cmd, int i)
 		i++;
 	while (ft_isdigit(cmd->argv[1][i]))
 		i++;
-	while (cmd->argv[1][i])
-	{
-		if (cmd->argv[1][i] != ' ' && cmd->argv[1][i] != '\t')
-		{
-			ft_fprintf(2,
-			"minishell: exit: %s: numeric argument required\n", cmd->argv[1]);
-			exit(-1);
-		}
+	while (cmd->argv[1][i] == ' ' && cmd->argv[1][i] == '\t')
 		i++;
+	if (cmd->argv[1][i] != 0)
+	{
+		ft_fprintf(2,
+		"minishell: exit: %s: numeric argument required\n", cmd->argv[1]);
+		ft_lstclear_data(&g_data);
+		exit(-1);
 	}
 	if (cmd->argc > 1)
 		return (exit_write("minishell: exit: too many arguments\n", 0, -2));
@@ -56,5 +55,6 @@ int	ft_exit(t_cmd *cmd, int i)
 	if (i == -1 && !ft_numis_negone(cmd->argv[1]))
 		ft_fprintf(2,
 			"minishell: exit: %s: numeric argument required\n", cmd->argv[1]);
+	ft_lstclear_data(&g_data);
 	exit(i);
 }

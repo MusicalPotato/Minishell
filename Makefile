@@ -20,11 +20,11 @@ LIBFT		=	libft/libft.a
 SRCS_NAME	=	main.c	\
 				builtin/ft_cd.c \
 				builtin/ft_echo.c \
+				builtin/ft_env.c \
 				builtin/ft_exit.c \
 				builtin/ft_export.c \
 				builtin/ft_pwd.c \
 				builtin/ft_unset.c \
-				ft_env.c \
 				ft_env_utils.c \
 				ft_errno.c \
 				ft_exec.c \

@@ -16,7 +16,6 @@
 # define MLERR "minishell: multiline is not supported\n"
 
 # define BSIZE 1000
-# define SIGMINE 4
 
 # define ENTER ((buf[0] == 10 && buf[1] == 0 )|| (buf[0] == 13 && buf[1] == 0))
 # define SUPP (buf[0] == 127 && buf[1] == 0)
