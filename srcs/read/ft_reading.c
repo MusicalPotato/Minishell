@@ -41,8 +41,8 @@ int		ft_check_char(t_data *data, char buf[BSIZE], t_hist **cur)
 		}
 		ft_printf("prompt > ");
 	}
-	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65
-			|| buf[0] == 27 && buf[1] == 91 && buf[2] == 66)
+	else if ((buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
+			|| (buf[0] == 27 && buf[1] == 91 && buf[2] == 66))
 	{
 		if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65)
 			if ((*cur)->next)
