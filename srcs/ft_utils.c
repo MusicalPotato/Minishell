@@ -57,3 +57,24 @@ int		free_all(char ***data, int ret)
 	*data = NULL;
 	return (ret);
 }
+
+int			ft_is_space(char line)
+{
+	if (line == ' ' || line == '\t' || line == '\n'
+	|| line == '\v' || line == '\f' || line == '\r')
+		return (1);
+	return (0);
+}
+
+int			ft_istext(int text, char c)
+{
+	if (!text && c == '\'')
+		text = 1;
+	else if (text == 1 && c == '\'')
+		text = 0;
+	else if (!text && c == '"')
+		text = 2;
+	else if (text == 2 && c == '"')
+		text = 0;
+	return (text);
+}

@@ -44,7 +44,7 @@ void	ft_lstclear_data(t_data **lst)
 	(*lst)->fd = 0;
 	ft_lstclear_hist(&(*lst)->hist);
 	if (tcsetattr(0, 0, &((*lst)->termios_backup)) == -1)
-        exit(-1);
+		exit(-1);
 	free(*lst);
 	*lst = NULL;
 }
