@@ -33,7 +33,10 @@ int	ft_numis_negone(char *num)
 int	ft_exit(t_cmd *cmd, int i)
 {
 	if (!cmd || !cmd->argc)
+	{
+		ft_lstclear_data(&g_data);
 		exit(0);
+	}
 	while (ft_is_space(cmd->argv[1][i]))
 		i++;
 	if (cmd->argv[1][i] == '+' || cmd->argv[1][i] == '-')

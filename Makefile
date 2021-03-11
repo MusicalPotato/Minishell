@@ -35,7 +35,8 @@ SRCS_NAME	=	main.c	\
 				parsing/ft_parse_env.c \
 				parsing/ft_parse_msg.c \
 				ft_pipe_redir.c \
-				ft_reading.c \
+				read/ft_reading.c \
+				read/ft_line_saver.c \
 				ft_setup_exec.c \
 				ft_sig_handle.c \
 				ft_utils.c \

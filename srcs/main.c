@@ -78,26 +78,26 @@ int		ft_init_term(char **envp)
 	return (1);
 }
 
-int		ft_claim_history(t_data *data)
+int		ft_claim_history()
 {
 	char	*line;
 	int		ret;
 
 	line = NULL;
-	data->fd = open(".history", O_APPEND | O_CREAT | O_RDWR, S_IRWXU);
-	if (data->fd < 0)
+	g_data->fd = open(".history", O_APPEND | O_CREAT | O_RDWR, S_IRWXU);
+	if (g_data->fd < 0)
 		return (0);
-	if (!(data->hist = ft_lstnew_hist(NULL)))
+	if (!(g_data->hist = ft_lstnew_hist(NULL)))
 		return (0);
-	while ((ret = get_next_line(data->fd, &line)) > 0)
-		if (!(ft_lstadd_front_hist(&(data->hist), ft_lstnew_hist(line))))
+	while ((ret = get_next_line(g_data->fd, &line)) > 0)
+		if (!(ft_lstadd_front_hist(&(g_data->hist), ft_lstnew_hist(line))))
 			return (0);
 	if (ret == -1)
 		return (exit_write("claim : GNL Error\n", 0, 0));
 	return (1);
 }
 
-int		ft_setup(t_data **data, int argc, char **argv, char **envp)
+int		ft_setup(int argc, char **argv, char **envp)
 {
 	char	*str;
 
@@ -105,23 +105,23 @@ int		ft_setup(t_data **data, int argc, char **argv, char **envp)
 	(void)argc;
 //	if (argc > 0)
 //		return (exit_write("Wrong number of arguments\n", 0, 0));
-	if (!(*data = ft_lstnew_data(envp)))
+	if (!(g_data = ft_lstnew_data(envp)))
 		return (0);
 	if (!(str = getcwd(0, 0))
-	|| !(ft_putenv(ft_envformat("PWD", str), &(*data)->envp, 1))
-	|| !(ft_putshlvl(ft_getenv("SHLVL", (*data)->envp), &(*data)->envp, 1))
+	|| !(ft_putenv(ft_envformat("PWD", str), &(g_data->envp), 1))
+	|| !(ft_putshlvl(ft_getenv("SHLVL", g_data->envp), &(g_data->envp), 1))
 	|| !(str = ft_strdup(argv[0]))
-	|| !(ft_putenv(ft_envformat("_", str), &(*data)->envp, 1)))
+	|| !(ft_putenv(ft_envformat("_", str), &(g_data->envp), 1)))
 	{
 		ft_freeturn(&str, 0);
-		ft_lstclear_data(data);
+		ft_lstclear_data(&(g_data));
 		return (exit_write("malloc Error\n", 0, 0));
 	}
 	free(str);
-	if (!(ft_claim_history(*data))
-	|| !ft_init_term((*data)->envp))
+	if (!(ft_claim_history())
+	|| !ft_init_term(g_data->envp))
 	{
-		ft_lstclear_data(data);
+		ft_lstclear_data(&(g_data));
 		return (0);
 	}
 	return (1);
@@ -132,7 +132,7 @@ int		main(int argc, char **argv, char **envp)
 	int		status;
 
 	g_data = NULL;
-	if (!ft_setup(&g_data, argc, argv, envp))
+	if (!ft_setup(argc, argv, envp))
 		return (-1);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
