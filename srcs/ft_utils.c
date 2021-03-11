@@ -58,7 +58,7 @@ int		free_all(char ***data, int ret)
 	return (ret);
 }
 
-int			ft_is_space(char line)
+int		ft_is_space(char line)
 {
 	if (line == ' ' || line == '\t' || line == '\n'
 	|| line == '\v' || line == '\f' || line == '\r')
@@ -66,7 +66,7 @@ int			ft_is_space(char line)
 	return (0);
 }
 
-int			ft_istext(int text, char c)
+int		ft_istext(int text, char c)
 {
 	if (!text && c == '\'')
 		text = 1;

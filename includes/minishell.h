@@ -18,13 +18,11 @@
 # define BSIZE 1000
 
 # include <stdio.h>
-
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
-# include <curses.h>
 # include <term.h>
 # include "structs.h"
 # include "signal.h"
