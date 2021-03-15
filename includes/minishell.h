@@ -30,12 +30,16 @@
 t_data			*g_data;
 
 int				ft_line_reader(t_data *data);
-int				ft_parse_env(t_data *data, t_cmd *cmd);
-int				ft_parse_info(t_cmd *cur);
-int				ft_msg_recup(t_cmd *cmd, int count, char *line);
-
 int				ft_line_saver(t_data *data, char **line);
 int				ft_check_text(int count, char **line);
+int				ft_outc(int c);
+
+int				ft_parse_env(t_data *data, t_cmd *cmd);
+t_ed			*ft_lstnew_envdata(void);
+int				ft_countbs(char *str);
+
+int				ft_parse_info(t_cmd *cur);
+int				ft_msg_recup(t_cmd *cmd, int count, char *line);
 
 t_data			*ft_lstnew_data(char **envp);
 void			ft_lstclear_data(t_data **lst);

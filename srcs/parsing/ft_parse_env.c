@@ -12,117 +12,116 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_countbs(char *str)
+void	ft_write_newstr(char **newstr, char **str, t_ed *ted, int n)
 {
-	int	n;
-	int	i;
+	int	a;
 
-	i = 0;
-	n = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == '\\')
-			n++;
-		i++;
-	}
-	return (n);
-}
-
-int	var_to_value(char **str, int count, int s_var, char *val)
-{
-	char	*newstr;
-	int		s_val;
-	int		n;
-	int		a;
-
-	s_val = ft_strlen(val);
-	n = ft_countbs(val);
-	if (!(newstr = malloc(sizeof(char) * (ft_strlen(*str) - s_var + s_val + n))))
-		return (exit_write("malloc Error\n", 0, 0));
 	a = 0;
-	while (a < count - 1)
+	while (a < ted->count - 1)
 	{
-		newstr[a] = (*str)[a];
+		(*newstr)[a] = (*str)[a];
 		a++;
 	}
-	n = 0;
-	while (a < count + s_val - 1)
+	while (a < ted->count + ted->s_val - 1)
 	{
-		if (val[a - count + 1] == '\\')
+		if (ted->val[a - ted->count + 1] == '\\')
 		{
-			newstr[a + n] = '\\';
+			(*newstr)[a + n] = '\\';
 			n++;
 		}
-		newstr[a + n] = val[a - count + 1];
+		(*newstr)[a + n] = ted->val[a - ted->count + 1];
 		a++;
 	}
-	while ((*str)[a - s_val + s_var + 1])
+	while ((*str)[a - ted->s_val + ted->s_var + 1])
 	{
-		newstr[a + n] = (*str)[a - s_val + s_var + 1];
+		(*newstr)[a + n] = (*str)[a - ted->s_val + ted->s_var + 1];
 		a++;
 	}
-	newstr[a + n] = 0;
+	(*newstr)[a + n] = 0;
+}
+
+int		var_to_value(t_ed *ted, char **str)
+{
+	char	*newstr;
+	int		n;
+
+	ted->s_val = ft_strlen(ted->val);
+	n = ft_countbs(ted->val);
+	if (!(newstr = malloc(sizeof(char) *
+		(ft_strlen(*str) - ted->s_var + ted->s_val + n))))
+		return (exit_write("malloc Error\n", 0, 0));
+	ft_write_newstr(&newstr, str, ted, 0);
 	if (*str)
 		free(*str);
 	*str = newstr;
 	return (1);
 }
 
-int	ft_parse_env(t_data *d, t_cmd *cmd)
+int		ft_get_envinfo2(t_data *d, t_cmd *cmd, t_ed *ted)
 {
-	char	*var;
-	char	*value;
-	int		count;
-	int		s_v;
-	int		quote;
-	int		to_free;
+	int to_free;
 
-	count = 0;
-	quote = 0;
-	while (cmd->line[count])
+	to_free = 0;
+	if (ted->var[0] == '?')
 	{
-		s_v = 0;
-		var = NULL;
-		quote = ft_istext(quote, cmd->line[count]);
-		if (quote != 1 && cmd->line[count] == '\\')
-			count += 2;
-		if (quote != 1 && cmd->line[count] == '$')
+		if (!(ted->val = ft_itoa(d->status)))
+			return (exit_write("malloc Error\n", 0, 0));
+		to_free = 1;
+	}
+	else
+		ted->val = ft_getenv(ted->var, d->envp);
+	if (!(var_to_value(ted, &cmd->line)))
+	{
+		if (to_free)
+			free(ted->val);
+		return (ft_freeturn(&ted->var, 0));
+	}
+	if (to_free)
+		free(ted->val);
+	ted->count--;
+	return (1);
+}
+
+int		ft_get_envinfo(t_data *d, t_cmd *cmd, t_ed *ted)
+{
+	ted->count++;
+	if (cmd->line[ted->count + ted->s_var] != '?')
+		while (ft_isalnum(cmd->line[ted->count + ted->s_var])
+				|| cmd->line[ted->count + ted->s_var] == '_')
+			ted->s_var++;
+	else
+		ted->s_var++;
+	if (!(ted->var = ft_memcat(ted->var, cmd->line + ted->count,
+								0, ted->s_var)))
+		return (exit_write("malloc Error\n", 0, 0));
+	if (ted->var[0])
+		if (!(ft_get_envinfo2(d, cmd, ted)))
+			return (0);
+	free(ted->var);
+	ted->var = NULL;
+	return (1);
+}
+
+int		ft_parse_env(t_data *d, t_cmd *cmd)
+{
+	t_ed	*ted;
+	int		quote;
+
+	if (!(ted = ft_lstnew_envdata()))
+		return (-1);
+	quote = 0;
+	while (cmd->line[ted->count])
+	{
+		quote = ft_istext(quote, cmd->line[ted->count]);
+		if (quote != 1 && cmd->line[ted->count] == '\\')
+			ted->count += 2;
+		if (quote != 1 && cmd->line[ted->count] == '$')
 		{
-			count++;
-			if (cmd->line[count + s_v] != '?')
-				while (ft_isalnum(cmd->line[count + s_v]) || cmd->line[count + s_v] == '_')
-					s_v++;
-			else
-				s_v++;
-			if (!(var = ft_memcat(var, cmd->line + count, 0, s_v)))
-				return (exit_write("malloc Error\n", 0, -1));
-			if (var[0])
-			{
-				to_free = 0;
-				if (var[0] == '?')
-				{
-					if (!(value = ft_itoa(d->status)))
-						return (exit_write("malloc Error\n", 0, -1));
-					to_free = 1;
-				}
-				else
-					value = ft_getenv(var, d->envp);
-				if (!(var_to_value(&cmd->line, count, s_v, value)))
-				{
-					if (to_free)
-						free(value);
-					return (ft_freeturn(&var, -1));
-				}
-			if (to_free)
-				free(value);
-			count--;
-			}
-			free(var);
+			if (!(ft_get_envinfo(d, cmd, ted)))
+				return (-1);
 		}
 		else
-			count++;
+			ted->count++;
 	}
 	return (0);
 }

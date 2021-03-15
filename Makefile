@@ -32,9 +32,11 @@ SRCS_NAME	=	main.c	\
 				ft_file_creator.c \
 				ft_file_redirect.c \
 				parsing/ft_parse_cmd.c \
+				parsing/ft_parse_env_utils.c \
 				parsing/ft_parse_env.c \
 				parsing/ft_parse_msg.c \
 				ft_pipe_redir.c \
+				read/ft_read_utils.c \
 				read/ft_reading.c \
 				read/ft_line_saver.c \
 				ft_setup_exec.c \

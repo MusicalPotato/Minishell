@@ -21,6 +21,16 @@ typedef struct	s_rdir
 	int					sdout;
 }				t_rdir;
 
+typedef struct	s_envdata
+{
+	char				*var;
+	int					s_var;
+	char				*val;
+	int					s_val;
+	int					count;
+}				t_ed;
+
+
 typedef struct	s_history
 {
 	char				*line;
@@ -43,6 +53,7 @@ typedef struct	s_data
 	char				**envp;
 	t_cmd				*cmd;
 	int					fd;
+	int					index;
 	t_hist				*hist;
 	struct termios		termios;
 	struct termios		termios_backup;

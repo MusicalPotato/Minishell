@@ -22,6 +22,7 @@ t_data	*ft_lstnew_data(char **envp)
 	list->envp = envp;
 	list->cmd = NULL;
 	list->fd = 0;
+	list->index = 0;
 	list->hist = NULL;
 	if (tcgetattr(0, &(list->termios)) == -1
 	|| tcgetattr(0, &(list->termios_backup)) == -1)
@@ -42,6 +43,7 @@ void	ft_lstclear_data(t_data **lst)
 	ft_lstclear_cmd(&((*lst)->cmd));
 	close((*lst)->fd);
 	(*lst)->fd = 0;
+	(*lst)->index = 0;
 	ft_lstclear_hist(&(*lst)->hist);
 	if (tcsetattr(0, 0, &((*lst)->termios_backup)) == -1)
 		exit(-1);
