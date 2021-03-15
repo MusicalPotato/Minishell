@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 12:36:42 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/06 14:42:22 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/16 00:16:37 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	ft_lstclear_data(t_data **lst)
 	(*lst)->fd = 0;
 	(*lst)->index = 0;
 	ft_lstclear_hist(&(*lst)->hist);
-	if (tcsetattr(0, 0, &((*lst)->termios_backup)) == -1)
-		exit(-1);
+	tcsetattr(0, 0, &((*lst)->termios_backup));
 	free(*lst);
 	*lst = NULL;
 }

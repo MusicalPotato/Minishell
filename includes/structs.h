@@ -6,7 +6,7 @@
 /*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:05:29 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/02/19 15:14:56 by igor             ###   ########.fr       */
+/*   Updated: 2021/03/16 00:31:27 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct	s_envdata
 	int					s_val;
 	int					count;
 }				t_ed;
-
 
 typedef struct	s_history
 {

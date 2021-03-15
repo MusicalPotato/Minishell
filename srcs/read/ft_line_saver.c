@@ -1,37 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_line_saver.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/16 00:23:05 by igor              #+#    #+#             */
+/*   Updated: 2021/03/16 00:25:50 by igor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int			ft_pipe_chev_check(int count, char **line, int i)
-{
-	while (ft_is_space((*line)[count]))
-		count++;
-	if ((*line)[count] == ';' && i > 0)
-	{
-		count++;
-		while (ft_is_space((*line)[count]))
-			count++;
-		if ((*line)[count] == '|')
-			return (exit_write(SYNERR, "`|'", 2));
-	}
-	if (((*line)[count] == '<' || (*line)[count] == '>' || (*line)[count] == '|') && i > 0)
-	{
-		count++;
-		while (ft_is_space((*line)[count]))
-			count++;
-		if ((*line)[count] == ';')
-			return (exit_write(SYNERR, "`;'", 2));
-	}
-	if (((*line)[count] == '<' || (*line)[count] == '>') && i == 0)
-	{
-		if ((*line)[count] == '>')
-			count++;
-		count++;
-		while (ft_is_space((*line)[count]))
-			count++;
-		if ((*line)[count] == ';')
-			return (exit_write(SYNERR, "`;'", 2));
-	}
-	return (0);
-}
+#include "../../includes/minishell.h"
 
 static int	ft_reach_end(char **line, int count, int size, int quo_pi[2])
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkleynts <tkleynts@student.42.fr>          +#+  +:+       +#+        */
+/*   By: igor <igor@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:57:11 by ijacquet          #+#    #+#             */
-/*   Updated: 2021/03/06 14:47:36 by tkleynts         ###   ########.fr       */
+/*   Updated: 2021/03/16 00:30:38 by igor             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				ft_line_reader(t_data *data);
 int				ft_line_saver(t_data *data, char **line);
 int				ft_check_text(int count, char **line);
 int				ft_outc(int c);
+int				ft_pipe_chev_check(int count, char **line, int i);
 
 int				ft_parse_env(t_data *data, t_cmd *cmd);
 t_ed			*ft_lstnew_envdata(void);
@@ -64,9 +65,9 @@ int				ft_setup_exec(t_data *d, t_cmd *c);
 void			ft_sorter(t_data *d, t_cmd *cmd, t_rdir pipe_rd, int *ret);
 int				ft_exec(t_cmd *cmd, t_rdir pipe_rd, char **envp);
 
-int             check_if_pipe(t_cmd *cmd);
-int	        	remove_after_pipe(t_cmd *cmd, int index_pipe);
-int     		remove_befor_pipe(t_cmd *cmd, int index_pipe);
+int				check_if_pipe(t_cmd *cmd);
+int				remove_after_pipe(t_cmd *cmd, int index_pipe);
+int				remove_befor_pipe(t_cmd *cmd, int index_pipe);
 
 int				ft_cd(t_cmd *cmd, t_rdir pipe_rd, char ***envp);
 int				ft_echo(t_cmd *cmd);
