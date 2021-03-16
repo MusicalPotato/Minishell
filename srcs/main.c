@@ -34,30 +34,6 @@ int		ft_loop(t_data *data)
 	return (1);
 }
 
-int		ft_loop2(t_data *data, char *argv)
-{
-	t_cmd	*cur;
-	int		r;
-
-	argv = ft_strdup(argv);
-	argv = ft_memcat(argv, "\n", ft_strlen(argv), 1);
-	if ((r = ft_line_saver(data, &argv)))
-		return ((data->status = r));
-	cur = data->cmd;
-	while (cur)
-	{
-		if (ft_parse_env(data, cur) < 0)
-			return (-1);
-		if ((r = ft_parse_info(cur)))
-			return ((data->status = r));
-		ft_putenv(ft_envformat("_", cur->argv[cur->argc]), &(data->envp), 1);
-		if ((r = ft_setup_exec(data, cur)))
-			return (r);
-		cur = cur->next;
-	}
-	return (1);
-}
-
 int		ft_init_term(char **envp)
 {
 	int		ret;
@@ -78,7 +54,7 @@ int		ft_init_term(char **envp)
 	return (1);
 }
 
-int		ft_claim_history()
+int		ft_claim_history(void)
 {
 	char	*line;
 	int		ret;
@@ -102,9 +78,8 @@ int		ft_setup(int argc, char **argv, char **envp)
 	char	*str;
 
 	str = NULL;
-	(void)argc;
-//	if (argc > 0)
-//		return (exit_write("Wrong number of arguments\n", 0, 0));
+	if (argc > 0)
+		return (exit_write("Wrong number of arguments\n", 0, 0));
 	if (!(g_data = ft_lstnew_data(envp)))
 		return (0);
 	if (!(str = getcwd(0, 0))
@@ -136,17 +111,6 @@ int		main(int argc, char **argv, char **envp)
 		return (-1);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
-	if (argc > 1)
-	{
-		if (ft_loop2(g_data, argv[2]) < 0)
-		{
-			ft_lstclear_data(&g_data);
-			return (-1);
-		}
-		status = g_data->status;
-		ft_lstclear_data(&g_data);
-		return (status);
-	}
 	while (1)
 	{
 		if (ft_loop(g_data) < 0)
