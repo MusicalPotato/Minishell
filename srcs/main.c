@@ -78,7 +78,7 @@ int		ft_setup(int argc, char **argv, char **envp)
 	char	*str;
 
 	str = NULL;
-	if (argc > 0)
+	if (argc > 1)
 		return (exit_write("Wrong number of arguments\n", 0, 0));
 	if (!(g_data = ft_lstnew_data(envp)))
 		return (0);
