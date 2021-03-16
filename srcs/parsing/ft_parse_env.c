@@ -118,10 +118,14 @@ int		ft_parse_env(t_data *d, t_cmd *cmd)
 		if (quote != 1 && cmd->line[ted->count] == '$')
 		{
 			if (!(ft_get_envinfo(d, cmd, ted)))
+			{
+				free(ted);
 				return (-1);
+			}
 		}
 		else
 			ted->count++;
 	}
+	free(ted);
 	return (0);
 }

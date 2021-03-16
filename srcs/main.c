@@ -66,8 +66,11 @@ int		ft_claim_history(void)
 	if (!(g_data->hist = ft_lstnew_hist(NULL)))
 		return (0);
 	while ((ret = get_next_line(g_data->fd, &line)) > 0)
+	{
 		if (!(ft_lstadd_front_hist(&(g_data->hist), ft_lstnew_hist(line))))
 			return (0);
+	}
+	free(line);
 	if (ret == -1)
 		return (exit_write("claim : GNL Error\n", 0, 0));
 	return (1);
@@ -85,7 +88,7 @@ int		ft_setup(int argc, char **argv, char **envp)
 	if (!(str = getcwd(0, 0))
 	|| !(ft_putenv(ft_envformat("PWD", str), &(g_data->envp), 1))
 	|| !(ft_putshlvl(ft_getenv("SHLVL", g_data->envp), &(g_data->envp), 1))
-	|| !(str = ft_strdup(argv[0]))
+	|| !(str = ft_memcat(str, argv[0], 0, ft_strlen(argv[0])))
 	|| !(ft_putenv(ft_envformat("_", str), &(g_data->envp), 1)))
 	{
 		ft_freeturn(&str, 0);
